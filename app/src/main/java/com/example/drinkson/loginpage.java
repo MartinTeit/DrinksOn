@@ -29,12 +29,11 @@ public class loginpage extends AppCompatActivity {
 
         final localdatabase database = Room.databaseBuilder(getApplicationContext(),
                 localdatabase.class, "Værdsatte Danskere").build();
-        final DAO dao = database.getDAO();
 
 
         //ID finder to href activities
-        register = (Button) findViewById(R.id.registerUser);
-        logIn = (Button) findViewById(R.id.logIn);
+        register = findViewById(R.id.registerUser);
+        logIn = findViewById(R.id.logIn);
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
