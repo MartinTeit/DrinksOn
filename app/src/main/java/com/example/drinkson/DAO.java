@@ -11,4 +11,7 @@ public interface DAO {
 
     @Insert(onConflict = OnConflictStrategy.FAIL)
     void insertUser(user user);
+
+    @Query("SELECT * FROM user WHERE id = :searchUser")
+    user findUser(String searchUser);
 }

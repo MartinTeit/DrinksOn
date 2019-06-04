@@ -18,9 +18,12 @@ public class loginpage extends AppCompatActivity {
     private Button register;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_log_in_page);
 
         final EditText usernameLogIn = (EditText) findViewById(R.id.username_id);
 
@@ -28,8 +31,6 @@ public class loginpage extends AppCompatActivity {
                 localdatabase.class, "Værdsatte Danskere").build();
         final DAO dao = database.getDAO();
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_log_in_page);
 
         //ID finder to href activities
         register = (Button) findViewById(R.id.registerUser);
@@ -55,11 +56,10 @@ public class loginpage extends AppCompatActivity {
                         }
                     }.execute().get();
                     for (user users: allUsers) {
-                        System.out.println(usernameLogIn);
                         if (usernameLogIn.getText().toString().equals(users.id)){
                          openMaster();
+                         break;
                         }
-                        System.out.println(users.id);
                     }
                 } catch (InterruptedException e) {
                     e.printStackTrace();

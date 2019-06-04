@@ -20,12 +20,11 @@ public class registerUser extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        System.out.println("hey");
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_create_user);
+
         final EditText userNameBox = (EditText) findViewById(R.id.createUsername);
-        System.out.println("userName: " + userNameBox);
 
         final EditText fullNameBox = (EditText) findViewById(R.id.createPassword);
 
@@ -39,8 +38,6 @@ public class registerUser extends AppCompatActivity {
                 newUser.id = userNameBox.getText().toString();
                 newUser.name = fullNameBox.getText().toString();
                 newUser.stamp = System.currentTimeMillis();
-
-                System.out.println("hey");
 
                 final localdatabase database = Room.databaseBuilder(getApplicationContext(),
                         localdatabase.class, "Værdsatte Danskere").build();
