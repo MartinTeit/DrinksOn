@@ -10,11 +10,14 @@ public class user {
     @PrimaryKey
     @NonNull
     @ColumnInfo(name = "id")
+    //Username
     public String id;
 
     @ColumnInfo(name = "name")
+    //Users name
     public String name;
 
     @ColumnInfo(name = "stamp")
+    //Timestamp
     public long stamp;
 }

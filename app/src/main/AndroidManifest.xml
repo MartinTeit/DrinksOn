@@ -12,7 +12,7 @@
         <activity android:name=".chatroom"></activity>
         <activity android:name=".location" />
         <activity android:name=".masterpage" />
-        <activity android:name=".createuser" />
+        <activity android:name=".registerUser" />
         <activity android:name=".loginpage">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

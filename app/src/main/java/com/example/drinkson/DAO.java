@@ -9,6 +9,6 @@ public interface DAO {
     @Query("SELECT * FROM user")
     List<user> getAll();
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.FAIL)
     void insertUser(user user);
 }

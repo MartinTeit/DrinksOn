@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class createuser extends AppCompatActivity {
+public class registerUser extends AppCompatActivity {
 
     private Button userCreated;
 
@@ -19,6 +19,7 @@ public class createuser extends AppCompatActivity {
         userCreated.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 openLaunch();
             }
         });
