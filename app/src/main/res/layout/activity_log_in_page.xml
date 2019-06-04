@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/alogin"
+    tools:context=".loginpage">
+
+    <EditText
+        android:id="@+id/username"
+        android:layout_width="200dp"
+        android:layout_height="30dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="350dp"
+        android:background="#11000000"
+        android:drawableLeft="@drawable/ic_action_user"
+        android:ems="10"
+
+        android:hint="Username"
+        android:inputType="textPersonName"
+
+        android:textColor="#fff"
+        android:textColorHint="#fff"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/username"
+        android:layout_alignStart="@id/username"
+        android:layout_alignLeft="@id/username"
+        android:layout_centerVertical="true"
+
+        android:layout_marginTop="25dp"
+
+        android:background="#11000000"
+        android:drawableLeft="@drawable/ic_action_password"
+        android:ems="10"
+
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:textColor="#fff"
+        android:textColorHint="#fff" />
+
+    <Button
+        android:id="@+id/logIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/password"
+        android:layout_alignLeft="@id/password"
+        android:layout_alignRight="@id/password"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="20dp"
+        android:background="#11000000"
+        android:text="Sign In"
+        android:textColor="#fff" />
+
+    <Button
+        android:id="@+id/registerUser"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/logIn"
+        android:layout_alignLeft="@id/logIn"
+        android:layout_marginTop="5dp"
+        android:background="#11000000"
+        android:text="Register User"
+        android:textColor="#fff" />
+
+</RelativeLayout>

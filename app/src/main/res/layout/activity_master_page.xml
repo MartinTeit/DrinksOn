@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".masterpage">
+
+    <ImageButton
+        android:id="@+id/rack"
+
+        android:layout_width="wrap_content"
+        android:layout_height="120dp"
+        android:layout_above="@id/imagechatroom"
+
+        android:src="@drawable/abar"
+
+        />
+
+    <ImageButton
+        android:id="@+id/imagechatroom"
+
+        android:layout_width="wrap_content"
+        android:layout_height="120dp"
+        android:layout_above="@id/imagelocation"
+        android:src="@drawable/adrink"
+        />
+
+    <ImageButton
+        android:id="@+id/imagelocation"
+
+        android:layout_width="wrap_content"
+        android:layout_height="120dp"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/amap"
+        />
+
+    <TextView
+        android:id="@+id/locationtext"
+
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginBottom="50dp"
+        android:layout_alignBottom="@id/imagelocation"
+
+        android:textSize="20dp"
+
+        android:layout_centerInParent="true"
+        android:text="Your Location" />
+
+    <TextView
+        android:id="@+id/chatroomtext"
+
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginBottom="50dp"
+        android:layout_alignBottom="@id/imagechatroom"
+
+        android:textSize="20dp"
+        android:textColor="#000000"
+
+        android:layout_centerInParent="true"
+        android:text="Chatroom " />
+
+    <TextView
+        android:id="@+id/racktext"
+
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginBottom="50dp"
+        android:layout_alignBottom="@id/rack"
+
+        android:textSize="20dp"
+        android:textColor="#fff"
+
+        android:layout_centerInParent="true"
+        android:text="Your Rack Number" />
+</RelativeLayout>
