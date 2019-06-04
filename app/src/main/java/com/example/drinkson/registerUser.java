@@ -33,22 +33,22 @@ public class registerUser extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                final user newUser = new user();
+                    final user newUser = new user();
 
-                newUser.id = userNameBox.getText().toString();
-                newUser.name = fullNameBox.getText().toString();
-                newUser.stamp = System.currentTimeMillis();
+                    newUser.id = userNameBox.getText().toString();
+                    newUser.name = fullNameBox.getText().toString();
+                    newUser.stamp = System.currentTimeMillis();
 
-                final localdatabase database = Room.databaseBuilder(getApplicationContext(),
-                        localdatabase.class, "Værdsatte Danskere").build();
-                final DAO dao = database.getDAO();
+                    final localdatabase database = Room.databaseBuilder(getApplicationContext(),
+                            localdatabase.class, "Værdsatte Danskere").build();
+                    final DAO dao = database.getDAO();
 
-                new AsyncTask<Void, Void, Void>() {
-                    protected Void doInBackground(Void... voids) {
-                        dao.insertUser(newUser);
-                        return null;
-                    }
-                }.execute();
+                    new AsyncTask<Void, Void, Void>() {
+                        protected Void doInBackground(Void... voids) {
+                            dao.insertUser(newUser);
+                            return null;
+                        }
+                    }.execute();
 
                     try {
                         List<user> allUsers = new AsyncTask<Void, Void, List<user>>() {
@@ -58,7 +58,7 @@ public class registerUser extends AppCompatActivity {
                                 return database.getDAO().getAll();
                             }
                         }.execute().get();
-                        for (user users: allUsers) {
+                        for (user users : allUsers) {
                             Log.d("Request", users.id);
                         }
                     } catch (InterruptedException e) {
@@ -66,10 +66,8 @@ public class registerUser extends AppCompatActivity {
                     } catch (ExecutionException e) {
                         e.printStackTrace();
                     }
-
-
-                openLaunch();
-            }
+                    openLaunch();
+             }
         });
 
     }
