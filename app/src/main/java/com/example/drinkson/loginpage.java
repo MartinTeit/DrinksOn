@@ -11,15 +11,18 @@ public class loginpage extends AppCompatActivity {
     private Button log;
     private Button register;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in_page);
 
+        //ID finder to href activities
         register = (Button) findViewById(R.id.registerUser);
-
         log = (Button) findViewById(R.id.logIn);
 
+        //Makes an action
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
