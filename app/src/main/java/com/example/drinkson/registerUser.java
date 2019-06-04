@@ -25,6 +25,7 @@ public class registerUser extends AppCompatActivity {
 
         setContentView(R.layout.activity_create_user);
         final EditText userNameBox = (EditText) findViewById(R.id.createUsername);
+        System.out.println("userName: " + userNameBox);
 
         final EditText fullNameBox = (EditText) findViewById(R.id.createPassword);
 

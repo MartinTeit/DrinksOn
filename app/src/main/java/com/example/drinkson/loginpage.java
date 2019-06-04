@@ -1,28 +1,40 @@
 package com.example.drinkson;
 
+import android.arch.persistence.room.Room;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class loginpage extends AppCompatActivity {
 
-    private Button log;
+    private Button logIn;
     private Button register;
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        final EditText usernameLogIn = (EditText) findViewById(R.id.username_id);
+
+        final localdatabase database = Room.databaseBuilder(getApplicationContext(),
+                localdatabase.class, "Værdsatte Danskere").build();
+        final DAO dao = database.getDAO();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in_page);
 
         //ID finder to href activities
         register = (Button) findViewById(R.id.registerUser);
-        log = (Button) findViewById(R.id.logIn);
+        logIn = (Button) findViewById(R.id.logIn);
 
-        //Makes an action
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -30,10 +42,30 @@ public class loginpage extends AppCompatActivity {
             }
         });
 
-        log.setOnClickListener(new View.OnClickListener() {
+        logIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openMaster();
+
+                try {
+                    List<user> allUsers = new AsyncTask<Void, Void, List<user>>() {
+
+                        @Override
+                        protected List<user> doInBackground(Void... voids) {
+                            return database.getDAO().getAll();
+                        }
+                    }.execute().get();
+                    for (user users: allUsers) {
+                        System.out.println(usernameLogIn);
+                        if (usernameLogIn.getText().toString().equals(users.id)){
+                         openMaster();
+                        }
+                        System.out.println(users.id);
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
             }
         });
 

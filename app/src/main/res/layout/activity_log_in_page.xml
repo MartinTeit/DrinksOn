@@ -8,7 +8,7 @@
     tools:context=".loginpage">
 
     <EditText
-        android:id="@+id/username"
+        android:id="@+id/username_id"
         android:layout_width="200dp"
         android:layout_height="30dp"
         android:layout_centerHorizontal="true"
@@ -28,9 +28,9 @@
         android:id="@+id/password"
         android:layout_width="200dp"
         android:layout_height="40dp"
-        android:layout_below="@id/username"
-        android:layout_alignStart="@id/username"
-        android:layout_alignLeft="@id/username"
+        android:layout_below="@id/username_id"
+        android:layout_alignStart="@id/username_id"
+        android:layout_alignLeft="@id/username_id"
         android:layout_centerVertical="true"
 
         android:layout_marginTop="25dp"
