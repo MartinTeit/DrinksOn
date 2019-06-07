@@ -16,8 +16,6 @@ public interface DAO {
     user findUser(String searchUser);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    //Inserts followers to given list
-    @Insert(onConflict = OnConflictStrategy.FAIL)
     void insertFollows(follows follows);
 
     //Person who is beeing followed

@@ -11,35 +11,32 @@ import android.widget.TextView;
 
 public class followers extends AppCompatActivity {
 
-    private Button follow;
+    private Button   follow;
     private TextView text;
-    private String newstring;
+    private String   newstring;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_followers);
+              setContentView(R.layout.activity_followers);
 
         final EditText followerUsername = findViewById(R.id.followerUsername);
-
-        final localdatabase database = Room.databaseBuilder(getApplicationContext(),
+        final localdatabase database    = Room.databaseBuilder(getApplicationContext(),
                 localdatabase.class, "Danskere").build();
         final DAO dao = database.getDAO();
 
         follow = findViewById(R.id.button);
 
-        text = findViewById(R.id.name);
-        text.setText("fisk");
+        text   = findViewById(R.id.name);
 
         follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 final follows follows1 = new follows();
 
                 follows1.follower = currentuser.getCurrentUser();
                 follows1.followee = followerUsername.getText().toString();
-                follows1.stamp = System.currentTimeMillis();
+                follows1.stamp    = System.currentTimeMillis();
 
                 new AsyncTask<Void, Void, Void>() {
                     protected Void doInBackground(Void... voids) {
@@ -49,15 +46,12 @@ public class followers extends AppCompatActivity {
                 }.execute();
             }
         });
-
-
-        newstring = "";
+        newstring="";
         new AsyncTask<Void, Void, Void>() {
             protected Void doInBackground(Void... voids) {
                 for (String string : dao.findFollowers(currentuser.getCurrentUser())){
                     newstring = newstring + string + "\n";
                 }
-
                 text.setText(newstring);
                 return null;
             }
