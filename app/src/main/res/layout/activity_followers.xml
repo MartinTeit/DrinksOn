@@ -6,4 +6,76 @@
     android:layout_height="match_parent"
     tools:context=".followers">
 
+    <TextView
+        android:id="@+id/header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+
+        android:text="Your followers:"
+        android:textSize="42sp"
+
+        tools:ignore="DuplicateIds" />
+
+    <EditText
+        android:id="@+id/followerUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/planeText"
+
+
+
+        android:hint="Username"
+
+        android:textColor="#fff"
+        android:textSize="22sp"
+
+
+        />
+
+    <TextView
+        android:id="@+id/planeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="500dp"
+        android:layout_centerHorizontal="true"
+
+        android:text="Enter the username of the person\n          You want to follow"
+        android:textSize="24sp"
+
+        />
+
+    <ScrollView
+        android:id="@+id/listOfFollowers"
+        android:layout_width="350dp"
+        android:layout_height="400dp"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/header">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/followerUsername"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:textSize="20sp"
+        android:text="follow" />
+
+    <TextView
+        android:id="@+id/my_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+followers/+@id/display"/>
+
+
 </RelativeLayout>
