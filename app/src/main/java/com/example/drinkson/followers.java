@@ -1,11 +1,13 @@
 package com.example.drinkson;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class followers extends AppCompatActivity {
@@ -16,13 +18,27 @@ public class followers extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_followers);
+        try {
+            List<fo> allFollowers = new AsyncTask<Void, Void, List<user>>() {
 
-        List<String> followers = new ArrayList<>();
-        followers.add("Fisse");
+                @Override
+                protected List<user> doInBackground(Void... voids) {
+                    return database.getDAO().getAll();
+                }
+            }
+        ScrollView scrollView = findViewById(R.id.listOfFollowers);
 
-        String display = "Hej";
-        private TextView text = (TextView) findViewById(R.id.my_text_view);
-        text.setText(display);
+        LinearLayout usersWhoFollow = new LinearLayout(this);
+        usersWhoFollow.setOrientation(LinearLayout.VERTICAL);
+        scrollView.addView(usersWhoFollow);
+
+        TextView[] userFollowers = new TextView[];
+
+        //for (int users : FOLLOWERS ARRAY ) {
+        //    usersWhoFollow[users] = new TextView(this);
+        //    usersWhoFollow[users].setText(textLog);
+        //    scrollView.addView(usersWhoFollow[INSERT FOLLOWERS]);
+        //}
     }
 
 
