@@ -15,18 +15,18 @@ public interface DAO {
     @Query("SELECT * FROM user WHERE id = :searchUser")
     user findUser(String searchUser);
 
-    @Insert(onConflict = OnConflictStrategy.FAIL)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertFollows(follows follows);
 
     @Query("SELECT follower FROM follows WHERE followee = :followee")
-    String findFollowers(String followee);
+    List<String> findFollowers(String followee);
 
     @Query("SELECT followee FROM follows WHERE follower = :follower")
-    String findFollowees(String follower);
+    List<String> findFollowees(String follower);
 
     @Insert(onConflict = OnConflictStrategy.FAIL)
     void insertMessage(messages messages);
 
     @Query("SELECT body FROM messages WHERE sender = :sender AND receiver = :receiver")
-    String findConversation(String sender, String receiver);
+    List<String> findConversation(String sender, String receiver);
 }
