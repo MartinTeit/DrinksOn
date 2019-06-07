@@ -12,6 +12,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".rack"></activity>
         <activity android:name=".followers" />
+        <activity android:name=".chat"/>
         <activity android:name=".chatroom" />
         <activity android:name=".location" />
         <activity android:name=".masterpage" />
