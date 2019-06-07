@@ -21,7 +21,7 @@ public class followers extends AppCompatActivity {
         followers.add("Fisse");
 
         String display = "Hej";
-        private TextView text = (TextView) findViewById(R.id.my_text_view);
+        TextView text = (TextView) findViewById(R.id.my_text_view);
         text.setText(display);
     }
 
