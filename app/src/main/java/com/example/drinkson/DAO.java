@@ -14,4 +14,13 @@ public interface DAO {
 
     @Query("SELECT * FROM user WHERE id = :searchUser")
     user findUser(String searchUser);
+
+    @Insert(onConflict = OnConflictStrategy.FAIL)
+    void insertFollows(follows follows);
+
+    @Query("SELECT follower FROM follows WHERE followee = :followee")
+    String findFollowers(String followee);
+
+    @Query("SELECT followee FROM follows WHERE follower = :follower")
+    String findFollowees(String follower);
 }
