@@ -7,7 +7,7 @@
     tools:context=".masterpage">
 
     <ImageButton
-        android:id="@+id/follows"
+        android:id="@+id/friend_lists"
 
         android:layout_width="wrap_content"
         android:layout_height="120dp"

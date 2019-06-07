@@ -29,7 +29,7 @@ public class registerUser extends AppCompatActivity {
         final EditText passwordBox = (EditText) findViewById(R.id.createPassword);
         final EditText fullNameBox = (EditText) findViewById(R.id.fullName);
 
-        userCreated = (Button) findViewById(R.id.userCreated);
+        userCreated = findViewById(R.id.userCreated);
         userCreated.setOnClickListener(new View.OnClickListener() {
 
             @SuppressLint("StaticFieldLeak")

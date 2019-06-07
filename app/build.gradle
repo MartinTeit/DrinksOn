@@ -4,8 +4,8 @@ android {
     compileSdkVersion 28
     defaultConfig {
         javaCompileOptions {
-            annotationProcessorOptions{
-                arguments = ["room.schemaLocation":"$projectDir/Danskere".toString()]
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/Danskere".toString()]
             }
         }
         applicationId "com.example.drinkson"

@@ -10,7 +10,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".chatroom"></activity>
+        <activity android:name=".rack"></activity>
+        <activity android:name=".followers" />
+        <activity android:name=".chatroom" />
         <activity android:name=".location" />
         <activity android:name=".masterpage" />
         <activity android:name=".registerUser" />
