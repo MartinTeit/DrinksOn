@@ -13,6 +13,9 @@ public class user {
     //Username
     public String id;
 
+    @ColumnInfo(name = "password")
+    public String password;
+
     @ColumnInfo(name = "name")
     //Users name
     public String name;

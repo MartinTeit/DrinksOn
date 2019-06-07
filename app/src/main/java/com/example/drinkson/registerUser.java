@@ -1,5 +1,6 @@
 package com.example.drinkson;
 
+import android.annotation.SuppressLint;
 import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -25,22 +26,24 @@ public class registerUser extends AppCompatActivity {
         setContentView(R.layout.activity_create_user);
 
         final EditText userNameBox = (EditText) findViewById(R.id.createUsername);
-
-        final EditText fullNameBox = (EditText) findViewById(R.id.createPassword);
+        final EditText passwordBox = (EditText) findViewById(R.id.createPassword);
+        final EditText fullNameBox = (EditText) findViewById(R.id.fullName);
 
         userCreated = (Button) findViewById(R.id.userCreated);
         userCreated.setOnClickListener(new View.OnClickListener() {
 
+            @SuppressLint("StaticFieldLeak")
             @Override
             public void onClick(View v) {
                     final user newUser = new user();
 
-                    newUser.id = userNameBox.getText().toString();
-                    newUser.name = fullNameBox.getText().toString();
-                    newUser.stamp = System.currentTimeMillis();
+                    newUser.id       = userNameBox.getText().toString();
+                    newUser.password = passwordBox.getText().toString();
+                    newUser.name     = fullNameBox.getText().toString();
+                    newUser.stamp    = System.currentTimeMillis();
 
                     final localdatabase database = Room.databaseBuilder(getApplicationContext(),
-                            localdatabase.class, "Værdsatte Danskere").build();
+                            localdatabase.class, "Danskere").build();
                     final DAO dao = database.getDAO();
 
                     new AsyncTask<Void, Void, Void>() {
@@ -59,7 +62,7 @@ public class registerUser extends AppCompatActivity {
                             }
                         }.execute().get();
                         for (user users : allUsers) {
-                            Log.d("Request", users.id);
+                            Log.d("Request", users.id + " - " + users.password);
                         }
                     } catch (InterruptedException e) {
                         e.printStackTrace();

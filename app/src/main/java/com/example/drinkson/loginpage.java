@@ -25,15 +25,16 @@ public class loginpage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in_page);
 
-        final EditText usernameLogIn = (EditText) findViewById(R.id.username_id);
+        final EditText usernameLogIn = findViewById(R.id.username_id);
+        final EditText passwordLogIn = findViewById(R.id.password);
 
         final localdatabase database = Room.databaseBuilder(getApplicationContext(),
-                localdatabase.class, "Værdsatte Danskere").build();
+                localdatabase.class, "Danskere").build();
 
 
         //ID finder to href activities
         register = findViewById(R.id.registerUser);
-        logIn = findViewById(R.id.logIn);
+        logIn    = findViewById(R.id.logIn);
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,7 +56,7 @@ public class loginpage extends AppCompatActivity {
                         }
                     }.execute().get();
                     for (user users: allUsers) {
-                        if (usernameLogIn.getText().toString().equals(users.id)){
+                        if ((usernameLogIn.getText().toString().equals(users.id)) && (passwordLogIn.getText().toString().equals(users.password))){
                          openMaster();
                          break;
                         }

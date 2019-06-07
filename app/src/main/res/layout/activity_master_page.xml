@@ -7,6 +7,16 @@
     tools:context=".masterpage">
 
     <ImageButton
+        android:id="@+id/follows"
+
+        android:layout_width="wrap_content"
+        android:layout_height="120dp"
+        android:layout_above="@id/rack"
+
+        android:src="@drawable/blur"
+        />
+
+    <ImageButton
         android:id="@+id/rack"
 
         android:layout_width="wrap_content"
@@ -39,11 +49,12 @@
         android:id="@+id/locationtext"
 
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_marginBottom="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="40dp"
         android:layout_alignBottom="@id/imagelocation"
 
-        android:textSize="20dp"
+        android:textSize="65sp"
+        android:fontFamily="@font/rack"
 
         android:layout_centerInParent="true"
         android:text="Your Location" />
@@ -52,13 +63,14 @@
         android:id="@+id/chatroomtext"
 
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_marginBottom="50dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="40dp"
         android:layout_alignBottom="@id/imagechatroom"
 
-        android:textSize="20dp"
-        android:textColor="#000000"
+        android:textSize="40sp"
+        android:textColor="#fff"
 
+        android:fontFamily="@font/chatroom"
         android:layout_centerInParent="true"
         android:text="Chatroom " />
 
@@ -66,13 +78,29 @@
         android:id="@+id/racktext"
 
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_marginBottom="50dp"
+        android:layout_height="47dp"
+        android:layout_marginBottom="43dp"
         android:layout_alignBottom="@id/rack"
 
-        android:textSize="20dp"
+        android:textSize="40sp"
         android:textColor="#fff"
 
+        android:fontFamily="@font/header_log_in"
         android:layout_centerInParent="true"
         android:text="Your Rack Number" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="47dp"
+
+        android:layout_marginBottom="40dp"
+        android:layout_above="@id/rack"
+
+        android:textSize="40sp"
+        android:textColor="#fff"
+
+        android:fontFamily="@font/header_log_in"
+        android:layout_centerInParent="true"
+        android:text="Friend List"
+        />
 </RelativeLayout>
