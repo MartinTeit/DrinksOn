@@ -26,4 +26,11 @@ public interface DAO {
     //Person who follows
     @Query("SELECT followee FROM follows WHERE follower = :follower")
     List<String> findFollowees(String follower);
+    String findFollowees(String follower);
+
+    @Insert(onConflict = OnConflictStrategy.FAIL)
+    void insertMessage(messages messages);
+
+    @Query("SELECT body FROM messages WHERE sender = :sender AND receiver = :receiver")
+    String findConversation(String sender, String receiver);
 }

@@ -56,6 +56,7 @@ public class loginpage extends AppCompatActivity {
                         }
                     }.execute().get();
                     for (user users: allUsers) {
+
                         if ((usernameLogIn.getText().toString().equals(users.id)) && (passwordLogIn.getText().toString().equals(users.password))){
                          openMaster();
                          loggedInUser.id   = users.id;
