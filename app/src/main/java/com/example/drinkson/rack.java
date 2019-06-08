@@ -23,6 +23,8 @@ public class rack extends AppCompatActivity {
 
     int degree = 0, degree_old = 0;
 
+    private static final float FACTOR = 15f;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,12 +49,12 @@ public class rack extends AppCompatActivity {
                 rotate.setAnimationListener(new Animation.AnimationListener() {
                     @Override
                     public void onAnimationStart(Animation animation) {
-
+                        textView.setText("");
                     }
 
                     @Override
                     public void onAnimationEnd(Animation animation) {
-
+                        textView.setText(currentNumber(360 - (degree % 360)));
                     }
 
                     @Override
@@ -65,5 +67,39 @@ public class rack extends AppCompatActivity {
             }
         });
 
+    }
+
+    private String currentNumber(int degrees){
+        String text = "";
+
+        if(degrees >= (FACTOR *1) && degrees < (FACTOR * 3)){
+            text = "Classic";
+        }
+        if(degrees >= (FACTOR *3) && degrees < (FACTOR * 5)){
+            text = "Pilsner";
+        }
+        if(degrees >= (FACTOR *5) && degrees < (FACTOR * 7)){
+            text = "Classic";
+        }
+        if(degrees >= (FACTOR *7) && degrees < (FACTOR * 9)){
+            text = "Pilsner";
+        }
+        if(degrees >= (FACTOR *9) && degrees < (FACTOR * 11)){
+            text = "Classic";
+        }
+        if(degrees >= (FACTOR *11) && degrees < (FACTOR * 13)){
+            text = "Pilsner";
+        }
+        if(degrees >= (FACTOR *13) && degrees < (FACTOR * 15)){
+            text = "Classic";
+        }
+        if(degrees >= (FACTOR *15) && degrees < (FACTOR * 17)){
+            text = "Pilsner";
+        }
+        if(degrees >= (FACTOR *17) && degrees < (FACTOR * 19)){
+            text = "Classic";
+        }
+
+        return text;
     }
 }

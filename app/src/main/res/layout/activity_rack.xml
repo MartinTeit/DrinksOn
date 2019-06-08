@@ -12,30 +12,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="600dp"
+        android:layout_marginTop="460dp"
         android:text="Spin!" />
 
     <TextView
         android:id="@+id/textView"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="600dp"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="" />
 
     <ImageView
+        android:id="@+id/ic_wheel"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_wheel" />
+
+    <ImageView
         android:id="@+id/ic_pointer"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
+
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/ic_pointer" />
 
-    <ImageView
-        android:id="@+id/ic_wheel"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_wheel" />
+
 </RelativeLayout>
