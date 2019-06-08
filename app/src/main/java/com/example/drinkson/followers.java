@@ -52,7 +52,7 @@ public class followers extends AppCompatActivity {
                 for (String string : dao.findFollowers(currentuser.getCurrentUser())){
                     newstring = newstring + string + "\n";
                 }
-                text.setText(newstring);
+                //text.setText(newstring);
                 return null;
             }
 

@@ -26,9 +26,9 @@ public interface DAO {
     @Query("SELECT followee FROM follows WHERE follower = :follower")
     List<String> findFollowees(String follower);
 
-    @Insert(onConflict = OnConflictStrategy.FAIL)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertMessage(messages messages);
 
-    @Query("SELECT body FROM messages WHERE sender = :sender AND receiver = :receiver")
+    @Query("SELECT body FROM messages WHERE sender = :sender AND receiver = :receiver OR sender = :receiver AND receiver = :sender" )
     List<String> findConversation(String sender, String receiver);
 }
