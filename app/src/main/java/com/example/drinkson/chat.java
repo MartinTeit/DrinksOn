@@ -54,6 +54,7 @@ public class chat extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.messages);
 
         layoutManager = new LinearLayoutManager(this);
+        ((LinearLayoutManager) layoutManager).setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
 
         chatAdapter = new ChatAdapter(messages);
