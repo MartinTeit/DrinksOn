@@ -15,6 +15,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
     public static class ChatViewHolder extends RecyclerView.ViewHolder {
 
         public TextView textView;
+
         public ChatViewHolder(View view) {
             super(view);
             textView = view.findViewById(R.id.text);
