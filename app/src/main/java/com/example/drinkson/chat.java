@@ -66,6 +66,7 @@ public class chat extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 sendMessage(text.getText().toString());
+                text.setText("");
             }
         });
 
