@@ -14,14 +14,12 @@ import android.widget.EditText;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-//Git Test
 public class chat extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ChatAdapter chatAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private Button sendButton;
     private EditText text;
-    private localdatabase database;
     private List<messages> myMessages;
 
     private repository repository;
@@ -37,8 +35,8 @@ public class chat extends AppCompatActivity {
 
         updateMessages();
 
-        sendButton = findViewById(R.id.send);
         text = findViewById(R.id.editText);
+        sendButton = findViewById(R.id.send);
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,13 +55,9 @@ public class chat extends AppCompatActivity {
         myMessages = repository.getAllMyMessages();
 
         messages = new ArrayList<>();
-        messages.add("q");
-
-
 
         for(messages m: myMessages){
 
-            System.out.println("receiver: " + m.receiver + "  sender: " + m.sender);
             if(m.receiver.equals(receiver) || m.sender.equals(receiver)){
                 this.messages.add(m.body);
             }
@@ -75,7 +69,7 @@ public class chat extends AppCompatActivity {
         ((LinearLayoutManager) layoutManager).setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
 
-        chatAdapter = new ChatAdapter(messages);
+        chatAdapter = new ChatAdapter(myMessages);
         recyclerView.setAdapter(chatAdapter);
     }
 
