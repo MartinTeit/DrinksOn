@@ -35,6 +35,23 @@ public class chat extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
+        updateMessages();
+
+        sendButton = findViewById(R.id.send);
+        text = findViewById(R.id.editText);
+
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendMessage(text.getText().toString());
+                text.setText("");
+            }
+        });
+
+    }
+
+
+    private  void updateMessages(){
         repository = new repository(this);
 
         myMessages = repository.getAllMyMessages();
@@ -60,24 +77,10 @@ public class chat extends AppCompatActivity {
 
         chatAdapter = new ChatAdapter(messages);
         recyclerView.setAdapter(chatAdapter);
-
-        sendButton = findViewById(R.id.send);
-        text = findViewById(R.id.editText);
-
-        sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendMessage(text.getText().toString());
-                text.setText("");
-            }
-        });
-
     }
 
 
     private void sendMessage(String text){
-
-        System.out.println(text);
 
         final messages newMessage = new messages();
         newMessage.sender = currentuser.getCurrentUser();
@@ -86,6 +89,8 @@ public class chat extends AppCompatActivity {
         newMessage.stamp = System.currentTimeMillis();
 
         repository.insertMessage(newMessage);
+
+        updateMessages();
 
     }
 }
