@@ -17,6 +17,7 @@ public class rack extends AppCompatActivity {
     Button button;
     TextView textView;
     ImageView iv_wheel;
+    //hej
 
     Random r;
 
