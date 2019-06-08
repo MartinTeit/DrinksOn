@@ -26,7 +26,6 @@ public class followers extends AppCompatActivity {
         final DAO dao = database.getDAO();
 
         follow = findViewById(R.id.button);
-
         text   = findViewById(R.id.name);
 
         follow.setOnClickListener(new View.OnClickListener() {
@@ -52,7 +51,7 @@ public class followers extends AppCompatActivity {
                 for (String string : dao.findFollowers(currentuser.getCurrentUser())){
                     newstring = newstring + string + "\n";
                 }
-                //text.setText(newstring);
+                text.setText(newstring);
                 return null;
             }
 
