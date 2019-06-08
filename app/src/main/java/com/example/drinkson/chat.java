@@ -21,6 +21,8 @@ public class chat extends AppCompatActivity {
     private EditText text;
     private localdatabase database;
 
+    private repository repository;
+
 
     public static String receiver;
     private List<String> messages;
@@ -30,7 +32,9 @@ public class chat extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-         database = Room.databaseBuilder(
+        repository = new repository(this);
+
+        database = Room.databaseBuilder(
                 getApplicationContext(),
                 localdatabase.class,
                 "Danskere"
@@ -83,20 +87,8 @@ public class chat extends AppCompatActivity {
         newMessage.receiver = receiver;
         newMessage.body = text;
         newMessage.stamp = System.currentTimeMillis();
-        try {
-            new AsyncTask<Void, Void, Void>() {
 
-                @Override
-                protected Void doInBackground(Void... voids) {
-                    database.getDAO().insertMessage(newMessage);
-                    return null;
-                }
-            }.execute().get();
+        repository.insertMessage(newMessage);
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
     }
 }
