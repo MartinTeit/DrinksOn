@@ -72,34 +72,34 @@ public class rack extends AppCompatActivity {
     private String currentNumber(int degrees){
         String text = "";
 
-        if(degrees >= (FACTOR *1) && degrees < (FACTOR * 3)){
+        if(degrees >= 0 && degrees < (45)){
             text = "Classic";
         }
-        if(degrees >= (FACTOR *3) && degrees < (FACTOR * 5)){
+        if(degrees >= (45) && degrees < (90)){
             text = "Pilsner";
         }
-        if(degrees >= (FACTOR *5) && degrees < (FACTOR * 7)){
+        if(degrees >= (90) && degrees < (135)){
             text = "Classic";
         }
-        if(degrees >= (FACTOR *7) && degrees < (FACTOR * 9)){
+        if(degrees >= (135) && degrees < (180)){
             text = "Pilsner";
         }
-        if(degrees >= (FACTOR *9) && degrees < (FACTOR * 11)){
+        if(degrees >= (180) && degrees < (225)){
             text = "Classic";
         }
-        if(degrees >= (FACTOR *11) && degrees < (FACTOR * 13)){
+        if(degrees >= (225) && degrees < (270)){
             text = "Pilsner";
         }
-        if(degrees >= (FACTOR *13) && degrees < (FACTOR * 15)){
+        if(degrees >= (270) && degrees < (315)){
             text = "Classic";
         }
-        if(degrees >= (FACTOR *15) && degrees < (FACTOR * 17)){
+        if(degrees >= (315) && degrees < (360)){
             text = "Pilsner";
-        }
-        if(degrees >= (FACTOR *17) && degrees < (FACTOR * 19)){
-            text = "Classic";
         }
 
+
+        System.out.println(degrees);
         return text;
+
     }
 }
