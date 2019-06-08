@@ -56,12 +56,9 @@ public class loginpage extends AppCompatActivity {
                         }
                     }.execute().get();
                     for (user users: allUsers) {
-                        System.out.println("user: " + users.id + "  password: " + users.password);
                         if ((usernameLogIn.getText().toString().equals(users.id)) && (passwordLogIn.getText().toString().equals(users.password))){
                             currentuser.setCurrentUser(users.id);
-                         openMaster();
-                         currentuser.setCurrentUser(users.id);
-                         System.out.println(currentuser.getCurrentUser());
+                            openMaster();
                          break;
                         }
                     }

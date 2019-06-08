@@ -6,13 +6,9 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
-import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class registerUser extends AppCompatActivity {
 
@@ -52,30 +48,14 @@ public class registerUser extends AppCompatActivity {
                         return null;
                     }
                 }.execute();
-
-                try {
-                    List<user> allUsers = new AsyncTask<Void, Void, List<user>>() {
-
-                        @Override
-                        protected List<user> doInBackground(Void... voids) {
-                            return database.getDAO().getAll();
-                        }
-                    }.execute().get();
-                    for (user users : allUsers) {
-                        Log.d("Request", users.id + " - " + users.password);
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
+                currentuser.setCurrentUser(newUser.id);
                 openLaunch();
             }
         });
 
     }
     public void openLaunch(){
-        Intent intent = new Intent(this, loginpage.class);
+        Intent intent = new Intent(this, masterpage.class);
         startActivity(intent);
     }
 }
