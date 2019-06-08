@@ -77,15 +77,17 @@ public class chat extends AppCompatActivity {
 
     private void sendMessage(String text){
 
-        final messages newMessage = new messages();
-        newMessage.sender = currentuser.getCurrentUser();
-        newMessage.receiver = receiver;
-        newMessage.body = text;
-        newMessage.stamp = System.currentTimeMillis();
+        if(!text.equals("")){
+            final messages newMessage = new messages();
+            newMessage.sender = currentuser.getCurrentUser();
+            newMessage.receiver = receiver;
+            newMessage.body = text;
+            newMessage.stamp = System.currentTimeMillis();
 
-        repository.insertMessage(newMessage);
+            repository.insertMessage(newMessage);
 
-        updateMessages();
+            updateMessages();
+        }
 
     }
 }

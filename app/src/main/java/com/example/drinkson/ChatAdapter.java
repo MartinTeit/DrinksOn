@@ -52,13 +52,15 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         if(m.sender.equals(currentuser.getCurrentUser())){
             chatViewHolder.textView.setBackgroundResource(R.drawable.rounded_corner_sender);
             chatViewHolder.layout.setGravity(LinearLayout.TEXT_ALIGNMENT_VIEW_START);
+            chatViewHolder.textView.setTextColor(Color.rgb(30,30,30));
 
         } else {
             chatViewHolder.textView.setBackgroundResource(R.drawable.rounded_corner_receiver);
             chatViewHolder.layout.setGravity(LinearLayout.TEXT_ALIGNMENT_VIEW_END);
+            chatViewHolder.textView.setTextColor(Color.rgb(30,30,30));
         }
 
-        chatViewHolder.textView.setTextColor(Color.rgb(50,50,50));
+
     }
 
     @Override
