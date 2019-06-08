@@ -12,7 +12,7 @@ import android.widget.EditText;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-
+//Git Test
 public class chat extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ChatAdapter chatAdapter;
