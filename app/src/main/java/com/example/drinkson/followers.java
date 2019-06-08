@@ -15,6 +15,7 @@ public class followers extends AppCompatActivity {
     private TextView text;
     private String   newstring;
 
+    //hej
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
