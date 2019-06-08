@@ -34,5 +34,5 @@ public interface DAO {
     List<String> findConversation(String sender, String receiver);
 
     @Query("SELECT * FROM messages WHERE sender = :sender OR receiver = :sender" )
-    LiveData<List<messages>> gteAllMyMessages(String sender);
+    List<messages> getAllMyMessages(String sender);
 }

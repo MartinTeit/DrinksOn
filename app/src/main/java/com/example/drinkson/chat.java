@@ -1,5 +1,6 @@
 package com.example.drinkson;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Room;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 //Git Test
@@ -20,6 +22,7 @@ public class chat extends AppCompatActivity {
     private Button sendButton;
     private EditText text;
     private localdatabase database;
+    private List<messages> myMessages;
 
     private repository repository;
 
@@ -34,25 +37,19 @@ public class chat extends AppCompatActivity {
 
         repository = new repository(this);
 
-        database = Room.databaseBuilder(
-                getApplicationContext(),
-                localdatabase.class,
-                "Danskere"
-        ).build();
+        myMessages = repository.getAllMyMessages();
 
-        try {
-            this.messages = new AsyncTask<Void, Void, List<String>>() {
+        messages = new ArrayList<>();
+        messages.add("q");
 
-                @Override
-                protected List<String> doInBackground(Void... voids) {
-                    return database.getDAO().findConversation(currentuser.getCurrentUser(), receiver);
-                }
-            }.execute().get();
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
+
+        for(messages m: myMessages){
+
+            System.out.println("receiver: " + m.receiver + "  sender: " + m.sender);
+            if(m.receiver.equals(receiver) || m.sender.equals(receiver)){
+                this.messages.add(m.body);
+            }
         }
 
         recyclerView = (RecyclerView) findViewById(R.id.messages);

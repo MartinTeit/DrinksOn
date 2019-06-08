@@ -18,7 +18,7 @@ public class followers extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-              setContentView(R.layout.activity_followers);
+        setContentView(R.layout.activity_followers);
 
         final EditText followerUsername = findViewById(R.id.followerUsername);
         final localdatabase database    = Room.databaseBuilder(getApplicationContext(),
@@ -49,7 +49,7 @@ public class followers extends AppCompatActivity {
         new AsyncTask<Void, Void, Void>() {
             protected Void doInBackground(Void... voids) {
                 for (String string : dao.findFollowers(currentuser.getCurrentUser())){
-                    newstring = newstring + string + "\n";
+                    newstring = newstring + string + " , ";
                 }
                 text.setText(newstring);
                 return null;
