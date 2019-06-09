@@ -9,7 +9,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
 public class loginpage extends AppCompatActivity {
@@ -24,9 +29,11 @@ public class loginpage extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in_page);
-
+        long time = System.currentTimeMillis();
+        String CDT = ZonedDateTime.ofInstant(Instant.ofEpochMilli(time), ZoneId.systemDefault()).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
         repository rep = new repository(this);
-        rep.remotePost(repository.USERS,"{\"id\":\"jasper\",\"name\":\"%GRP the bois\",\"stamp\":\"2020-06-09T17:16:01.564+02:00\"}");
+
+        rep.remotePost(repository.USERS,"{\"id\":\"jasper2\",\"name\":\"the bois\",\"stamp\":\""+CDT+"\"}");
 
         final EditText usernameLogIn = findViewById(R.id.username_id);
         final EditText passwordLogIn = findViewById(R.id.password);

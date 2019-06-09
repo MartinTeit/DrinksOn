@@ -185,31 +185,32 @@ public class repository {
 
         @Override
         protected Void doInBackground(String... post){
-            System.out.println("1");
+
+            System.out.println(post[0]);
             URL obj = null;
             try {
                 obj = new URL(url);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
-            System.out.println("2");
+
             HttpsURLConnection connection = null;
             try {
                 connection = (HttpsURLConnection) obj.openConnection();
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
             System.out.println("connection: " + connection);
             try {
+                connection.setDoOutput(true);
                 connection.setRequestMethod("POST");
+                connection.setRequestProperty("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYXBwMjAxOSJ9.3MGDqJYkivAsiMOXwvoPTD6_LTCWkP3RvI2zpzoB1XE");
+                connection.setRequestProperty("Content-Type", "application/json");
             } catch (ProtocolException e) {
                 e.printStackTrace();
             }
-            connection.setRequestProperty("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYXBwMjAxOSJ9.3MGDqJYkivAsiMOXwvoPTD6_LTCWkP3RvI2zpzoB1XE");
-            connection.setRequestProperty("Content-Type", "application/json");
 
-
-            connection.setDoOutput(true);
             DataOutputStream wr = null;
             try {
                 wr = new DataOutputStream(connection.getOutputStream());
@@ -223,8 +224,42 @@ public class repository {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            int code = 0;
+
+            try {
+                code = connection.getResponseCode();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            if (code != HttpsURLConnection.HTTP_CREATED) {
+                throw new RuntimeException("Failed : HTTP error code : "
+                        + code);
+            }
+
+            BufferedReader br = null;
+            try {
+                br = new BufferedReader(new InputStreamReader(
+                        (connection.getInputStream())));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            String output = null;
+            System.out.println("Output from Server .... \n");
+            while (true) {
+                try {
+                    if (!((output = br.readLine()) != null)) break;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                System.out.println(output);
+            }
+
+
 
             return null;
+
 
         }
     }
