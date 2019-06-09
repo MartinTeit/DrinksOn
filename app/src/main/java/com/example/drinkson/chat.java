@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,13 +54,13 @@ public class chat extends AppCompatActivity {
         repository = new repository(this);
 
         myMessages = repository.getAllMyMessages();
-
+        List<messages> messagesInThisConversation = new ArrayList<>();
         messages = new ArrayList<>();
 
         for(messages m: myMessages){
 
             if(m.receiver.equals(receiver) || m.sender.equals(receiver)){
-                this.messages.add(m.body);
+                messagesInThisConversation.add(m);
             }
         }
 
@@ -69,22 +70,24 @@ public class chat extends AppCompatActivity {
         ((LinearLayoutManager) layoutManager).setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
 
-        chatAdapter = new ChatAdapter(myMessages);
+        chatAdapter = new ChatAdapter(messagesInThisConversation);
         recyclerView.setAdapter(chatAdapter);
     }
 
 
     private void sendMessage(String text){
 
-        final messages newMessage = new messages();
-        newMessage.sender = currentuser.getCurrentUser();
-        newMessage.receiver = receiver;
-        newMessage.body = text;
-        newMessage.stamp = System.currentTimeMillis();
+        if(!text.equals("")){
+            final messages newMessage = new messages();
+            newMessage.sender = currentuser.getCurrentUser();
+            newMessage.receiver = receiver;
+            newMessage.body = text;
+            newMessage.stamp = System.currentTimeMillis();
 
-        repository.insertMessage(newMessage);
+            repository.insertMessage(newMessage);
 
-        updateMessages();
+            updateMessages();
+        }
 
     }
 }

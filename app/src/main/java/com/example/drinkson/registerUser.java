@@ -49,12 +49,12 @@ public class registerUser extends AppCompatActivity {
                     }
                 }.execute();
                 currentuser.setCurrentUser(newUser.id);
-                openLaunch();
+                openMaster();
             }
         });
 
     }
-    public void openLaunch(){
+    public void openMaster(){
         Intent intent = new Intent(this, masterpage.class);
         startActivity(intent);
     }
