@@ -7,11 +7,21 @@
     tools:context=".masterpage">
 
     <ImageButton
-        android:id="@+id/friend_lists"
+        android:id="@+id/roulette"
 
         android:layout_width="wrap_content"
         android:layout_height="120dp"
         android:layout_above="@id/rack"
+
+        android:src="@drawable/casino_2"
+        />
+
+    <ImageButton
+        android:id="@+id/friend_lists"
+
+        android:layout_width="205dp"
+        android:layout_height="120dp"
+        android:layout_above="@id/imagechatroom"
 
         android:src="@drawable/blur"
         />
@@ -19,9 +29,10 @@
     <ImageButton
         android:id="@+id/rack"
 
-        android:layout_width="wrap_content"
+        android:layout_width="205dp"
         android:layout_height="120dp"
         android:layout_above="@id/imagechatroom"
+        android:layout_alignParentRight="true"
 
         android:src="@drawable/abar"
 
@@ -81,26 +92,42 @@
         android:layout_height="47dp"
         android:layout_marginBottom="43dp"
         android:layout_alignBottom="@id/rack"
+        android:layout_marginRight="40dp"
 
         android:textSize="35sp"
         android:textColor="#fff"
 
         android:fontFamily="@font/header_log_in"
-        android:layout_centerInParent="true"
-        android:text="What Beer should I drink?" />
+        android:layout_alignParentRight="true"
+        android:text="Groups" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="47dp"
+        android:layout_marginLeft="45dp"
 
         android:layout_marginBottom="40dp"
-        android:layout_above="@id/rack"
+        android:layout_above="@id/imagechatroom"
 
         android:textSize="40sp"
         android:textColor="#fff"
 
         android:fontFamily="@font/header_log_in"
-        android:layout_centerInParent="true"
-        android:text="Friend List"
+
+        android:text="Follow"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="47dp"
+        android:layout_above="@id/friend_lists"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"
+
+        android:textSize="60sp"
+        android:fontFamily="@font/rack"
+        android:textColor="#fff"
+
+        android:text="What Beer should I drink?"
         />
 </RelativeLayout>
