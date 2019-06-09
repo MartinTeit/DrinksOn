@@ -25,6 +25,7 @@ public class loginpage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in_page);
 
+
         final EditText usernameLogIn = findViewById(R.id.username_id);
         final EditText passwordLogIn = findViewById(R.id.password);
 

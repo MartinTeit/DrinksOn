@@ -34,6 +34,8 @@ public class chat extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
+        repository = new repository(this);
+
         updateMessages();
 
         text = findViewById(R.id.editText);
@@ -47,11 +49,19 @@ public class chat extends AppCompatActivity {
             }
         });
 
+        String someText = null;
+        try {
+            someText = repository.remoteGet(repository.USERS,"killme2");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(someText);
+
     }
 
 
     private  void updateMessages(){
-        repository = new repository(this);
 
         myMessages = repository.getAllMyMessages();
         List<messages> messagesInThisConversation = new ArrayList<>();

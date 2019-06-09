@@ -31,7 +31,6 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
                 @Override
                 public void onClick(View v) {
                     chat.receiver = ChatButton.getText().toString();
-                    System.out.println(chat.receiver);
                     openChat();
                 }
             });
