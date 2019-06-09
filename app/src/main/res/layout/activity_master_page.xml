@@ -7,6 +7,8 @@
     tools:context=".masterpage">
 
     <ImageButton
+        android:id="@+id/roulette"
+
         android:layout_width="wrap_content"
         android:layout_height="120dp"
         android:layout_above="@id/rack"
@@ -118,7 +120,14 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="47dp"
+        android:layout_above="@id/friend_lists"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"
 
+        android:textSize="60sp"
+        android:fontFamily="@font/rack"
+        android:textColor="#fff"
 
+        android:text="What Beer should I drink?"
         />
 </RelativeLayout>

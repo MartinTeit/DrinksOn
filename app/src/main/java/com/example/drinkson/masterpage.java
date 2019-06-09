@@ -12,6 +12,7 @@ public class masterpage extends AppCompatActivity {
     private ImageButton rack_number;
     private ImageButton chatroom;
     private ImageButton friend_list;
+    private ImageButton roulette;
 
     //@SuppressLint("WrongViewCast")
     @Override
@@ -23,6 +24,7 @@ public class masterpage extends AppCompatActivity {
         rack_number   = findViewById(R.id.rack);
         chatroom      = findViewById(R.id.imagechatroom);
         friend_list   = findViewById(R.id.friend_lists);
+        roulette      = findViewById(R.id.roulette);
 
         your_location.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +54,13 @@ public class masterpage extends AppCompatActivity {
             }
         });
 
+        roulette.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openRoulette();
+            }
+        });
+
     }
     public void openYourLocation(){
         Intent intent = new Intent(this, location.class);
@@ -70,6 +79,11 @@ public class masterpage extends AppCompatActivity {
 
     public void openFriendList(){
         Intent intent = new Intent(this, followers.class);
+        startActivity(intent);
+    }
+
+    public void openRoulette(){
+        Intent intent = new Intent(this, Roulette.class);
         startActivity(intent);
     }
 
