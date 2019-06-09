@@ -57,4 +57,12 @@
         android:hint="Enter your group name"
         android:textColorHint="#fff"
         android:textColor="#fff"/>
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
+        android:textSize="25sp"
+        android:textColor="#fff"
+        />
 </RelativeLayout>

@@ -7,11 +7,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class groupmaker extends AppCompatActivity {
 
     Button button;
     Button button2;
+    private String   newstring;
+    private TextView text;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +79,28 @@ public class groupmaker extends AppCompatActivity {
                 }.execute();
             }
         });
+
+        final localdatabase database = Room.databaseBuilder(getApplicationContext(),
+                localdatabase.class, "Danskere").build();
+        final DAO dao = database.getDAO();
+
+        text   = findViewById(R.id.name);
+
+        newstring="";
+        new AsyncTask<Void, Void, Void>() {
+            protected Void doInBackground(Void... voids) {
+                for (String string : dao.findFollowees(currentuser.getCurrentUser())){
+                    if (dao.findUser(string).name.contains("%GRP")){
+                        newstring = newstring + string + " , ";
+                        System.out.println("hej");
+                    }
+                }
+                text.setText(newstring);
+                return null;
+            }
+
+        }.execute();
+
 
     }
 }
