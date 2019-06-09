@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/rouletteski"
-    tools:context="com.example.drinkson.rack">
+    tools:context="com.example.drinkson.Roulette">
 
     <Button
         android:id="@+id/button2"

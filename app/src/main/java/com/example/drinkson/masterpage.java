@@ -59,7 +59,7 @@ public class masterpage extends AppCompatActivity {
     }
 
     public void openRackNumber(){
-        Intent intent = new Intent(this, rack.class);
+        Intent intent = new Intent(this, groupmaker.class);
         startActivity(intent);
     }
 

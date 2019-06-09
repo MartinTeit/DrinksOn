@@ -9,15 +9,14 @@ import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import java.util.Random;
 
-public class rack extends AppCompatActivity {
+public class Roulette extends AppCompatActivity {
 
     Button button;
     TextView textView;
     ImageView iv_wheel;
-    //hej
+
 
     Random r;
 
@@ -28,7 +27,7 @@ public class rack extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rack);
+        setContentView(R.layout.activity_roulette);
 
         button = (Button) findViewById(R.id.button2);
         textView = (TextView) findViewById(R.id.textView);
@@ -59,7 +58,6 @@ public class rack extends AppCompatActivity {
 
                     @Override
                     public void onAnimationRepeat(Animation animation) {
-
                     }
                 });
                 iv_wheel.startAnimation(rotate);

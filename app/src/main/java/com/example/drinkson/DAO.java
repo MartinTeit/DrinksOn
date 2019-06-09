@@ -10,7 +10,7 @@ public interface DAO {
     @Query("SELECT * FROM user")
     List<user> getAll();
 
-    @Insert(onConflict = OnConflictStrategy.FAIL)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertUser(user user);
 
     @Query("SELECT * FROM user WHERE id = :searchUser")
