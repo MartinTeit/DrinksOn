@@ -82,12 +82,12 @@
         android:layout_marginBottom="43dp"
         android:layout_alignBottom="@id/rack"
 
-        android:textSize="40sp"
+        android:textSize="35sp"
         android:textColor="#fff"
 
         android:fontFamily="@font/header_log_in"
         android:layout_centerInParent="true"
-        android:text="Your Rack Number" />
+        android:text="What Beer should I drink?" />
 
     <TextView
         android:layout_width="wrap_content"
