@@ -54,7 +54,7 @@ public class masterpage extends AppCompatActivity {
 
     }
     public void openYourLocation(){
-        Intent intent = new Intent(this, location.class);
+        Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
     }
 
