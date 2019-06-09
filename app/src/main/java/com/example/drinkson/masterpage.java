@@ -14,6 +14,8 @@ public class masterpage extends AppCompatActivity {
     private ImageButton friend_list;
     private ImageButton roulette;
 
+    //Kommentar Lavet og ikke stavet rigtigt
+
     //@SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
