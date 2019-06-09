@@ -25,6 +25,8 @@ public class loginpage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in_page);
 
+        repository rep = new repository(this);
+        rep.remotePost(repository.USERS,"{\"id\":\"jasper\",\"name\":\"%GRP the bois\",\"stamp\":\"2020-06-09T17:16:01.564+02:00\"}");
 
         final EditText usernameLogIn = findViewById(R.id.username_id);
         final EditText passwordLogIn = findViewById(R.id.password);

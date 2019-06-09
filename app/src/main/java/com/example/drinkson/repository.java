@@ -4,14 +4,15 @@ import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
+import java.net.URL;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -33,6 +34,15 @@ public class repository {
     }
 
 
+    public void remotePost(String table, String post){
+        String url = URL + table;
+
+        new remotePostAsyncTask(url).execute(post);
+
+    }
+
+
+
     public String remoteGet(String table, String id){
         String url = URL + table + "?id=eq." + id;
 
@@ -47,10 +57,6 @@ public class repository {
         return null;
 
     }
-
-
-
-
 
     public void insertMessage(messages message) {
         new InsertMessageAsyncTask(myDAO).execute(message);
@@ -169,5 +175,58 @@ public class repository {
         }
     }
 
+
+    private static class remotePostAsyncTask extends AsyncTask<String, Void, Void> {
+
+        private String url;
+        private remotePostAsyncTask(String url){
+            this.url = url;
+        }
+
+        @Override
+        protected Void doInBackground(String... post){
+            System.out.println("1");
+            URL obj = null;
+            try {
+                obj = new URL(url);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            System.out.println("2");
+            HttpsURLConnection connection = null;
+            try {
+                connection = (HttpsURLConnection) obj.openConnection();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            System.out.println("connection: " + connection);
+            try {
+                connection.setRequestMethod("POST");
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            }
+            connection.setRequestProperty("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYXBwMjAxOSJ9.3MGDqJYkivAsiMOXwvoPTD6_LTCWkP3RvI2zpzoB1XE");
+            connection.setRequestProperty("Content-Type", "application/json");
+
+
+            connection.setDoOutput(true);
+            DataOutputStream wr = null;
+            try {
+                wr = new DataOutputStream(connection.getOutputStream());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                wr.writeBytes(post[0]);
+                wr.flush();
+                wr.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+
+        }
+    }
 
 }
