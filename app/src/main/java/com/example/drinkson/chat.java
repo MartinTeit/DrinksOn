@@ -63,8 +63,8 @@ public class chat extends AppCompatActivity {
         messages = new ArrayList<>();
 
         for(messages m: myMessages){
-            System.out.println(m.id);
-            if(m.receiver.equals(receiver) || m.sender.equals(receiver)){
+            System.out.println("sender" + m.sender);
+            if(m.sender != null && (m.receiver.equals(receiver) || m.sender.equals(receiver) )){
                 messagesInThisConversation.add(m);
             }
         }
