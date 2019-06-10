@@ -52,7 +52,7 @@
 
         android:layout_width="wrap_content"
         android:layout_height="120dp"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@id/logOut"
         android:src="@drawable/amap"
         />
 
@@ -129,5 +129,21 @@
         android:textColor="#fff"
 
         android:text="What Beer should I drink?"
+        />
+
+    <Button
+        android:id="@+id/logOut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="LOG OUT"
+
+        android:layout_alignParentBottom="true"
+        android:background="#f0f3e1"
+
+        android:textSize="35sp"
+        android:textColor="#000000"
+
+        android:fontFamily="@font/rack"
+
         />
 </RelativeLayout>
