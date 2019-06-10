@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 public class masterpage extends AppCompatActivity {
@@ -13,6 +14,7 @@ public class masterpage extends AppCompatActivity {
     private ImageButton chatroom;
     private ImageButton friend_list;
     private ImageButton roulette;
+    private Button      logOut;
 
     //Kommentar Lavet og ikke stavet rigtigt
 
@@ -27,6 +29,7 @@ public class masterpage extends AppCompatActivity {
         chatroom      = findViewById(R.id.imagechatroom);
         friend_list   = findViewById(R.id.friend_lists);
         roulette      = findViewById(R.id.roulette);
+        logOut        = findViewById(R.id.logOut);
 
         your_location.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +66,13 @@ public class masterpage extends AppCompatActivity {
             }
         });
 
+        logOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openLogIn();
+            }
+        });
+
     }
     public void openYourLocation(){
         Intent intent = new Intent(this, MapsActivity.class);
@@ -86,6 +96,11 @@ public class masterpage extends AppCompatActivity {
 
     public void openRoulette(){
         Intent intent = new Intent(this, Roulette.class);
+        startActivity(intent);
+    }
+
+    public void openLogIn(){
+        Intent intent = new Intent(this, loginpage.class);
         startActivity(intent);
     }
 
