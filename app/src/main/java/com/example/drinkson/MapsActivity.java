@@ -36,8 +36,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleApiClient googleApiClient;
     private LocationRequest locationRequest;
     private Location myLastLocation;
+    private double defaultLat = 55.3949091;
+    private double defaultLng = 10.383569899999998;
     private Marker myCurrentLocationMarker;
     private static final int Request_My_Location_Code = 100;
+    private Object LatLng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +63,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         drinkMap = googleMap;
 
+        LatLng defaultLatLng = new LatLng(defaultLat, defaultLng);
+        //Default position is set since, the emulator doesn't get live GPS from laptop.
+        //The following lines wouldn't be implemented, had this been a project to make an actual app which, should have gone global.
+        if (defaultLatLng != null) {
+            LatLng newDefaultLatLng = new LatLng(defaultLat, defaultLng);
+        } else {
+            LatLng latLng = new LatLng(myLastLocation.getLatitude(), myLastLocation.getLongitude());
+        //LatLng will always return null as long as the app is run on an emulator - So this if statement is just for show.
+            System.out.println("The location is :\n- Latitude : " + myLastLocation.getLatitude() + "\n- Longitude : " + myLastLocation.getLongitude());
+        }
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
             buildGoogleApiClient();
@@ -68,11 +82,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         }
 
-        //DEFAULT LOCATION!!!
-        // Add a marker in Sydney and move the camera
-        //LatLng wahcantt = new LatLng(33.785022, 72.721992);
-        //drinkMap.addMarker(new MarkerOptions().position(wahcantt).title("Marker in Sydney"));
-        // drinkMap.moveCamera(CameraUpdateFactory.newLatLng(wahcantt));
+        //Locations on places you can get a beer in Odense
+        //Marker added to each placed.
+        LatLng denBroelende = new LatLng(55.3947386, 10.38689009999996);
+        LatLng denIrske = new LatLng(55.395447, 10.383587000000034);
+        LatLng viggos = new LatLng(55.3976926, 10.381059100000016);
+        LatLng nunChi = new LatLng(55.39768899999999, 10.393644900000027);
+        LatLng blomsterOgBien = new LatLng(55.39768899999999, 10.393644900000027);
+        LatLng froggies = new LatLng(55.3944139, 10.383610599999997);
+        LatLng heidi = new LatLng(55.39449, 10.381629699999962);
+        LatLng boogie = new LatLng(55.3978672, 10.388869500000055);
+        LatLng laBar = new LatLng(55.3958248, 10.383471699999973);
+        LatLng jamesDean = new LatLng(55.3944943, 10.383696600000007);
+        //Add more places if you want.
+
+        drinkMap.addMarker(new MarkerOptions().position(denBroelende).title("Den Brølende And"));
+        drinkMap.addMarker(new MarkerOptions().position(denIrske).title("Old Irsh Pub"));
+        drinkMap.addMarker(new MarkerOptions().position(nunChi).title("Nunchi & Blomster og Bien"));
+        drinkMap.addMarker(new MarkerOptions().position(froggies).title("Froggy's"));
+        drinkMap.addMarker(new MarkerOptions().position(heidi).title("Heidi's Pub"));
+        drinkMap.addMarker(new MarkerOptions().position(boogie).title("Boogie's"));
+        drinkMap.addMarker(new MarkerOptions().position(laBar).title("LA Bar"));
+        drinkMap.addMarker(new MarkerOptions().position(jamesDean).title("James Dean"));
+
+        if (defaultLatLng != null) {
+            drinkMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLatLng, 16));
+        } else {
+            System.out.println("YOU SHALL NOT PASS\nSINCE YOU FUCKED UP!");
+        }
     }
 
     public boolean checkMyLocationPermission(){
