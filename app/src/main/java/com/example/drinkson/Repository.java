@@ -111,6 +111,18 @@ public class Repository {
         return null;
     }
 
+    public List<user> searchUser(String search) {
+        try {
+            return new searchUserAsyncTask(myDAO).execute(search).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     //Async task classes
     private static class InsertUserAsyncTask extends AsyncTask<user, Void, Void> {
         private DAO myDAO;
@@ -142,6 +154,20 @@ public class Repository {
             return myDAO.getAll();
         }
     }
+
+    private static class searchUserAsyncTask extends AsyncTask<String, Void, List<user>> {
+        private DAO myDAO;
+
+        private searchUserAsyncTask(DAO aDAO){
+            this.myDAO = aDAO;
+        }
+
+        @Override
+        protected List<user> doInBackground(String... search) {
+            return myDAO.getSearchUser(search[0]);
+        }
+    }
+
 
 
     private static class InsertMessageAsyncTask extends AsyncTask<messages, Void, Long> {

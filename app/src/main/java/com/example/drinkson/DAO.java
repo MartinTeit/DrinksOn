@@ -10,6 +10,9 @@ public interface DAO {
     @Query("SELECT * FROM user")
     List<user> getAll();
 
+    @Query("SELECT * FROM user WHERE id LIKE :search")
+    List<user> getSearchUser(String search);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertUser(user user);
 

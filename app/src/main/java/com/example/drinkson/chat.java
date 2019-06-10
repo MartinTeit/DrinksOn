@@ -85,8 +85,6 @@ public class chat extends AppCompatActivity {
             newMessage.body = text;
             newMessage.stamp = System.currentTimeMillis();
 
-            System.out.println(newMessage.id);
-
             id = repository.insertMessage(newMessage);
             newMessage.id = (int) id;
             repository.remotePost(Repository.MESSAGES, JSONConverter.encodeMessages(newMessage));
