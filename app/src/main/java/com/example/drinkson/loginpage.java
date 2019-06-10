@@ -67,34 +67,14 @@ public class loginpage extends AppCompatActivity {
         user u;
         System.out.println(userID);
         String userString = repository.remoteGetByID(Repository.USERS, userID);
-        System.out.println(userString);
         if (!userString.equals("[]")){
             u = JSONConverter.decodeUser(userString);
+            repository.insertUser(u);
+
+            currentuser.setCurrentUser(u.id);
+            openMaster();
         }
 
-
-
-        /*try {
-            List<user> allUsers = new AsyncTask<Void, Void, List<user>>() {
-
-                @Override
-                protected List<user> doInBackground(Void... voids) {
-                    return database.getDAO().getAll();
-                }
-            }.execute().get();
-            for (user users: allUsers) {
-                if ((usernameLogIn.getText().toString().equals(users.id)) && (passwordLogIn.getText().toString().equals(users.password))){
-                    currentuser.setCurrentUser(users.id);
-                    System.out.println(JSONConverter.encodeUser(users));
-                    openMaster();
-                    break;
-                }
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }*/
     }
 
 }

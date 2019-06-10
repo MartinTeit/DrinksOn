@@ -38,7 +38,6 @@ public class Repository {
         String url = URL + table;
 
         new remotePostAsyncTask(url).execute(post);
-
     }
 
 
@@ -71,6 +70,10 @@ public class Repository {
         return null;
     }
 
+    public void insertUser(user user) {
+        new InsertUserAsyncTask(myDAO).execute(user);
+    }
+
     public void insertMessage(messages message) {
         new InsertMessageAsyncTask(myDAO).execute(message);
     }
@@ -90,6 +93,25 @@ public class Repository {
 
 
     //Async task classes
+    private static class InsertUserAsyncTask extends AsyncTask<user, Void, Void> {
+        private DAO myDAO;
+
+        private InsertUserAsyncTask(DAO aDAO){
+            this.myDAO = aDAO;
+        }
+
+        @Override
+        protected Void doInBackground(user... user) {
+            System.out.println("id: " + user[0].id);
+            System.out.println("name: " + user[0].name);
+            System.out.println("stamp: " + user[0].stamp);
+            myDAO.insertUser(user[0]);
+            return null;
+        }
+    }
+
+
+
     private static class InsertMessageAsyncTask extends AsyncTask<messages, Void, Void> {
         private DAO myDAO;
 
