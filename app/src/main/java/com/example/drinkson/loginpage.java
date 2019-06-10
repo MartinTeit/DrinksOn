@@ -36,7 +36,6 @@ public class loginpage extends AppCompatActivity {
         //rep.remotePost(Repository.USERS,"{\"id\":\"jasper2\",\"name\":\"the bois\",\"stamp\":\""+CDT+"\"}");
 
         final EditText usernameLogIn = findViewById(R.id.username_id);
-        final EditText passwordLogIn = findViewById(R.id.password);
 
         final localdatabase database = Room.databaseBuilder(getApplicationContext(),
                 localdatabase.class, "Danskere").build();
@@ -68,7 +67,7 @@ public class loginpage extends AppCompatActivity {
                         }
                     }.execute().get();
                     for (user users: allUsers) {
-                        if ((usernameLogIn.getText().toString().equals(users.id)) && (passwordLogIn.getText().toString().equals(users.password))){
+                        if ((usernameLogIn.getText().toString().equals(users.id))){
                             currentuser.setCurrentUser(users.id);
                             System.out.println(JSONConverter.userEncoder(users));
                             openMaster();

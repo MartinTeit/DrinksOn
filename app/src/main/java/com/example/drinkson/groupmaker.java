@@ -32,7 +32,6 @@ public class groupmaker extends AppCompatActivity {
 
                 newUser.id = groupBox.getText().toString();
                 newUser.name = "%GRP" + groupBox.getText().toString();
-                newUser.password = "1";
                 newUser.stamp = System.currentTimeMillis();
 
                 final follows follows1 = new follows();
@@ -91,8 +90,8 @@ public class groupmaker extends AppCompatActivity {
             protected Void doInBackground(Void... voids) {
                 for (String string : dao.findFollowees(currentuser.getCurrentUser())){
                     if (dao.findUser(string).name.contains("%GRP")){
-                        newstring = newstring + string + " , ";
-                        System.out.println("hej");
+                        newstring = newstring + "%GRP " + string + " , ";
+                        System.out.println();
                     }
                 }
                 text.setText(newstring);

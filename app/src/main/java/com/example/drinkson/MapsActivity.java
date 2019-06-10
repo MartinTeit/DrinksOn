@@ -70,7 +70,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             LatLng newDefaultLatLng = new LatLng(defaultLat, defaultLng);
         } else {
             LatLng latLng = new LatLng(myLastLocation.getLatitude(), myLastLocation.getLongitude());
-        //LatLng will always return null as long as the app is run on an emulator - So this if statement is just for show.
+            //LatLng will always return null as long as the app is run on an emulator - So this if statement is just for show.
             System.out.println("The location is :\n- Latitude : " + myLastLocation.getLatitude() + "\n- Longitude : " + myLastLocation.getLongitude());
         }
 
@@ -169,7 +169,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .build();
     }
 
-    @Override
+
     public void onLocationChanged(Location location) {
 
         myLastLocation = location;
@@ -220,4 +220,3 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 }
-

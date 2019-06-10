@@ -22,7 +22,6 @@ public class registerUser extends AppCompatActivity {
         Repository repository = new Repository(this);
 
         final EditText userNameBox = (EditText) findViewById(R.id.createUsername);
-        final EditText passwordBox = (EditText) findViewById(R.id.createPassword);
         final EditText fullNameBox = (EditText) findViewById(R.id.fullName);
 
         userCreated = findViewById(R.id.userCreated);
@@ -34,7 +33,6 @@ public class registerUser extends AppCompatActivity {
                 final user newUser = new user();
 
                 newUser.id       = userNameBox.getText().toString();
-                newUser.password = passwordBox.getText().toString();
                 newUser.name     = fullNameBox.getText().toString();
                 newUser.stamp    = System.currentTimeMillis();
 

@@ -24,33 +24,15 @@
         android:textColorHint="#fff"
         android:textSize="18sp" />
 
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="200dp"
-        android:layout_height="40dp"
-        android:layout_below="@id/username_id"
-        android:layout_alignStart="@id/username_id"
-        android:layout_alignLeft="@id/username_id"
-        android:layout_centerVertical="true"
 
-        android:layout_marginTop="25dp"
-
-        android:background="#11000000"
-        android:drawableLeft="@drawable/ic_action_password"
-        android:ems="10"
-
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:textColor="#fff"
-        android:textColorHint="#fff" />
 
     <Button
         android:id="@+id/logIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/password"
-        android:layout_alignLeft="@id/password"
-        android:layout_alignRight="@id/password"
+        android:layout_below="@id/username_id"
+        android:layout_alignLeft="@id/username_id"
+        android:layout_alignRight="@id/username_id"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="20dp"
         android:background="#11000000"
