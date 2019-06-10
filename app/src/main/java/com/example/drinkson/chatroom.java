@@ -1,8 +1,5 @@
 package com.example.drinkson;
 
-import android.arch.persistence.room.Room;
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,9 +9,6 @@ import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-
-import static android.support.v4.content.ContextCompat.startActivity;
 
 public class chatroom extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -28,12 +22,6 @@ public class chatroom extends AppCompatActivity {
         setContentView(R.layout.activity_chatroom);
 
         repository = new Repository(this);
-
-        final localdatabase database = Room.databaseBuilder(
-                getApplicationContext(),
-                localdatabase.class,
-                "Danskere"
-        ).build();
 
         List<String> myList = new ArrayList<>();
 

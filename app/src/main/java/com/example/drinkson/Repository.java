@@ -75,8 +75,15 @@ public class Repository {
         new InsertUserAsyncTask(myDAO).execute(user);
     }
 
-    public void insertMessage(messages message) {
-        new InsertMessageAsyncTask(myDAO).execute(message);
+    public long insertMessage(messages message) {
+        try {
+            return new InsertMessageAsyncTask(myDAO).execute(message).get().longValue();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
 
@@ -137,7 +144,7 @@ public class Repository {
     }
 
 
-    private static class InsertMessageAsyncTask extends AsyncTask<messages, Void, Void> {
+    private static class InsertMessageAsyncTask extends AsyncTask<messages, Void, Long> {
         private DAO myDAO;
 
         private InsertMessageAsyncTask(DAO aDAO){
@@ -145,9 +152,8 @@ public class Repository {
         }
 
         @Override
-        protected Void doInBackground(messages... messages) {
-            myDAO.insertMessage(messages[0]);
-            return null;
+        protected Long doInBackground(messages... messages) {
+            return myDAO.insertMessage(messages[0]);
         }
     }
 
