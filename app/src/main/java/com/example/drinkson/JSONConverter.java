@@ -1,13 +1,9 @@
 package com.example.drinkson;
 
-import android.icu.util.LocaleData;
-
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoField;
 
 public class JSONConverter {
 
@@ -27,9 +23,12 @@ public class JSONConverter {
         json = json + "\"name\":\"" + u.name + "\"";
         json = json + ",";
 
-        json = json + "\"name\":\"" + zdt + "\"";
+        json = json + "\"stamp\":\"" + zdt + "\"";
 
         json = json + "}";
+
+        System.out.println(json);
+
         return json;
     }
 

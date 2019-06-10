@@ -13,19 +13,21 @@ import android.widget.EditText;
 public class registerUser extends AppCompatActivity {
 
     private Button userCreated;
+    private Repository repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_user);
 
-        Repository repository = new Repository(this);
+        repository = new Repository(this);
 
         final EditText userNameBox = (EditText) findViewById(R.id.createUsername);
         final EditText passwordBox = (EditText) findViewById(R.id.createPassword);
         final EditText fullNameBox = (EditText) findViewById(R.id.fullName);
 
         userCreated = findViewById(R.id.userCreated);
+
         userCreated.setOnClickListener(new View.OnClickListener() {
 
             @SuppressLint("StaticFieldLeak")
@@ -37,18 +39,7 @@ public class registerUser extends AppCompatActivity {
                 newUser.name     = fullNameBox.getText().toString();
                 newUser.stamp    = System.currentTimeMillis();
 
-                final localdatabase database = Room.databaseBuilder(getApplicationContext(),
-                        localdatabase.class, "Danskere").build();
-                final DAO dao = database.getDAO();
-
-                new AsyncTask<Void, Void, Void>() {
-                    protected Void doInBackground(Void... voids) {
-                        dao.insertUser(newUser);
-                        return null;
-                    }
-                }.execute();
-                currentuser.setCurrentUser(newUser.id);
-                openMaster();
+                createUser(newUser);
             }
         });
 
@@ -56,5 +47,14 @@ public class registerUser extends AppCompatActivity {
     public void openMaster(){
         Intent intent = new Intent(this, masterpage.class);
         startActivity(intent);
+    }
+
+    public void createUser(user u){
+
+        repository.remotePost(Repository.USERS,JSONConverter.encodeUser(u));
+        repository.insertUser(u);
+        currentuser.setCurrentUser(u.id);
+        openMaster();
+
     }
 }
