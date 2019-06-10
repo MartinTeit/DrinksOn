@@ -20,11 +20,14 @@ public class chatroom extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ChatRoomAdapter chatRoomAdapter;
     private RecyclerView.LayoutManager layoutManager;
+    private Repository repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatroom);
+
+        repository = new Repository(this);
 
         final localdatabase database = Room.databaseBuilder(
                 getApplicationContext(),
@@ -34,26 +37,21 @@ public class chatroom extends AppCompatActivity {
 
         List<String> myList = new ArrayList<>();
 
-        try {
-            List<user> allUsers = new AsyncTask<Void, Void, List<user>>() {
+        List<user> userList;
 
-                @Override
-                protected List<user> doInBackground(Void... voids) {
-                    return database.getDAO().getAll();
-                }
-            }.execute().get();
+        List<String> someList;
+        someList = repository.remoteGetTable(Repository.USERS);
 
-            for (user users: allUsers) {
-                if( !users.id.equals(currentuser.getCurrentUser()) ){
-                    myList.add(users.id);
-                }
+        for (String s: someList){
+            repository.insertUser(JSONConverter.decodeUser(s));
+        }
 
+        userList = repository.getAllUsers();
 
+        for (user users: userList) {
+            if( !users.id.equals(currentuser.getCurrentUser()) ){
+                myList.add(users.id);
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
         }
 
         recyclerView = (RecyclerView) findViewById(R.id.chats);
