@@ -56,6 +56,41 @@ public class Repository {
         return null;
     }
 
+    public List<messages> remoteGetMessages(String id){
+        String url;
+        List<String> myMessagesJson = new ArrayList<>();
+        List<messages> myMessages = new ArrayList<>();
+
+        try {
+            url = URL + MESSAGES + "?sender=eq." + id;
+            myMessagesJson = new remoteGetAsyncTask(url).execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            url = URL + MESSAGES + "?receiver=eq." + id;
+            myMessagesJson.addAll(new remoteGetAsyncTask(url).execute().get());
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        for (String json : myMessagesJson) {
+            System.out.println("hey Hey");
+            System.out.println(json);
+
+            if (!json.equals("[]") && !json.equals("")) {
+                myMessages.add(JSONConverter.decodeMessage(json));
+            }
+        }
+
+        return myMessages;
+    }
+
     public List<String> remoteGetTable(String table){
         String url = URL + table;
 
@@ -85,7 +120,6 @@ public class Repository {
         }
         return 0;
     }
-
 
     public List<messages> getAllMyMessages() {
         try {
@@ -155,6 +189,7 @@ public class Repository {
         }
     }
 
+
     private static class searchUserAsyncTask extends AsyncTask<String, Void, List<user>> {
         private DAO myDAO;
 
@@ -167,7 +202,6 @@ public class Repository {
             return myDAO.getSearchUser(search[0]);
         }
     }
-
 
 
     private static class InsertMessageAsyncTask extends AsyncTask<messages, Void, Long> {

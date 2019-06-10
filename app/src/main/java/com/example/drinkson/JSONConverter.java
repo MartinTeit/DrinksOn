@@ -92,8 +92,8 @@ public class JSONConverter {
 
         messages m = new messages();
 
-        indexID = json.indexOf("\"id\":\"") + 6;
-        m.id = Integer.parseInt(json.substring(indexID,findEnd(json,indexID)));
+        indexID = json.indexOf("\"id\":") + 5;
+        m.id = Integer.parseInt(json.substring(indexID,findEndOfNumber(json,indexID)));
 
         indexSender = json.indexOf("\"sender\":\"") + 10;
         m.sender = json.substring(indexSender,findEnd(json,indexSender));
@@ -112,10 +112,20 @@ public class JSONConverter {
     }
 
     private static int findEnd(String json, int start){
+
         int end = start;
             while ( (json.charAt(end) != '\"' || json.charAt(end-1) == '\\') && end <= json.length()){
                 end++;
             }
+        return end;
+    }
+
+    private static int findEndOfNumber(String json, int start){
+
+        int end = start;
+        while ( json.charAt(end) != ',' && end <= json.length()){
+            end++;
+        }
         return end;
     }
 

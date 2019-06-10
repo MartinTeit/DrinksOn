@@ -32,6 +32,12 @@ public class chat extends AppCompatActivity {
 
         repository = new Repository(this);
 
+        List<messages> someMessages = repository.remoteGetMessages(currentuser.getCurrentUser());
+
+        for(messages m : someMessages){
+            repository.insertMessage(m);
+        }
+
         updateMessages();
 
         text = findViewById(R.id.editText);
