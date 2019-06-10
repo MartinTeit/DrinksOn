@@ -1,8 +1,5 @@
 package com.example.drinkson;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.persistence.room.Room;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,11 +7,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
+
 public class chat extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ChatAdapter chatAdapter;
@@ -23,7 +19,7 @@ public class chat extends AppCompatActivity {
     private EditText text;
     private List<messages> myMessages;
 
-    private repository repository;
+    private Repository repository;
 
 
     public static String receiver;
@@ -34,7 +30,7 @@ public class chat extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        repository = new repository(this);
+        repository = new Repository(this);
 
         updateMessages();
 
@@ -51,7 +47,7 @@ public class chat extends AppCompatActivity {
 
         String someText = null;
         try {
-            someText = repository.remoteGet(repository.USERS,"killme2");
+            someText = repository.remoteGetByID(repository.USERS,"killme2");
         } catch (Exception e) {
             e.printStackTrace();
         }

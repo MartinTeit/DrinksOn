@@ -16,10 +16,10 @@ public class registerUser extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_create_user);
+
+        Repository repository = new Repository(this);
 
         final EditText userNameBox = (EditText) findViewById(R.id.createUsername);
         final EditText passwordBox = (EditText) findViewById(R.id.createPassword);

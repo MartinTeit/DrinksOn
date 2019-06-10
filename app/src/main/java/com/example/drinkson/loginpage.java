@@ -14,7 +14,6 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
 public class loginpage extends AppCompatActivity {
@@ -30,10 +29,11 @@ public class loginpage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in_page);
         long time = System.currentTimeMillis();
-        String CDT = ZonedDateTime.ofInstant(Instant.ofEpochMilli(time), ZoneId.systemDefault()).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
-        repository rep = new repository(this);
 
-        rep.remotePost(repository.USERS,"{\"id\":\"jasper2\",\"name\":\"the bois\",\"stamp\":\""+CDT+"\"}");
+        String CDT = ZonedDateTime.ofInstant(Instant.ofEpochMilli(time), ZoneId.systemDefault()).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+        Repository rep = new Repository(this);
+        System.out.println(rep.remoteGetByID(Repository.USERS,"errewrewerw"));
+        //rep.remotePost(Repository.USERS,"{\"id\":\"jasper2\",\"name\":\"the bois\",\"stamp\":\""+CDT+"\"}");
 
         final EditText usernameLogIn = findViewById(R.id.username_id);
         final EditText passwordLogIn = findViewById(R.id.password);
@@ -57,6 +57,8 @@ public class loginpage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+
+
                 try {
                     List<user> allUsers = new AsyncTask<Void, Void, List<user>>() {
 
@@ -68,6 +70,7 @@ public class loginpage extends AppCompatActivity {
                     for (user users: allUsers) {
                         if ((usernameLogIn.getText().toString().equals(users.id)) && (passwordLogIn.getText().toString().equals(users.password))){
                             currentuser.setCurrentUser(users.id);
+                            System.out.println(JSONConverter.userEncoder(users));
                             openMaster();
                          break;
                         }

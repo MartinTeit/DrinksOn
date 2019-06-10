@@ -16,7 +16,7 @@ import java.util.concurrent.ExecutionException;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class repository {
+public class Repository {
 
     public static final String URL = "https://caracal.imada.sdu.dk/app2019/";
     public static final String USERS = "users";
@@ -28,7 +28,7 @@ public class repository {
     private final String DB_NAME = "Danskere";
     private DAO myDAO;
 
-    public repository(Context context){
+    public Repository(Context context){
         myDAO = Room.databaseBuilder(context, localdatabase.class, DB_NAME).build().getDAO();
 
     }
@@ -43,11 +43,11 @@ public class repository {
 
 
 
-    public String remoteGet(String table, String id){
+    public String remoteGetByID(String table, String id){
         String url = URL + table + "?id=eq." + id;
 
         try {
-            return new remoteGetAsyncTask(url).execute(url).get();
+            return new remoteGetAsyncTask(url).execute().get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -55,7 +55,20 @@ public class repository {
         }
 
         return null;
+    }
 
+    public String remoteGetTable(String table){
+        String url = URL + table;
+
+        try {
+            return new remoteGetAsyncTask(url).execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     public void insertMessage(messages message) {
@@ -106,7 +119,7 @@ public class repository {
     }
 
 
-    private static class remoteGetAsyncTask extends AsyncTask<String, Void, String> {
+    private static class remoteGetAsyncTask extends AsyncTask<Void, Void, String> {
 
         private String url;
         private remoteGetAsyncTask(String url){
@@ -114,58 +127,39 @@ public class repository {
         }
 
         @Override
-        protected String doInBackground(String... url){
-            System.out.println("1");
+        protected String doInBackground(Void... Void){
             URL obj = null;
+            HttpsURLConnection connection = null;
+            BufferedReader input;
+            String inputLine = null;
+
             try {
-                obj = new URL(url[0]);
+                obj = new URL(url);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
-            System.out.println("2");
-            HttpsURLConnection connection = null;
+
             try {
                 connection = (HttpsURLConnection) obj.openConnection();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            System.out.println("connection: " + connection);
             try {
                 connection.setRequestMethod("GET");
             } catch (ProtocolException e) {
                 e.printStackTrace();
             }
+
             connection.setRequestProperty("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYXBwMjAxOSJ9.3MGDqJYkivAsiMOXwvoPTD6_LTCWkP3RvI2zpzoB1XE");
             connection.setRequestProperty("Content-Type", "application/json");
 
-            System.out.println(url[0]);
-            System.out.println("4");
             try {
                 int responseCode = connection.getResponseCode();
                 System.out.println(responseCode);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
 
-            System.out.println("5");
-            BufferedReader input = null;
-            try {
                 input = new BufferedReader(
                         new InputStreamReader(connection.getInputStream()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            String inputLine = null;
-            System.out.println("6");
-
-            try {
                 inputLine = input.readLine();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            System.out.println("7");
-
-            try {
                 input.close();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -186,22 +180,23 @@ public class repository {
         @Override
         protected Void doInBackground(String... post){
 
-            System.out.println(post[0]);
             URL obj = null;
+            HttpsURLConnection connection = null;
+            DataOutputStream wr;
+            int code = 0;
+
             try {
                 obj = new URL(url);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
 
-            HttpsURLConnection connection = null;
             try {
                 connection = (HttpsURLConnection) obj.openConnection();
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            System.out.println("connection: " + connection);
             try {
                 connection.setDoOutput(true);
                 connection.setRequestMethod("POST");
@@ -211,57 +206,25 @@ public class repository {
                 e.printStackTrace();
             }
 
-            DataOutputStream wr = null;
             try {
                 wr = new DataOutputStream(connection.getOutputStream());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
                 wr.writeBytes(post[0]);
                 wr.flush();
                 wr.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            int code = 0;
 
-            try {
                 code = connection.getResponseCode();
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
             if (code != HttpsURLConnection.HTTP_CREATED) {
-                throw new RuntimeException("Failed : HTTP error code : "
-                        + code);
+                throw new RuntimeException("Failed : HTTP error code : " + code);
             }
-
-            BufferedReader br = null;
-            try {
-                br = new BufferedReader(new InputStreamReader(
-                        (connection.getInputStream())));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            String output = null;
-            System.out.println("Output from Server .... \n");
-            while (true) {
-                try {
-                    if (!((output = br.readLine()) != null)) break;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                System.out.println(output);
-            }
-
-
 
             return null;
-
-
         }
     }
+
 
 }
