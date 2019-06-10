@@ -1,21 +1,24 @@
 package com.example.drinkson;
 
+import android.icu.util.LocaleData;
+
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoField;
 
 public class JSONConverter {
 
 
 
 
-    public static String userEncoder(user u){
+    public static String encodeUser(user u){
         String json;
         String zdt = ZonedDateTime.ofInstant(
                 Instant.ofEpochMilli(u.stamp),
-                ZoneId.systemDefault())
-                .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+                ZoneId.systemDefault()).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
 
         json = "{";
 
@@ -28,6 +31,40 @@ public class JSONConverter {
 
         json = json + "}";
         return json;
+    }
+
+
+    public static user decodeUser(String json){
+        int idStart;
+        int nameStart;
+        int stampStart;
+        String stamp;
+
+        long time = System.currentTimeMillis();
+        System.out.println(time);
+
+
+        user u = new user();
+
+        idStart = json.indexOf("\"id\":\"") + 6;
+        u.id = json.substring(idStart,findEnd(json,idStart));
+
+        nameStart = json.indexOf("\"name\":\"") + 8;
+        u.name = json.substring(nameStart,findEnd(json,nameStart));
+
+        stampStart = json.indexOf("\"stamp\":\"") + 9;
+        stamp = json.substring(stampStart,findEnd(json,stampStart));
+        u.stamp = ZonedDateTime.parse(stamp).toInstant().toEpochMilli();
+
+        return u;
+    }
+
+    private static int findEnd(String json, int start){
+        int end = start;
+            while ( (json.charAt(end) != '\"' || json.charAt(end-1) == '\\') && end <= json.length()){
+                end++;
+            }
+        return end;
     }
 
 

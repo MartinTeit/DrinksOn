@@ -20,27 +20,19 @@ public class loginpage extends AppCompatActivity {
 
     private Button logIn;
     private Button register;
+    private Repository repository;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in_page);
-        long time = System.currentTimeMillis();
 
-        String CDT = ZonedDateTime.ofInstant(Instant.ofEpochMilli(time), ZoneId.systemDefault()).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
-        Repository rep = new Repository(this);
-        System.out.println(rep.remoteGetByID(Repository.USERS,"errewrewerw"));
-        //rep.remotePost(Repository.USERS,"{\"id\":\"jasper2\",\"name\":\"the bois\",\"stamp\":\""+CDT+"\"}");
+        repository = new Repository(this);
+
+        System.out.println(repository.remoteGetByID(Repository.USERS,"errewrewerw"));
 
         final EditText usernameLogIn = findViewById(R.id.username_id);
-        final EditText passwordLogIn = findViewById(R.id.password);
-
-        final localdatabase database = Room.databaseBuilder(getApplicationContext(),
-                localdatabase.class, "Danskere").build();
-
 
         //ID finder to href activities
         register = findViewById(R.id.registerUser);
@@ -56,30 +48,7 @@ public class loginpage extends AppCompatActivity {
         logIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-
-                try {
-                    List<user> allUsers = new AsyncTask<Void, Void, List<user>>() {
-
-                        @Override
-                        protected List<user> doInBackground(Void... voids) {
-                            return database.getDAO().getAll();
-                        }
-                    }.execute().get();
-                    for (user users: allUsers) {
-                        if ((usernameLogIn.getText().toString().equals(users.id)) && (passwordLogIn.getText().toString().equals(users.password))){
-                            currentuser.setCurrentUser(users.id);
-                            System.out.println(JSONConverter.userEncoder(users));
-                            openMaster();
-                         break;
-                        }
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
+                login(usernameLogIn.getText().toString());
             }
         });
 
@@ -92,6 +61,40 @@ public class loginpage extends AppCompatActivity {
     public void openMaster() {
         Intent intent2 = new Intent(this, masterpage.class);
         startActivity(intent2);
+    }
+
+    private void login(String userID){
+        user u;
+        System.out.println(userID);
+        String userString = repository.remoteGetByID(Repository.USERS, userID);
+        System.out.println(userString);
+        if (!userString.equals("[]")){
+            u = JSONConverter.decodeUser(userString);
+        }
+
+
+
+        /*try {
+            List<user> allUsers = new AsyncTask<Void, Void, List<user>>() {
+
+                @Override
+                protected List<user> doInBackground(Void... voids) {
+                    return database.getDAO().getAll();
+                }
+            }.execute().get();
+            for (user users: allUsers) {
+                if ((usernameLogIn.getText().toString().equals(users.id)) && (passwordLogIn.getText().toString().equals(users.password))){
+                    currentuser.setCurrentUser(users.id);
+                    System.out.println(JSONConverter.encodeUser(users));
+                    openMaster();
+                    break;
+                }
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }*/
     }
 
 }

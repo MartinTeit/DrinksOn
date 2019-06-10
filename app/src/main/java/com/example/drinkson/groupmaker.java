@@ -32,7 +32,6 @@ public class groupmaker extends AppCompatActivity {
 
                 newUser.id = groupBox.getText().toString();
                 newUser.name = "%GRP" + groupBox.getText().toString();
-                newUser.password = "1";
                 newUser.stamp = System.currentTimeMillis();
 
                 final follows follows1 = new follows();

@@ -34,7 +34,6 @@ public class registerUser extends AppCompatActivity {
                 final user newUser = new user();
 
                 newUser.id       = userNameBox.getText().toString();
-                newUser.password = passwordBox.getText().toString();
                 newUser.name     = fullNameBox.getText().toString();
                 newUser.stamp    = System.currentTimeMillis();
 
