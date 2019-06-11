@@ -27,8 +27,6 @@ public class JSONConverter {
 
         json = json + "}";
 
-        System.out.println(json);
-
         return json;
     }
 
@@ -76,8 +74,6 @@ public class JSONConverter {
         json = json + "\"stamp\":\"" + zdt + "\"";
 
         json = json + "}";
-
-        System.out.println(json);
 
         return json;
     }

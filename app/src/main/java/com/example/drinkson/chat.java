@@ -66,7 +66,6 @@ public class chat extends AppCompatActivity {
         messages = new ArrayList<>();
 
         for(messages m: myMessages){
-            System.out.println("sender" + m.sender);
             if(m.sender != null && (m.receiver.equals(receiver) || m.sender.equals(receiver) )){
                 messagesInThisConversation.add(m);
             }
@@ -91,21 +90,18 @@ public class chat extends AppCompatActivity {
 
             Random randInt = new Random();
 
-            // create template for new message
+            // create new message
             messages newMessage = new messages();
             newMessage.sender = currentuser.getCurrentUser();
             newMessage.receiver = receiver;
             newMessage.body = text;
             newMessage.stamp = System.currentTimeMillis();
 
-            // Sets the message to be send
-
             do {
 
                 id = randInt.nextInt();
                 newMessage.id = (int) id;
                 responseCode = repository.remotePost(Repository.MESSAGES, JSONConverter.encodeMessages(newMessage));
-                System.out.println(id);
 
             } while (responseCode == HttpsURLConnection.HTTP_CONFLICT);
 

@@ -88,8 +88,6 @@ public class Repository {
         }
 
         for (String json : myMessagesJson) {
-            System.out.println("hey Hey");
-            System.out.println(json);
 
             if (!json.equals("[]") && !json.equals("")) {
                 myMessages.add(JSONConverter.decodeMessage(json));
@@ -179,9 +177,6 @@ public class Repository {
 
         @Override
         protected Void doInBackground(user... user) {
-            System.out.println("id: " + user[0].id);
-            System.out.println("name: " + user[0].name);
-            System.out.println("stamp: " + user[0].stamp);
             myDAO.insertUser(user[0]);
             return null;
         }

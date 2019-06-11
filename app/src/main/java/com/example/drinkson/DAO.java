@@ -39,6 +39,6 @@ public interface DAO {
     @Query("SELECT body FROM messages WHERE sender = :sender AND receiver = :receiver OR sender = :receiver AND receiver = :sender" )
     List<String> findConversation(String sender, String receiver);
 
-    @Query("SELECT * FROM messages WHERE sender = :sender OR receiver = :sender" )
+    @Query("SELECT * FROM messages WHERE sender = :sender OR receiver = :sender ORDER BY stamp" )
     List<messages> getAllMyMessages(String sender);
 }
