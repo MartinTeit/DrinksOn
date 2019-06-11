@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 public class groupmaker extends AppCompatActivity {
 
-    Button button;
-    Button button2;
+    Button createGroupButton;
+    Button followGroupButton;
     private String   newstring;
     private TextView text;
 
@@ -20,10 +20,10 @@ public class groupmaker extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_groupmaker);
 
-        button = (Button) findViewById(R.id.userCreated);
-        button2 = (Button) findViewById(R.id.followgroup);
+        createGroupButton = (Button) findViewById(R.id.userCreated);
+        followGroupButton = (Button) findViewById(R.id.followgroup);
 
-        button.setOnClickListener(new View.OnClickListener() {
+        createGroupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final user newUser = new user();
@@ -54,7 +54,7 @@ public class groupmaker extends AppCompatActivity {
             }
         });
 
-        button2.setOnClickListener(new View.OnClickListener() {
+        followGroupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final EditText groupfollowBox = (EditText) findViewById(R.id.groupfollow);
@@ -102,4 +102,14 @@ public class groupmaker extends AppCompatActivity {
 
 
     }
+    
+    private void createGroup(){
+        
+    }
+
+    private void followGroup(){
+
+    }
+    
+    
 }

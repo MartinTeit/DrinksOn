@@ -42,6 +42,7 @@ public class loginpage extends AppCompatActivity {
         });
 
     }
+
     public void openRegister() {
         Intent intent = new Intent(this, registerUser.class);
         startActivity(intent);
