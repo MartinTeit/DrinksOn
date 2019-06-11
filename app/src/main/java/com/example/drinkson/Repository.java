@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -23,7 +24,8 @@ public class Repository {
     public static final String MESSAGES = "messages";
     public static final String FOLLOWS = "follows";
     private static final String AUTORIZATION =
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYXBwMjAxOSJ9.3MGDqJYkivAsiMOXwvoPTD6_LTCWkP3RvI2zpzoB1XE";
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
+                    "eyJyb2xlIjoiYXBwMjAxOSJ9.3MGDqJYkivAsiMOXwvoPTD6_LTCWkP3RvI2zpzoB1XE";
 
     private final String DB_NAME = "Danskere";
     private DAO myDAO;
@@ -33,21 +35,18 @@ public class Repository {
 
     }
 
-
+    //Remote requests
     public void remotePost(String table, String post){
         String url = URL + table;
 
         new remotePostAsyncTask(url).execute(post);
-
     }
-
-
 
     public String remoteGetByID(String table, String id){
         String url = URL + table + "?id=eq." + id;
 
         try {
-            return new remoteGetAsyncTask(url).execute().get();
+            return new remoteGetAsyncTask(url).execute().get().get(0);
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -57,7 +56,42 @@ public class Repository {
         return null;
     }
 
-    public String remoteGetTable(String table){
+    public List<messages> remoteGetMessages(String id){
+        String url;
+        List<String> myMessagesJson = new ArrayList<>();
+        List<messages> myMessages = new ArrayList<>();
+
+        try {
+            url = URL + MESSAGES + "?sender=eq." + id;
+            myMessagesJson = new remoteGetAsyncTask(url).execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            url = URL + MESSAGES + "?receiver=eq." + id;
+            myMessagesJson.addAll(new remoteGetAsyncTask(url).execute().get());
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        for (String json : myMessagesJson) {
+            System.out.println("hey Hey");
+            System.out.println(json);
+
+            if (!json.equals("[]") && !json.equals("")) {
+                myMessages.add(JSONConverter.decodeMessage(json));
+            }
+        }
+
+        return myMessages;
+    }
+
+    public List<String> remoteGetTable(String table){
         String url = URL + table;
 
         try {
@@ -71,10 +105,21 @@ public class Repository {
         return null;
     }
 
-    public void insertMessage(messages message) {
-        new InsertMessageAsyncTask(myDAO).execute(message);
+    //local request
+    public void insertUser(user user) {
+        new InsertUserAsyncTask(myDAO).execute(user);
     }
 
+    public long insertMessage(messages message) {
+        try {
+            return new InsertMessageAsyncTask(myDAO).execute(message).get().longValue();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 
     public List<messages> getAllMyMessages() {
         try {
@@ -88,9 +133,78 @@ public class Repository {
         return null;
     }
 
+    public List<user> getAllUsers() {
+        try {
+            return new getAllUsersAsyncTask(myDAO).execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public List<user> searchUser(String search) {
+        try {
+            return new searchUserAsyncTask(myDAO).execute(search).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 
     //Async task classes
-    private static class InsertMessageAsyncTask extends AsyncTask<messages, Void, Void> {
+    private static class InsertUserAsyncTask extends AsyncTask<user, Void, Void> {
+        private DAO myDAO;
+
+        private InsertUserAsyncTask(DAO aDAO){
+            this.myDAO = aDAO;
+        }
+
+        @Override
+        protected Void doInBackground(user... user) {
+            System.out.println("id: " + user[0].id);
+            System.out.println("name: " + user[0].name);
+            System.out.println("stamp: " + user[0].stamp);
+            myDAO.insertUser(user[0]);
+            return null;
+        }
+    }
+
+
+    private static class getAllUsersAsyncTask extends AsyncTask<Void, Void, List<user>> {
+        private DAO myDAO;
+
+        private getAllUsersAsyncTask(DAO aDAO){
+            this.myDAO = aDAO;
+        }
+
+        @Override
+        protected List<user> doInBackground(Void... Void) {
+            return myDAO.getAll();
+        }
+    }
+
+
+    private static class searchUserAsyncTask extends AsyncTask<String, Void, List<user>> {
+        private DAO myDAO;
+
+        private searchUserAsyncTask(DAO aDAO){
+            this.myDAO = aDAO;
+        }
+
+        @Override
+        protected List<user> doInBackground(String... search) {
+            return myDAO.getSearchUser(search[0]);
+        }
+    }
+
+
+    private static class InsertMessageAsyncTask extends AsyncTask<messages, Void, Long> {
         private DAO myDAO;
 
         private InsertMessageAsyncTask(DAO aDAO){
@@ -98,9 +212,8 @@ public class Repository {
         }
 
         @Override
-        protected Void doInBackground(messages... messages) {
-            myDAO.insertMessage(messages[0]);
-            return null;
+        protected Long doInBackground(messages... messages) {
+            return myDAO.insertMessage(messages[0]);
         }
     }
 
@@ -119,7 +232,7 @@ public class Repository {
     }
 
 
-    private static class remoteGetAsyncTask extends AsyncTask<Void, Void, String> {
+    private static class remoteGetAsyncTask extends AsyncTask<Void, Void, List<String>> {
 
         private String url;
         private remoteGetAsyncTask(String url){
@@ -127,11 +240,12 @@ public class Repository {
         }
 
         @Override
-        protected String doInBackground(Void... Void){
+        protected List<String> doInBackground(Void... Void){
             URL obj = null;
             HttpsURLConnection connection = null;
             BufferedReader input;
             String inputLine = null;
+            List<String> returnValue = new ArrayList<>();
 
             try {
                 obj = new URL(url);
@@ -159,13 +273,17 @@ public class Repository {
 
                 input = new BufferedReader(
                         new InputStreamReader(connection.getInputStream()));
-                inputLine = input.readLine();
+
+                while ( (inputLine = input.readLine()) != null ){
+                    returnValue.add(inputLine);
+                }
+
                 input.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            return inputLine;
+            return returnValue;
         }
     }
 

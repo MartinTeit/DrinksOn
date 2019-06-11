@@ -32,6 +32,12 @@ public class chat extends AppCompatActivity {
 
         repository = new Repository(this);
 
+        List<messages> someMessages = repository.remoteGetMessages(currentuser.getCurrentUser());
+
+        for(messages m : someMessages){
+            repository.insertMessage(m);
+        }
+
         updateMessages();
 
         text = findViewById(R.id.editText);
@@ -45,14 +51,7 @@ public class chat extends AppCompatActivity {
             }
         });
 
-        String someText = null;
-        try {
-            someText = repository.remoteGetByID(repository.USERS,"killme2");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-        System.out.println(someText);
 
     }
 
@@ -64,8 +63,8 @@ public class chat extends AppCompatActivity {
         messages = new ArrayList<>();
 
         for(messages m: myMessages){
-
-            if(m.receiver.equals(receiver) || m.sender.equals(receiver)){
+            System.out.println("sender" + m.sender);
+            if(m.sender != null && (m.receiver.equals(receiver) || m.sender.equals(receiver) )){
                 messagesInThisConversation.add(m);
             }
         }
@@ -84,13 +83,17 @@ public class chat extends AppCompatActivity {
     private void sendMessage(String text){
 
         if(!text.equals("")){
+            long id;
+
             final messages newMessage = new messages();
             newMessage.sender = currentuser.getCurrentUser();
             newMessage.receiver = receiver;
             newMessage.body = text;
             newMessage.stamp = System.currentTimeMillis();
 
-            repository.insertMessage(newMessage);
+            id = repository.insertMessage(newMessage);
+            newMessage.id = (int) id;
+            repository.remotePost(Repository.MESSAGES, JSONConverter.encodeMessages(newMessage));
 
             updateMessages();
         }

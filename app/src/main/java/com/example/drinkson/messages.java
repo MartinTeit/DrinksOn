@@ -7,8 +7,8 @@ import android.support.annotation.NonNull;
 
 @Entity
 public class messages {
-    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
+    @PrimaryKey(autoGenerate = true)
     public int id;
 
     @ColumnInfo(name = "sender")

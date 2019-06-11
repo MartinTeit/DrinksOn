@@ -10,6 +10,9 @@ public interface DAO {
     @Query("SELECT * FROM user")
     List<user> getAll();
 
+    @Query("SELECT * FROM user WHERE id LIKE :search")
+    List<user> getSearchUser(String search);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertUser(user user);
 
@@ -28,7 +31,7 @@ public interface DAO {
     List<String> findFollowees(String follower);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insertMessage(messages messages);
+    Long insertMessage(messages messages);
 
     @Query("SELECT body FROM messages WHERE sender = :sender AND receiver = :receiver OR sender = :receiver AND receiver = :sender" )
     List<String> findConversation(String sender, String receiver);
