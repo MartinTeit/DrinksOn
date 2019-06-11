@@ -10,6 +10,9 @@ import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class chat extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -83,17 +86,30 @@ public class chat extends AppCompatActivity {
     private void sendMessage(String text){
 
         if(!text.equals("")){
-            long id;
+            long id = 0;
+            int responseCode;
 
-            final messages newMessage = new messages();
+            Random randInt = new Random();
+
+            // create template for new message
+            messages newMessage = new messages();
             newMessage.sender = currentuser.getCurrentUser();
             newMessage.receiver = receiver;
             newMessage.body = text;
             newMessage.stamp = System.currentTimeMillis();
 
-            id = repository.insertMessage(newMessage);
-            newMessage.id = (int) id;
-            repository.remotePost(Repository.MESSAGES, JSONConverter.encodeMessages(newMessage));
+            // Sets the message to be send
+
+            do {
+
+                id = randInt.nextInt();
+                newMessage.id = (int) id;
+                responseCode = repository.remotePost(Repository.MESSAGES, JSONConverter.encodeMessages(newMessage));
+                System.out.println(id);
+
+            } while (responseCode == HttpsURLConnection.HTTP_CONFLICT);
+
+            repository.insertMessage(newMessage);
 
             updateMessages();
         }

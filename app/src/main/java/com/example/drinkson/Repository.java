@@ -36,10 +36,18 @@ public class Repository {
     }
 
     //Remote requests
-    public void remotePost(String table, String post){
+    public int remotePost(String table, String post){
         String url = URL + table;
 
-        new remotePostAsyncTask(url).execute(post);
+        try {
+            return new remotePostAsyncTask(url).execute(post).get().intValue();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
     }
 
     public String remoteGetByID(String table, String id){
@@ -119,6 +127,10 @@ public class Repository {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    public void deleteMessage(messages message) {
+        new DeleteMessageAsyncTask(myDAO).execute(message);
     }
 
     public List<messages> getAllMyMessages() {
@@ -217,6 +229,21 @@ public class Repository {
         }
     }
 
+    private static class DeleteMessageAsyncTask extends AsyncTask<messages, Void, Void> {
+        private DAO myDAO;
+
+        private DeleteMessageAsyncTask(DAO aDAO){
+            this.myDAO = aDAO;
+        }
+
+        @Override
+        protected Void doInBackground(messages... messages) {
+            myDAO.deleteMessage(messages[0]);
+
+            return null;
+        }
+    }
+
 
     private static class getAllMyMessagesAsyncTask extends AsyncTask<String, Void, List<messages>> {
         private DAO myDAO;
@@ -288,7 +315,7 @@ public class Repository {
     }
 
 
-    private static class remotePostAsyncTask extends AsyncTask<String, Void, Void> {
+    private static class remotePostAsyncTask extends AsyncTask<String, Void, Integer> {
 
         private String url;
         private remotePostAsyncTask(String url){
@@ -296,12 +323,12 @@ public class Repository {
         }
 
         @Override
-        protected Void doInBackground(String... post){
+        protected Integer doInBackground(String... post){
 
             URL obj = null;
             HttpsURLConnection connection = null;
             DataOutputStream wr;
-            int code = 0;
+            Integer code = 0;
 
             try {
                 obj = new URL(url);
@@ -337,10 +364,10 @@ public class Repository {
             }
 
             if (code != HttpsURLConnection.HTTP_CREATED) {
-                throw new RuntimeException("Failed : HTTP error code : " + code);
+                System.out.println("Failed : HTTP error code : " + code);
             }
 
-            return null;
+            return code;
         }
     }
 

@@ -33,6 +33,9 @@ public interface DAO {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     Long insertMessage(messages messages);
 
+    @Delete
+    void deleteMessage(messages message);
+
     @Query("SELECT body FROM messages WHERE sender = :sender AND receiver = :receiver OR sender = :receiver AND receiver = :sender" )
     List<String> findConversation(String sender, String receiver);
 
