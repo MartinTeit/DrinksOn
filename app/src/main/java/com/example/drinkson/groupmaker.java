@@ -13,11 +13,11 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class groupmaker extends AppCompatActivity {
 
-    Button createGroupButton;
-    Button followGroupButton;
-    private String   newstring;
+    private Button createGroupButton;
+    private Button followGroupButton;
+    private String newstring;
     private TextView text;
-    Repository repository;
+    private Repository repository;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +78,6 @@ public class groupmaker extends AppCompatActivity {
 
         }.execute();
 
-
     }
     
     private void createGroup(user newGroup){
@@ -96,7 +95,6 @@ public class groupmaker extends AppCompatActivity {
 
             followGroup(follows1);
         }
-
     }
 
     private void followGroup(follows newFollows){

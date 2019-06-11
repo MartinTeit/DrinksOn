@@ -140,6 +140,18 @@ public class Repository {
         return null;
     }
 
+    public user findUser(String userID) {
+        try {
+            return new findUserAsyncTask(myDAO).execute(userID).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     public long insertMessage(messages message) {
         try {
             return new InsertMessageAsyncTask(myDAO).execute(message).get().longValue();
@@ -154,6 +166,18 @@ public class Repository {
     public List<messages> getAllMyMessages() {
         try {
             return new getAllMyMessagesAsyncTask(myDAO).execute(currentuser.getCurrentUser()).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public List<messages> getGroupChat(String GroupID) {
+        try {
+            return new getAllMyMessagesAsyncTask(myDAO).execute(GroupID).get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -236,6 +260,20 @@ public class Repository {
         @Override
         protected List<user> doInBackground(String... search) {
             return myDAO.getSearchUser(search[0]);
+        }
+    }
+
+
+    private static class findUserAsyncTask extends AsyncTask<String, Void, user> {
+        private DAO myDAO;
+
+        private findUserAsyncTask(DAO aDAO){
+            this.myDAO = aDAO;
+        }
+
+        @Override
+        protected user doInBackground(String... userID) {
+            return myDAO.findUser(userID[0]);
         }
     }
 

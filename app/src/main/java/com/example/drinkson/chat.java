@@ -20,10 +20,8 @@ public class chat extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private Button sendButton;
     private EditText text;
-    private List<messages> myMessages;
 
     private Repository repository;
-
 
     public static String receiver;
     private List<String> messages;
@@ -34,8 +32,13 @@ public class chat extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
 
         repository = new Repository(this);
+        List<messages> someMessages;
 
-        List<messages> someMessages = repository.remoteGetMessages(currentuser.getCurrentUser());
+        if(repository.findUser(receiver).name.startsWith("%GRP")){
+            someMessages = repository.remoteGetMessages(receiver);
+        } else {
+            someMessages = repository.remoteGetMessages(currentuser.getCurrentUser());
+        }
 
         for(messages m : someMessages){
             repository.insertMessage(m);
@@ -60,14 +63,24 @@ public class chat extends AppCompatActivity {
 
 
     private  void updateMessages(){
+        List<messages> myMessages;
 
-        myMessages = repository.getAllMyMessages();
         List<messages> messagesInThisConversation = new ArrayList<>();
         messages = new ArrayList<>();
 
-        for(messages m: myMessages){
-            if(m.sender != null && (m.receiver.equals(receiver) || m.sender.equals(receiver) )){
-                messagesInThisConversation.add(m);
+        if(repository.findUser(receiver).name.startsWith("%GRP")){
+            myMessages = repository.getGroupChat(receiver);
+            for(messages m: myMessages){
+                if(m.sender != null && m.receiver.equals(receiver)){
+                    messagesInThisConversation.add(m);
+                }
+            }
+        } else {
+            myMessages = repository.getAllMyMessages();
+            for(messages m: myMessages){
+                if(m.sender != null && (m.receiver.equals(receiver) || m.sender.equals(receiver) )){
+                    messagesInThisConversation.add(m);
+                }
             }
         }
 
@@ -85,7 +98,7 @@ public class chat extends AppCompatActivity {
     private void sendMessage(String text){
 
         if(!text.equals("")){
-            long id = 0;
+            long id;
             int responseCode;
 
             Random randInt = new Random();
@@ -98,11 +111,9 @@ public class chat extends AppCompatActivity {
             newMessage.stamp = System.currentTimeMillis();
 
             do {
-
                 id = randInt.nextInt();
                 newMessage.id = (int) id;
                 responseCode = repository.remotePost(Repository.MESSAGES, JSONConverter.encodeMessages(newMessage));
-
             } while (responseCode == HttpsURLConnection.HTTP_CONFLICT);
 
             repository.insertMessage(newMessage);

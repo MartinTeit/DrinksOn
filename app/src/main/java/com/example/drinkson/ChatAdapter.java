@@ -46,17 +46,20 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
     public void onBindViewHolder(ChatViewHolder chatViewHolder, int i) {
         messages m = messages.get(i);
 
+        System.out.println("Sender: " + m.sender + "CurrentUser: " + currentuser.getCurrentUser());
+
         chatViewHolder.textView.setText(m.body);
 
         if(m.sender.equals(currentuser.getCurrentUser())){
             chatViewHolder.textView.setBackgroundResource(R.drawable.rounded_corner_sender);
             chatViewHolder.layout.setGravity(LinearLayout.TEXT_ALIGNMENT_VIEW_START);
             chatViewHolder.textView.setTextColor(Color.rgb(30,30,30));
-
+            chatViewHolder.layout.setPaddingRelative(128,8,8,8);
         } else {
             chatViewHolder.textView.setBackgroundResource(R.drawable.rounded_corner_receiver);
             chatViewHolder.layout.setGravity(LinearLayout.TEXT_ALIGNMENT_VIEW_END);
             chatViewHolder.textView.setTextColor(Color.rgb(30,30,30));
+            chatViewHolder.layout.setPadding(8,8,128,8);
         }
 
 
