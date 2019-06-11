@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import javax.net.ssl.HttpsURLConnection;
+
 public class registerUser extends AppCompatActivity {
 
     private Button userCreated;
@@ -21,11 +23,10 @@ public class registerUser extends AppCompatActivity {
         setContentView(R.layout.activity_create_user);
 
         repository = new Repository(this);
+        userCreated = findViewById(R.id.userCreated);
 
         final EditText userNameBox = (EditText) findViewById(R.id.createUsername);
         final EditText fullNameBox = (EditText) findViewById(R.id.fullName);
-
-        userCreated = findViewById(R.id.userCreated);
 
         userCreated.setOnClickListener(new View.OnClickListener() {
 
@@ -49,11 +50,14 @@ public class registerUser extends AppCompatActivity {
     }
 
     public void createUser(user u){
+        int responseCode;
 
-        repository.remotePost(Repository.USERS,JSONConverter.encodeUser(u));
-        repository.insertUser(u);
-        currentuser.setCurrentUser(u.id);
-        openMaster();
+        responseCode = repository.remotePost(Repository.USERS,JSONConverter.encodeUser(u));
 
+        if (responseCode != HttpsURLConnection.HTTP_CONFLICT) {
+            repository.insertUser(u);
+            currentuser.setCurrentUser(u.id);
+            openMaster();
+        }
     }
 }

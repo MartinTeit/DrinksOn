@@ -116,33 +116,6 @@ public class Repository {
         new InsertUserAsyncTask(myDAO).execute(user);
     }
 
-    public long insertMessage(messages message) {
-        try {
-            return new InsertMessageAsyncTask(myDAO).execute(message).get().longValue();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
-    public void deleteMessage(messages message) {
-        new DeleteMessageAsyncTask(myDAO).execute(message);
-    }
-
-    public List<messages> getAllMyMessages() {
-        try {
-            return new getAllMyMessagesAsyncTask(myDAO).execute(currentuser.getCurrentUser()).get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
     public List<user> getAllUsers() {
         try {
             return new getAllUsersAsyncTask(myDAO).execute().get();
@@ -166,6 +139,62 @@ public class Repository {
 
         return null;
     }
+
+    public long insertMessage(messages message) {
+        try {
+            return new InsertMessageAsyncTask(myDAO).execute(message).get().longValue();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public List<messages> getAllMyMessages() {
+        try {
+            return new getAllMyMessagesAsyncTask(myDAO).execute(currentuser.getCurrentUser()).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public void deleteMessage(messages message) {
+        new DeleteMessageAsyncTask(myDAO).execute(message);
+    }
+
+    public void insertFollows(follows follows) {
+        new InsertFollowsAsyncTask(myDAO).execute(follows);
+    }
+
+    public List<follows> getAllMyFollowers() {
+        try {
+            return new getAllMyFollowersAsyncTask(myDAO).execute(currentuser.getCurrentUser()).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public List<follows> getAllMyFollowees() {
+        try {
+            return new getAllMyFolloweesAsyncTask(myDAO).execute(currentuser.getCurrentUser()).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
 
     //Async task classes
     private static class InsertUserAsyncTask extends AsyncTask<user, Void, Void> {
@@ -223,6 +252,51 @@ public class Repository {
             return myDAO.insertMessage(messages[0]);
         }
     }
+
+
+    private static class getAllMyFollowersAsyncTask extends AsyncTask<String, Void, List<follows>> {
+        private DAO myDAO;
+
+        private getAllMyFollowersAsyncTask(DAO aDAO){
+            this.myDAO = aDAO;
+        }
+
+        @Override
+        protected List<follows> doInBackground(String... user) {
+            return myDAO.getFollowers(user[0]);
+        }
+    }
+
+
+    private static class getAllMyFolloweesAsyncTask extends AsyncTask<String, Void, List<follows>> {
+        private DAO myDAO;
+
+        private getAllMyFolloweesAsyncTask(DAO aDAO){
+            this.myDAO = aDAO;
+        }
+
+        @Override
+        protected List<follows> doInBackground(String... user) {
+            return myDAO.getFollowees(user[0]);
+        }
+    }
+
+
+    private static class InsertFollowsAsyncTask extends AsyncTask<follows, Void, Void> {
+        private DAO myDAO;
+
+        private InsertFollowsAsyncTask(DAO aDAO){
+            this.myDAO = aDAO;
+        }
+
+        @Override
+        protected Void doInBackground(follows... follows) {
+            myDAO.insertFollows(follows[0]);
+
+            return null;
+        }
+    }
+
 
     private static class DeleteMessageAsyncTask extends AsyncTask<messages, Void, Void> {
         private DAO myDAO;

@@ -9,16 +9,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import javax.net.ssl.HttpsURLConnection;
+
 public class groupmaker extends AppCompatActivity {
 
     Button createGroupButton;
     Button followGroupButton;
     private String   newstring;
     private TextView text;
+    Repository repository;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_groupmaker);
+
+        repository = new Repository(this);
 
         createGroupButton = (Button) findViewById(R.id.userCreated);
         followGroupButton = (Button) findViewById(R.id.followgroup);
@@ -26,31 +31,14 @@ public class groupmaker extends AppCompatActivity {
         createGroupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final user newUser = new user();
+                user newGroup = new user();
+                EditText groupBox = (EditText) findViewById(R.id.groupName);
 
-                final EditText groupBox = (EditText) findViewById(R.id.groupName);
+                newGroup.id = groupBox.getText().toString();
+                newGroup.name = "%GRP " + groupBox.getText().toString();
+                newGroup.stamp = System.currentTimeMillis();
 
-                newUser.id = groupBox.getText().toString();
-                newUser.name = "%GRP" + groupBox.getText().toString();
-                newUser.stamp = System.currentTimeMillis();
-
-                final follows follows1 = new follows();
-
-                follows1.follower = currentuser.getCurrentUser();
-                follows1.followee = groupBox.getText().toString();
-                follows1.stamp = System.currentTimeMillis();
-
-                final localdatabase database = Room.databaseBuilder(getApplicationContext(),
-                        localdatabase.class, "Danskere").build();
-                final DAO dao = database.getDAO();
-
-                new AsyncTask<Void, Void, Void>() {
-                    protected Void doInBackground(Void... voids) {
-                        dao.insertUser(newUser);
-                        dao.insertFollows(follows1);
-                        return null;
-                    }
-                }.execute();
+                createGroup(newGroup);
             }
         });
 
@@ -59,23 +47,13 @@ public class groupmaker extends AppCompatActivity {
             public void onClick(View view) {
                 final EditText groupfollowBox = (EditText) findViewById(R.id.groupfollow);
 
-                final follows follows1 = new follows();
+                follows follows1 = new follows();
 
                 follows1.follower = currentuser.getCurrentUser();
                 follows1.followee = groupfollowBox.getText().toString();
                 follows1.stamp = System.currentTimeMillis();
 
-                final localdatabase database = Room.databaseBuilder(getApplicationContext(),
-                        localdatabase.class, "Danskere").build();
-                final DAO dao = database.getDAO();
-
-                new AsyncTask<Void, Void, Void>() {
-                    protected Void doInBackground(Void... voids) {
-                        dao.insertFollows(follows1);
-                        System.out.println("hello");
-                        return null;
-                    }
-                }.execute();
+                followGroup(follows1);
             }
         });
 
@@ -103,12 +81,32 @@ public class groupmaker extends AppCompatActivity {
 
     }
     
-    private void createGroup(){
-        
+    private void createGroup(user newGroup){
+        int responseCode;
+        follows follows1 = new follows();
+
+        responseCode = repository.remotePost(Repository.USERS,JSONConverter.encodeUser(newGroup));
+
+        if (responseCode != HttpsURLConnection.HTTP_CONFLICT) {
+            repository.insertUser(newGroup);
+
+            follows1.follower = currentuser.getCurrentUser();
+            follows1.followee = newGroup.id;
+            follows1.stamp = System.currentTimeMillis();
+
+            followGroup(follows1);
+        }
+
     }
 
-    private void followGroup(){
+    private void followGroup(follows newFollows){
+        int responseCode;
 
+        responseCode = repository.remotePost(Repository.FOLLOWS,JSONConverter.encodeFollows(newFollows));
+
+        if (responseCode != HttpsURLConnection.HTTP_CONFLICT) {
+            repository.insertFollows(newFollows);
+        }
     }
     
     

@@ -30,6 +30,14 @@ public interface DAO {
     @Query("SELECT followee FROM follows WHERE follower = :follower")
     List<String> findFollowees(String follower);
 
+    //Person who is beeing followed
+    @Query("SELECT * FROM follows WHERE followee = :followee")
+    List<follows> getFollowers(String followee);
+
+    //Person who follows
+    @Query("SELECT * FROM follows WHERE follower = :follower")
+    List<follows> getFollowees(String follower);
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     Long insertMessage(messages messages);
 
