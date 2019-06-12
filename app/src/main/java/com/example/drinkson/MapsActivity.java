@@ -33,6 +33,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
+    private List<messages> someMessages;
     private int i = 0;
     private List<messages> myMessages;
     private GoogleMap drinkMap;
@@ -55,6 +56,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
 
 
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         // Creates the map fragment shown in the map.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -68,6 +70,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         int newestmessageID = 0;
         long higheststamp = 0;
         repository = new Repository(this);
+        someMessages = repository.remoteGetMessages(currentuser.getCurrentUser());
+        for(messages m : someMessages){
+            repository.insertMessage(m);
+        }
         myMessages = repository.getAllMyMessages();
         for (messages messages: myMessages) {
             if (messages.sender != null) {
