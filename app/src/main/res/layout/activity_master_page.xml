@@ -7,10 +7,19 @@
     tools:context=".masterpage">
 
     <ImageButton
+        android:id="@+id/shareLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="123dp"
+        android:layout_above="@id/roulette"
+
+        android:src="@drawable/pin"
+        />
+
+    <ImageButton
         android:id="@+id/roulette"
 
         android:layout_width="wrap_content"
-        android:layout_height="120dp"
+        android:layout_height="122dp"
         android:layout_above="@id/rack"
 
         android:src="@drawable/casino_2"
@@ -20,7 +29,7 @@
         android:id="@+id/friend_lists"
 
         android:layout_width="205dp"
-        android:layout_height="120dp"
+        android:layout_height="122dp"
         android:layout_above="@id/imagechatroom"
 
         android:src="@drawable/blur"
@@ -30,7 +39,7 @@
         android:id="@+id/rack"
 
         android:layout_width="205dp"
-        android:layout_height="120dp"
+        android:layout_height="122dp"
         android:layout_above="@id/imagechatroom"
         android:layout_alignParentRight="true"
 
@@ -42,7 +51,7 @@
         android:id="@+id/imagechatroom"
 
         android:layout_width="wrap_content"
-        android:layout_height="120dp"
+        android:layout_height="122dp"
         android:layout_above="@id/imagelocation"
         android:src="@drawable/adrink"
         />
@@ -51,7 +60,7 @@
         android:id="@+id/imagelocation"
 
         android:layout_width="wrap_content"
-        android:layout_height="120dp"
+        android:layout_height="122dp"
         android:layout_above="@id/logOut"
         android:src="@drawable/amap"
         />
@@ -129,6 +138,20 @@
         android:textColor="#fff"
 
         android:text="What Beer should I drink?"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="47dp"
+        android:layout_above="@id/roulette"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"
+
+        android:textSize="60sp"
+        android:fontFamily="@font/rack"
+        android:textColor="#fff"
+
+        android:text="Share you location"
         />
 
     <Button
