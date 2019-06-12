@@ -19,6 +19,7 @@ public class Roulette extends AppCompatActivity {
 
 
     Random r;
+    Random n;
 
     int degree = 0, degree_old = 0;
 
@@ -32,6 +33,7 @@ public class Roulette extends AppCompatActivity {
         iv_wheel = (ImageView) findViewById(R.id.ic_wheel);
 
         r = new Random();
+        n = new Random();
 
         button.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -39,8 +41,9 @@ public class Roulette extends AppCompatActivity {
                 degree_old = degree % 360;
                 degree = r.nextInt(3600) + 720;
                 if ((currentuser.getCurrentUser().toLowerCase().contains("peter"))){
-                    degree = 3618;
+                    itspeter();
                 }
+                System.out.println(degree);
                 RotateAnimation rotate = new RotateAnimation(degree_old, degree,
                         RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
                 rotate.setDuration(3600);
@@ -96,9 +99,30 @@ public class Roulette extends AppCompatActivity {
             text = "Pilsner";
         }
 
-
-        System.out.println(degrees);
         return text;
 
+    }
+
+    private void itspeter(){
+        int xd = n.nextInt(6);
+        if (xd == 1) {
+            degree = 1545;
+        }
+        if (xd == 2) {
+            degree = 3618;
+        }
+        if (xd == 3) {
+            degree = 840;
+        }
+        if (xd == 4) {
+            degree = 1545;
+        }
+        if (xd == 5) {
+            degree = 1725;
+        }
+        if (xd == 6) {
+            degree = 2460;
+
+        }
     }
 }
