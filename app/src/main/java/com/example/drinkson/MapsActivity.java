@@ -33,6 +33,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
+    private int i = 0;
     private List<messages> myMessages;
     private GoogleMap drinkMap;
     private GoogleApiClient googleApiClient;
@@ -70,7 +71,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         myMessages = repository.getAllMyMessages();
         int i = 0;
         for (messages messages: myMessages) {
-            if (messages.body.contains("%GPS") && messages.stamp > higheststamp) {
+            if (!messages.sender.equals(currentuser.getCurrentUser()) && messages.body.contains("%GPS") && messages.stamp > higheststamp) {
                 newestmessageID = messages.id;
             }
         }
@@ -81,6 +82,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 markerlat = f[1];
                 markerLong = f[2];
                 Sender = messages1.sender;
+                i = 1;
             }
 
     }
@@ -175,9 +177,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             drinkMap.setMyLocationEnabled(true);
 
         }
-
-        LatLng denBroelende = new LatLng(Double.parseDouble(markerlat), Double.parseDouble(markerLong));
-        drinkMap.addMarker(new MarkerOptions().position(denBroelende).title(Sender));
+        if (i == 1) {
+            LatLng denBroelende = new LatLng(Double.parseDouble(markerlat), Double.parseDouble(markerLong));
+            drinkMap.addMarker(new MarkerOptions().position(denBroelende).title(Sender));
+        }
     }
 
     @Override
