@@ -7,9 +7,6 @@ import java.time.format.DateTimeFormatter;
 
 public class JSONConverter {
 
-
-
-
     public static String encodeUser(user u){
         String json;
         String zdt = ZonedDateTime.ofInstant(

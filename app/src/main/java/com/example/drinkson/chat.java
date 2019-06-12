@@ -56,7 +56,7 @@ public class chat extends AppCompatActivity {
     }
 
 
-    private  void updateMessages(){
+    private void updateMessages(){
 
         myMessages = repository.getAllMyMessages();
         List<messages> messagesInThisConversation = new ArrayList<>();

@@ -12,6 +12,8 @@ public class sharelocation extends AppCompatActivity {
 
     private Button button;
 
+    private Repository repository;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sharelocation);
@@ -29,10 +31,18 @@ public class sharelocation extends AppCompatActivity {
             public void onClick(View v) {
                 final messages location = new messages();
 
-                location.body = "lng = 100" + "ltd =100 ";
-                location.receiver = target.toString();
+                long id;
+
                 location.sender = currentuser.getCurrentUser();
+
+                location.body = "lng : ";
+                location.receiver = target.toString();
                 location.stamp = System.currentTimeMillis();
+
+                id = repository.insertMessage(location);
+                location.id = (int) id;
+                repository.remotePost(Repository.MESSAGES, JSONConverter.encodeMessages(location));
+
 
                 new AsyncTask<Void, Void, Void>() {
                     protected Void doInBackground(Void... voids) {
