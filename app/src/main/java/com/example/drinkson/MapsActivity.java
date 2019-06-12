@@ -75,6 +75,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
 
         LatLng denBroelende = new LatLng(Double.parseDouble(markerlat), Double.parseDouble(markerLong));
+        drinkMap.addMarker(new MarkerOptions().position(denBroelende).title("James Dean"));
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         // Creates the map fragment shown in the map.
