@@ -3,7 +3,6 @@ package com.example.drinkson;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +10,10 @@ import android.widget.Button;
 
 import java.util.List;
 
-import static android.support.v4.content.ContextCompat.startActivity;
-
 
 public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRoomViewHolder> {
 
-    public List<String> chats;
+    public List<user> chats;
 
     private static Context context;
 
@@ -30,7 +27,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
             ChatButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    chat.receiver = ChatButton.getText().toString();
+                    chat.receiver = ChatButton.getContentDescription().toString();
                     openChat();
                 }
             });
@@ -39,7 +36,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
 
     }
 
-    public ChatRoomAdapter(List<String> chats, Context context){
+    public ChatRoomAdapter(List<user> chats, Context context){
         this.chats = chats;
         this.context = context;
     }
@@ -58,9 +55,14 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
 
     @Override
     public void onBindViewHolder(ChatRoomViewHolder chatViewHolder, int i) {
-        String[] m = this.chats.toArray(new String[0]);
+        user u = this.chats.get(i);
+        chatViewHolder.ChatButton.setContentDescription(u.id);
+        if(u.name.startsWith("%GRP")){
+            chatViewHolder.ChatButton.setText("Group: " + u.id);
+        } else {
+            chatViewHolder.ChatButton.setText(u.id);
+        }
 
-        chatViewHolder.ChatButton.setText(m[i]);
     }
 
     @Override

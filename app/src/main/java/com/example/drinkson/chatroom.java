@@ -36,7 +36,7 @@ public class chatroom extends AppCompatActivity {
 
         repository = new Repository(this);
 
-        List<String> myList = new ArrayList<>();
+        List<user> myList = new ArrayList<>();
         List<user> userList;
         List<String> someList;
         someList = repository.remoteGetTable(Repository.USERS);
@@ -49,7 +49,7 @@ public class chatroom extends AppCompatActivity {
 
         for (user users: userList) {
             if( !users.id.equals(currentuser.getCurrentUser()) ){
-                myList.add(users.id);
+                myList.add(users);
             }
         }
 
@@ -60,19 +60,19 @@ public class chatroom extends AppCompatActivity {
 
     private void search(){
         List<user> userList;
-        List<String> myList = new ArrayList<>();
+        List<user> myList = new ArrayList<>();
 
         userList = repository.searchUser("%" + text.getText().toString() + "%");
 
         for ( user u:userList) {
-            myList.add(u.id);
+            myList.add(u);
         }
 
 
         update(myList);
     }
 
-    private void update(List<String> users){
+    private void update(List<user> users){
         recyclerView = (RecyclerView) findViewById(R.id.chats);
 
         layoutManager = new LinearLayoutManager(this);

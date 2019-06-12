@@ -42,14 +42,11 @@ public class locations extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_locations);
+
+        repository = new Repository(this);
+
         button = (Button) findViewById(R.id.share);
         textView = (TextView) findViewById(R.id.tvLatitude);
-
-        final localdatabase database = Room.databaseBuilder(getApplicationContext(),
-                localdatabase.class, "Danskere").build();
-        final DAO dao = database.getDAO();
-
-
 
         //initialuse View
         latitude = (TextView) findViewById(R.id.tvLatitude);
@@ -87,7 +84,7 @@ public class locations extends AppCompatActivity {
                 // create new message/*
                 messages newMessage = new messages();
                 newMessage.sender = currentuser.getCurrentUser();
-                newMessage.receiver = target.toString();
+                newMessage.receiver = target.getText().toString();
                 newMessage.body = "hej" + textView.getText().toString();
                 newMessage.stamp = System.currentTimeMillis();
                 System.out.println(newMessage.body);
