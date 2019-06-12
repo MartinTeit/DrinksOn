@@ -37,7 +37,9 @@
         <activity android:name=".masterpage" />
         <activity android:name=".registerUser" />
         <activity android:name=".sharelocation"/>
+        <activity android:name=".locations"/>
         <activity android:name=".loginpage">
+
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

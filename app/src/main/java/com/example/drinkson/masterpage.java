@@ -95,7 +95,7 @@ public class masterpage extends AppCompatActivity {
     }
 
     public void openRoulette(){
-        Intent intent = new Intent(this, Roulette.class);
+        Intent intent = new Intent(this, locations.class);
         startActivity(intent);
     }
 
