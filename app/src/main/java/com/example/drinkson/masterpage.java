@@ -14,6 +14,7 @@ public class masterpage extends AppCompatActivity {
     private ImageButton chatroom;
     private ImageButton friend_list;
     private ImageButton roulette;
+    private ImageButton shareLocation;
     private Button      logOut;
 
     //Kommentar Lavet og ikke stavet rigtigt
@@ -24,12 +25,21 @@ public class masterpage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_master_page);
 
+        logOut        = findViewById(R.id.logOut);
+        shareLocation = findViewById(R.id.shareLocation);
         your_location = findViewById(R.id.imagelocation);
         rack_number   = findViewById(R.id.rack);
         chatroom      = findViewById(R.id.imagechatroom);
         friend_list   = findViewById(R.id.friend_lists);
         roulette      = findViewById(R.id.roulette);
         logOut        = findViewById(R.id.logOut);
+
+        shareLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openShareLocation();
+            }
+        });
 
         your_location.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,12 +105,17 @@ public class masterpage extends AppCompatActivity {
     }
 
     public void openRoulette(){
-        Intent intent = new Intent(this, locations.class);
+        Intent intent = new Intent(this, Roulette.class);
         startActivity(intent);
     }
 
     public void openLogIn(){
         Intent intent = new Intent(this, loginpage.class);
+        startActivity(intent);
+    }
+
+    public void openShareLocation(){
+        Intent intent = new Intent(this, locations.class);
         startActivity(intent);
     }
 
