@@ -69,7 +69,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         long higheststamp = 0;
         repository = new Repository(this);
         myMessages = repository.getAllMyMessages();
-        int i = 0;
         for (messages messages: myMessages) {
             if (!messages.sender.equals(currentuser.getCurrentUser()) && messages.body.contains("%GPS") && messages.stamp > higheststamp) {
                 newestmessageID = messages.id;
