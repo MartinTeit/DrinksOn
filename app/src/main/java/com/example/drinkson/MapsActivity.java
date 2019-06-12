@@ -185,7 +185,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             LatLng denBroelende = new LatLng(Double.parseDouble(markerlat), Double.parseDouble(markerLong));
             drinkMap.addMarker(new MarkerOptions().position(denBroelende).title(Sender));
             drinkMap.moveCamera(CameraUpdateFactory.newLatLng(denBroelende));
-            drinkMap.animateCamera(CameraUpdateFactory.zoomBy(3));
+
         }
     }
 
