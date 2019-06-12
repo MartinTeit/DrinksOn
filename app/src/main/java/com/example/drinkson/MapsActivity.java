@@ -3,7 +3,6 @@ package com.example.drinkson;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -37,19 +36,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private LocationRequest locationRequest;
 
-    LocationManager locationManager;
-
     private Location userLastLocation;
-    private Location userCurrentLocation;
-    private Location sendersCurrentLocation;
 
-    private Marker sendersCurrentLocationMarker;
     private Marker myCurrentLocationMarker;
 
     private static final int Request_My_Location_Code = 100;
 
-
-    //NothingReallyMattersTOME!!!!
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -133,7 +125,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
-        markerOptions.title("My Location");
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
 
         myCurrentLocationMarker = drinkMap.addMarker(markerOptions);
@@ -187,7 +178,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         locationRequest = new LocationRequest();
         locationRequest.setInterval(1000);
         locationRequest.setFastestInterval(1000);
-        locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
