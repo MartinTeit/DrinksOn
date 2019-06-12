@@ -1,7 +1,5 @@
 package com.example.drinkson;
 
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -25,6 +23,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
 
@@ -33,8 +33,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
-    private LatLng hej;
-    private String navn;
     private List<messages> myMessages;
     private GoogleMap drinkMap;
     private GoogleApiClient googleApiClient;
@@ -42,7 +40,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LocationRequest locationRequest;
     private String markerLong;
     private String markerlat;
-    private int i = 0;
+    private String Sender;
 
     private Location userLastLocation;
 
@@ -55,6 +53,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
+
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        // Creates the map fragment shown in the map.
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkMyLocationPermission();
         }
@@ -63,32 +68,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         long higheststamp = 0;
         repository = new Repository(this);
         myMessages = repository.getAllMyMessages();
-
-
+        int i = 0;
         for (messages messages: myMessages) {
-            if (messages.sender != currentuser.getCurrentUser() && messages.body.contains("%GPS") && messages.stamp > higheststamp) {
+            if (messages.body.contains("%GPS") && messages.stamp > higheststamp) {
                 newestmessageID = messages.id;
             }
         }
 
         for (messages messages1: myMessages)
-            if (messages1.body.contains("%GPS") && (messages1.id == newestmessageID)){
+            if (messages1.body.contains("%GPS") && (messages1.id == newestmessageID)) {
                 String[] f = messages1.body.split( " ");
-                if (f.length == 3) {
-                    markerlat = f[1];
-                    markerLong = f[2];
-                    navn = messages1.sender;
-                    i = 1;
-                }
+                markerlat = f[1];
+                markerLong = f[2];
+                Sender = messages1.sender;
             }
 
-        hej = new LatLng(Double.parseDouble(markerlat), Double.parseDouble(markerLong));
-
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        // Creates the map fragment shown in the map.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
     }
 
     // Checks the permission and asks for users persmission to use the location.
@@ -179,14 +173,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             buildGoogleApiClient();
             drinkMap.setMyLocationEnabled(true);
-            if (i == 1) {
-                drinkMap.addMarker(new MarkerOptions().position(hej).title(navn));
-            }
 
         }
 
-
-
+        LatLng denBroelende = new LatLng(Double.parseDouble(markerlat), Double.parseDouble(markerLong));
+        drinkMap.addMarker(new MarkerOptions().position(denBroelende).title(Sender));
     }
 
     @Override
