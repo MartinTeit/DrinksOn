@@ -40,7 +40,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LocationRequest locationRequest;
     private String markerLong;
     private String markerlat;
-    private String Sender;
+    private String Reciever;
 
     private Location userLastLocation;
 
@@ -80,7 +80,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 String[] f = messages1.body.split( " ");
                 markerlat = f[1];
                 markerLong = f[2];
-                Sender = messages1.sender;
+                Reciever = messages1.receiver;
             }
 
     }
@@ -177,7 +177,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         LatLng denBroelende = new LatLng(Double.parseDouble(markerlat), Double.parseDouble(markerLong));
-        drinkMap.addMarker(new MarkerOptions().position(denBroelende).title(Sender));
+        drinkMap.addMarker(new MarkerOptions().position(denBroelende).title(Reciever));
     }
 
     @Override
