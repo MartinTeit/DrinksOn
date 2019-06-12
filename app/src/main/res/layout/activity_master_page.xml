@@ -9,8 +9,8 @@
     <ImageButton
         android:id="@+id/shareLocation"
         android:layout_width="wrap_content"
-        android:layout_height="123dp"
-        android:layout_above="@id/roulette"
+        android:layout_height="122dp"
+        android:layout_above="@id/imagelocation"
 
         android:src="@drawable/pin"
         />
@@ -19,8 +19,8 @@
         android:id="@+id/roulette"
 
         android:layout_width="wrap_content"
-        android:layout_height="122dp"
-        android:layout_above="@id/rack"
+        android:layout_height="123dp"
+        android:layout_above="@id/imagechatroom"
 
         android:src="@drawable/casino_2"
         />
@@ -30,7 +30,7 @@
 
         android:layout_width="205dp"
         android:layout_height="122dp"
-        android:layout_above="@id/imagechatroom"
+        android:layout_above="@id/shareLocation"
 
         android:src="@drawable/blur"
         />
@@ -40,7 +40,7 @@
 
         android:layout_width="205dp"
         android:layout_height="122dp"
-        android:layout_above="@id/imagechatroom"
+        android:layout_above="@id/shareLocation"
         android:layout_alignParentRight="true"
 
         android:src="@drawable/abar"
@@ -52,7 +52,7 @@
 
         android:layout_width="wrap_content"
         android:layout_height="122dp"
-        android:layout_above="@id/imagelocation"
+        android:layout_above="@id/rack"
         android:src="@drawable/adrink"
         />
 
@@ -71,8 +71,7 @@
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_marginBottom="40dp"
-        android:layout_alignBottom="@id/imagelocation"
-
+        android:layout_above="@id/logOut"
         android:textSize="65sp"
         android:fontFamily="@font/rack"
 
@@ -85,8 +84,7 @@
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginBottom="40dp"
-        android:layout_alignBottom="@id/imagechatroom"
-
+        android:layout_above="@id/rack"
         android:textSize="40sp"
         android:textColor="#fff"
 
@@ -99,10 +97,9 @@
 
         android:layout_width="wrap_content"
         android:layout_height="47dp"
-        android:layout_marginBottom="43dp"
-        android:layout_alignBottom="@id/rack"
-        android:layout_marginRight="40dp"
-
+        android:layout_marginBottom="40dp"
+        android:layout_marginRight="45dp"
+        android:layout_above="@id/shareLocation"
         android:textSize="35sp"
         android:textColor="#fff"
 
@@ -114,9 +111,8 @@
         android:layout_width="wrap_content"
         android:layout_height="47dp"
         android:layout_marginLeft="45dp"
-
+        android:layout_above="@id/shareLocation"
         android:layout_marginBottom="40dp"
-        android:layout_above="@id/imagechatroom"
 
         android:textSize="40sp"
         android:textColor="#fff"
@@ -129,9 +125,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="47dp"
-        android:layout_above="@id/friend_lists"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="40dp"
+        android:layout_above="@id/imagechatroom"
 
         android:textSize="60sp"
         android:fontFamily="@font/rack"
@@ -143,9 +139,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="47dp"
-        android:layout_above="@id/roulette"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="40dp"
+        android:layout_above="@id/imagelocation"
 
         android:textSize="60sp"
         android:fontFamily="@font/rack"
