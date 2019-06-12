@@ -1,30 +1,24 @@
 package com.example.drinkson;
 
-import java.util.Random;
-
 import android.Manifest;
-import android.arch.persistence.room.Room;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
-import com.example.drinkson.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
-import org.w3c.dom.Text;
+import java.util.Random;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -46,6 +40,7 @@ public class locations extends AppCompatActivity {
         repository = new Repository(this);
 
         button = (Button) findViewById(R.id.share);
+        textView = (TextView) findViewById(R.id.tvLatitude);
 
         //initialuse View
         latitude = (TextView) findViewById(R.id.tvLatitude);
@@ -60,6 +55,8 @@ public class locations extends AppCompatActivity {
                         latitude.setText(String.valueOf(location.getLatitude()));
                         longitude.setText(String.valueOf(location.getLongitude()));
                         String.valueOf(location.getLongitude());
+
+                        System.out.println(latitude.getText().toString() + " - " + longitude.getText().toString());
 
                     }
                 }

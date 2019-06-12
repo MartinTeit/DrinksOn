@@ -40,6 +40,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LocationRequest locationRequest;
     private String markerLong;
     private String markerlat;
+    private String Sender;
 
     private Location userLastLocation;
 
@@ -51,6 +52,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        // Creates the map fragment shown in the map.
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkMyLocationPermission();
@@ -68,20 +76,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         for (messages messages1: myMessages)
-            if (messages1.body.contains("%GPS") && (messages1.id == newestmessageID)){
+            if (messages1.body.contains("%GPS") && (messages1.id == newestmessageID)) {
                 String[] f = messages1.body.split( " ");
                 markerlat = f[1];
                 markerLong = f[2];
+                Sender = messages1.sender;
             }
 
-        LatLng denBroelende = new LatLng(Double.parseDouble(markerlat), Double.parseDouble(markerLong));
-        drinkMap.addMarker(new MarkerOptions().position(denBroelende).title("James Dean"));
-
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        // Creates the map fragment shown in the map.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
     }
 
     // Checks the permission and asks for users persmission to use the location.
@@ -175,8 +176,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         }
 
-
-
+        LatLng denBroelende = new LatLng(Double.parseDouble(markerlat), Double.parseDouble(markerLong));
+        drinkMap.addMarker(new MarkerOptions().position(denBroelende).title(Sender));
     }
 
     @Override
