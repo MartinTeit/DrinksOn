@@ -1,5 +1,7 @@
 package com.example.drinkson;
 
+import java.util.Random;
+
 import android.Manifest;
 import android.arch.persistence.room.Room;
 import android.content.pm.PackageManager;
@@ -24,6 +26,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 import org.w3c.dom.Text;
 
+import javax.net.ssl.HttpsURLConnection;
+
 public class locations extends AppCompatActivity {
 
     Button button;
@@ -44,41 +48,12 @@ public class locations extends AppCompatActivity {
         final localdatabase database = Room.databaseBuilder(getApplicationContext(),
                 localdatabase.class, "Danskere").build();
         final DAO dao = database.getDAO();
-        final EditText target = findViewById(R.id.sharewith);
-
-        button.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-
-                final messages location = new messages();
-
-                long id;
-
-                location.sender = currentuser.getCurrentUser();
-
-                location.body = textView.getText().toString();
-                location.receiver = target.toString();
-                location.stamp = System.currentTimeMillis();
-
-                id = repository.insertMessage(location);
-                location.id = (int) id;
-                repository.remotePost(Repository.MESSAGES, JSONConverter.encodeMessages(location));
 
 
-                new AsyncTask<Void, Void, Void>() {
-                    protected Void doInBackground(Void... voids) {
-                        dao.insertMessage(location);
-                        return null;
-                    }
-                }.execute();
-
-            }
-        });
 
         //initialuse View
         latitude = (TextView) findViewById(R.id.tvLatitude);
         longitude = (TextView) findViewById(R.id.tvLongitude);
-
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -98,7 +73,34 @@ public class locations extends AppCompatActivity {
                 requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSION_REQUEST_FINE_LOCATION);
             }
         }
+        System.out.println(latitude.getText().toString()+ "hejsa");
+        button.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
 
+                long id;
+                int responseCode;
+                final EditText target = findViewById(R.id.sharewith);
+
+                Random randInt = new Random();
+
+                // create new message/*
+                messages newMessage = new messages();
+                newMessage.sender = currentuser.getCurrentUser();
+                newMessage.receiver = target.toString();
+                newMessage.body = "hej" + textView.getText().toString();
+                newMessage.stamp = System.currentTimeMillis();
+                System.out.println(newMessage.body);
+
+                do {
+                    id = randInt.nextInt();
+                    newMessage.id = (int) id;
+                    responseCode = repository.remotePost(Repository.MESSAGES, JSONConverter.encodeMessages(newMessage));
+                } while (responseCode == HttpsURLConnection.HTTP_CONFLICT);
+
+                repository.insertMessage(newMessage);
+            }
+        });
     }
 
     @Override
@@ -119,5 +121,6 @@ public class locations extends AppCompatActivity {
                 break;
 
         }
-    }
-}
+
+
+}}
