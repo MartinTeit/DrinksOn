@@ -65,7 +65,6 @@ public class chatroom extends AppCompatActivity {
         userList = repository.searchUser("%" + text.getText().toString() + "%");
 
         for ( user u:userList) {
-            System.out.println(u.id);
             myList.add(u.id);
         }
 

@@ -7,6 +7,47 @@ import java.time.format.DateTimeFormatter;
 
 public class JSONConverter {
 
+    public static String encodeFollows(follows f){
+        String json;
+        String zdt = ZonedDateTime.ofInstant(
+                Instant.ofEpochMilli(f.stamp),
+                ZoneId.systemDefault()).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+
+        json = "{";
+
+        json = json + "\"follower\":\"" + f.follower + "\"";
+        json = json + ",";
+        json = json + "\"followee\":\"" + f.followee + "\"";
+        json = json + ",";
+
+        json = json + "\"stamp\":\"" + zdt + "\"";
+
+        json = json + "}";
+
+        return json;
+    }
+
+    public static user decodeFollows(String json){
+        int followerStart;
+        int followeeStart;
+        int stampStart;
+        String stamp;
+
+        user u = new user();
+
+        followerStart = json.indexOf("\"follower\":\"") + 12;
+        u.id = json.substring(followerStart,findEnd(json,followerStart));
+
+        followeeStart = json.indexOf("\"followee\":\"") + 12;
+        u.name = json.substring(followeeStart,findEnd(json,followeeStart));
+
+        stampStart = json.indexOf("\"stamp\":\"") + 9;
+        stamp = json.substring(stampStart,findEnd(json,stampStart));
+        u.stamp = ZonedDateTime.parse(stamp).toInstant().toEpochMilli();
+
+        return u;
+    }
+
     public static String encodeUser(user u){
         String json;
         String zdt = ZonedDateTime.ofInstant(

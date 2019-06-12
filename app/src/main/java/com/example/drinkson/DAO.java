@@ -30,12 +30,26 @@ public interface DAO {
     @Query("SELECT followee FROM follows WHERE follower = :follower")
     List<String> findFollowees(String follower);
 
+    //Person who is beeing followed
+    @Query("SELECT * FROM follows WHERE followee = :followee")
+    List<follows> getFollowers(String followee);
+
+    //Person who follows
+    @Query("SELECT * FROM follows WHERE follower = :follower")
+    List<follows> getFollowees(String follower);
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     Long insertMessage(messages messages);
 
-    @Query("SELECT body FROM messages WHERE sender = :sender AND receiver = :receiver OR sender = :receiver AND receiver = :sender" )
-    List<String> findConversation(String sender, String receiver);
+    @Delete
+    void deleteMessage(messages message);
 
-    @Query("SELECT * FROM messages WHERE sender = :sender OR receiver = :sender" )
+    @Query("SELECT * FROM messages WHERE sender = :sender AND receiver = :receiver OR sender = :receiver AND receiver = :sender" )
+    List<messages> findConversation(String sender, String receiver);
+
+    @Query("SELECT * FROM messages WHERE receiver = :receiver" )
+    List<messages> findGroupChat(String receiver);
+
+    @Query("SELECT * FROM messages WHERE sender = :sender OR receiver = :sender ORDER BY stamp" )
     List<messages> getAllMyMessages(String sender);
 }

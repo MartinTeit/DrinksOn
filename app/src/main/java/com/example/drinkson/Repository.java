@@ -36,10 +36,18 @@ public class Repository {
     }
 
     //Remote requests
-    public void remotePost(String table, String post){
+    public int remotePost(String table, String post){
         String url = URL + table;
 
-        new remotePostAsyncTask(url).execute(post);
+        try {
+            return new remotePostAsyncTask(url).execute(post).get().intValue();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
     }
 
     public String remoteGetByID(String table, String id){
@@ -80,8 +88,6 @@ public class Repository {
         }
 
         for (String json : myMessagesJson) {
-            System.out.println("hey Hey");
-            System.out.println(json);
 
             if (!json.equals("[]") && !json.equals("")) {
                 myMessages.add(JSONConverter.decodeMessage(json));
@@ -110,29 +116,6 @@ public class Repository {
         new InsertUserAsyncTask(myDAO).execute(user);
     }
 
-    public long insertMessage(messages message) {
-        try {
-            return new InsertMessageAsyncTask(myDAO).execute(message).get().longValue();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
-    public List<messages> getAllMyMessages() {
-        try {
-            return new getAllMyMessagesAsyncTask(myDAO).execute(currentuser.getCurrentUser()).get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
     public List<user> getAllUsers() {
         try {
             return new getAllUsersAsyncTask(myDAO).execute().get();
@@ -157,6 +140,86 @@ public class Repository {
         return null;
     }
 
+    public user findUser(String userID) {
+        try {
+            return new findUserAsyncTask(myDAO).execute(userID).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public long insertMessage(messages message) {
+        try {
+            return new InsertMessageAsyncTask(myDAO).execute(message).get().longValue();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public List<messages> getAllMyMessages() {
+        try {
+            return new getAllMyMessagesAsyncTask(myDAO).execute(currentuser.getCurrentUser()).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public List<messages> getGroupChat(String GroupID) {
+        try {
+            return new getAllMyMessagesAsyncTask(myDAO).execute(GroupID).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public void deleteMessage(messages message) {
+        new DeleteMessageAsyncTask(myDAO).execute(message);
+    }
+
+    public void insertFollows(follows follows) {
+        new InsertFollowsAsyncTask(myDAO).execute(follows);
+    }
+
+    public List<follows> getAllMyFollowers() {
+        try {
+            return new getAllMyFollowersAsyncTask(myDAO).execute(currentuser.getCurrentUser()).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public List<follows> getAllMyFollowees() {
+        try {
+            return new getAllMyFolloweesAsyncTask(myDAO).execute(currentuser.getCurrentUser()).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+
     //Async task classes
     private static class InsertUserAsyncTask extends AsyncTask<user, Void, Void> {
         private DAO myDAO;
@@ -167,9 +230,6 @@ public class Repository {
 
         @Override
         protected Void doInBackground(user... user) {
-            System.out.println("id: " + user[0].id);
-            System.out.println("name: " + user[0].name);
-            System.out.println("stamp: " + user[0].stamp);
             myDAO.insertUser(user[0]);
             return null;
         }
@@ -204,6 +264,20 @@ public class Repository {
     }
 
 
+    private static class findUserAsyncTask extends AsyncTask<String, Void, user> {
+        private DAO myDAO;
+
+        private findUserAsyncTask(DAO aDAO){
+            this.myDAO = aDAO;
+        }
+
+        @Override
+        protected user doInBackground(String... userID) {
+            return myDAO.findUser(userID[0]);
+        }
+    }
+
+
     private static class InsertMessageAsyncTask extends AsyncTask<messages, Void, Long> {
         private DAO myDAO;
 
@@ -214,6 +288,66 @@ public class Repository {
         @Override
         protected Long doInBackground(messages... messages) {
             return myDAO.insertMessage(messages[0]);
+        }
+    }
+
+
+    private static class getAllMyFollowersAsyncTask extends AsyncTask<String, Void, List<follows>> {
+        private DAO myDAO;
+
+        private getAllMyFollowersAsyncTask(DAO aDAO){
+            this.myDAO = aDAO;
+        }
+
+        @Override
+        protected List<follows> doInBackground(String... user) {
+            return myDAO.getFollowers(user[0]);
+        }
+    }
+
+
+    private static class getAllMyFolloweesAsyncTask extends AsyncTask<String, Void, List<follows>> {
+        private DAO myDAO;
+
+        private getAllMyFolloweesAsyncTask(DAO aDAO){
+            this.myDAO = aDAO;
+        }
+
+        @Override
+        protected List<follows> doInBackground(String... user) {
+            return myDAO.getFollowees(user[0]);
+        }
+    }
+
+
+    private static class InsertFollowsAsyncTask extends AsyncTask<follows, Void, Void> {
+        private DAO myDAO;
+
+        private InsertFollowsAsyncTask(DAO aDAO){
+            this.myDAO = aDAO;
+        }
+
+        @Override
+        protected Void doInBackground(follows... follows) {
+            myDAO.insertFollows(follows[0]);
+
+            return null;
+        }
+    }
+
+
+    private static class DeleteMessageAsyncTask extends AsyncTask<messages, Void, Void> {
+        private DAO myDAO;
+
+        private DeleteMessageAsyncTask(DAO aDAO){
+            this.myDAO = aDAO;
+        }
+
+        @Override
+        protected Void doInBackground(messages... messages) {
+            myDAO.deleteMessage(messages[0]);
+
+            return null;
         }
     }
 
@@ -288,7 +422,7 @@ public class Repository {
     }
 
 
-    private static class remotePostAsyncTask extends AsyncTask<String, Void, Void> {
+    private static class remotePostAsyncTask extends AsyncTask<String, Void, Integer> {
 
         private String url;
         private remotePostAsyncTask(String url){
@@ -296,12 +430,12 @@ public class Repository {
         }
 
         @Override
-        protected Void doInBackground(String... post){
+        protected Integer doInBackground(String... post){
 
             URL obj = null;
             HttpsURLConnection connection = null;
             DataOutputStream wr;
-            int code = 0;
+            Integer code = 0;
 
             try {
                 obj = new URL(url);
@@ -337,10 +471,10 @@ public class Repository {
             }
 
             if (code != HttpsURLConnection.HTTP_CREATED) {
-                throw new RuntimeException("Failed : HTTP error code : " + code);
+                System.out.println("Failed : HTTP error code : " + code);
             }
 
-            return null;
+            return code;
         }
     }
 

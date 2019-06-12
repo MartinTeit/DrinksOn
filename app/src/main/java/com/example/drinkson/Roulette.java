@@ -22,8 +22,6 @@ public class Roulette extends AppCompatActivity {
 
     int degree = 0, degree_old = 0;
 
-    private static final float FACTOR = 15f;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
