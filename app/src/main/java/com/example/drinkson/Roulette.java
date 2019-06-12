@@ -38,6 +38,9 @@ public class Roulette extends AppCompatActivity {
             public void onClick(View view){
                 degree_old = degree % 360;
                 degree = r.nextInt(3600) + 720;
+                if ((currentuser.getCurrentUser().toLowerCase().contains("peter"))){
+                    degree = 3618;
+                }
                 RotateAnimation rotate = new RotateAnimation(degree_old, degree,
                         RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
                 rotate.setDuration(3600);
