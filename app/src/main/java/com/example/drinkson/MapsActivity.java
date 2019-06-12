@@ -26,15 +26,20 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.List;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
+    private List<messages> myMessages;
     private GoogleMap drinkMap;
     private GoogleApiClient googleApiClient;
-
+    private Repository repository;
     private LocationRequest locationRequest;
+    private String markerLong;
+    private String markerlat;
 
     private Location userLastLocation;
 
@@ -50,6 +55,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkMyLocationPermission();
         }
+
+        int newestmessageID = 0;
+        long higheststamp = 0;
+        repository = new Repository(this);
+        myMessages = repository.getAllMyMessages();
+        int i = 0;
+        for (messages messages: myMessages) {
+            if (messages.body.contains("%GPS") && messages.stamp > higheststamp) {
+                newestmessageID = messages.id;
+            }
+        }
+
+        for (messages messages1: myMessages)
+            if (messages1.body.contains("%GPS") && (messages1.id == newestmessageID)){
+                String[] f = messages1.body.split( " ");
+                markerlat = f[1];
+                markerLong = f[2];
+            }
+
+        LatLng denBroelende = new LatLng(Double.parseDouble(markerlat), Double.parseDouble(markerLong));
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         // Creates the map fragment shown in the map.
@@ -149,27 +174,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         }
 
-        //Locations on places you can get a beer in Odense
-        //Marker added to each placed.
-        LatLng denBroelende = new LatLng(55.3947386, 10.38689009999996);
-        LatLng denIrske = new LatLng(55.395447, 10.383587000000034);
-        LatLng viggos = new LatLng(55.3976926, 10.381059100000016);
-        LatLng nunChi = new LatLng(55.39768899999999, 10.393644900000027);
-        LatLng blomsterOgBien = new LatLng(55.39768899999999, 10.393644900000027);
-        LatLng froggies = new LatLng(55.3944139, 10.383610599999997);
-        LatLng heidi = new LatLng(55.39449, 10.381629699999962);
-        LatLng boogie = new LatLng(55.3978672, 10.388869500000055);
-        LatLng laBar = new LatLng(55.3958248, 10.383471699999973);
-        LatLng jamesDean = new LatLng(55.3944943, 10.383696600000007);
 
-        drinkMap.addMarker(new MarkerOptions().position(denBroelende).title("Den Brølende And"));
-        drinkMap.addMarker(new MarkerOptions().position(denIrske).title("Old Irsh Pub"));
-        drinkMap.addMarker(new MarkerOptions().position(nunChi).title("Nunchi & Blomster og Bien"));
-        drinkMap.addMarker(new MarkerOptions().position(froggies).title("Froggy's"));
-        drinkMap.addMarker(new MarkerOptions().position(heidi).title("Heidi's Pub"));
-        drinkMap.addMarker(new MarkerOptions().position(boogie).title("Boogie's"));
-        drinkMap.addMarker(new MarkerOptions().position(laBar).title("LA Bar"));
-        drinkMap.addMarker(new MarkerOptions().position(jamesDean).title("James Dean"));
 
     }
 

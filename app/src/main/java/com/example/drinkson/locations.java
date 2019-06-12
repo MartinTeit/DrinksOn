@@ -46,7 +46,6 @@ public class locations extends AppCompatActivity {
         repository = new Repository(this);
 
         button = (Button) findViewById(R.id.share);
-        textView = (TextView) findViewById(R.id.tvLatitude);
 
         //initialuse View
         latitude = (TextView) findViewById(R.id.tvLatitude);
@@ -60,6 +59,7 @@ public class locations extends AppCompatActivity {
                     if (location != null) {
                         latitude.setText(String.valueOf(location.getLatitude()));
                         longitude.setText(String.valueOf(location.getLongitude()));
+                        String.valueOf(location.getLongitude());
 
                     }
                 }
@@ -70,7 +70,7 @@ public class locations extends AppCompatActivity {
                 requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSION_REQUEST_FINE_LOCATION);
             }
         }
-        System.out.println(latitude.getText().toString()+ "hejsa");
+        System.out.println(latitude.getText());
         button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -85,7 +85,7 @@ public class locations extends AppCompatActivity {
                 messages newMessage = new messages();
                 newMessage.sender = currentuser.getCurrentUser();
                 newMessage.receiver = target.getText().toString();
-                newMessage.body = "hej" + textView.getText().toString();
+                newMessage.body = "%GPS " + latitude.getText().toString() + " " + longitude.getText().toString();;
                 newMessage.stamp = System.currentTimeMillis();
                 System.out.println(newMessage.body);
 
