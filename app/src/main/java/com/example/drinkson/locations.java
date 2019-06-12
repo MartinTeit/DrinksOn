@@ -48,38 +48,12 @@ public class locations extends AppCompatActivity {
         final localdatabase database = Room.databaseBuilder(getApplicationContext(),
                 localdatabase.class, "Danskere").build();
         final DAO dao = database.getDAO();
-        final EditText target = findViewById(R.id.sharewith);
 
-        button.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
 
-                long id;
-                int responseCode;
-
-                Random randInt = new Random();
-
-                // create new message
-                messages newMessage = new messages();
-                newMessage.sender = currentuser.getCurrentUser();
-                newMessage.receiver = target.toString();
-                newMessage.body = textView.getText().toString();
-                newMessage.stamp = System.currentTimeMillis();
-
-                do {
-                    id = randInt.nextInt();
-                    newMessage.id = (int) id;
-                    responseCode = repository.remotePost(Repository.MESSAGES, JSONConverter.encodeMessages(newMessage));
-                } while (responseCode == HttpsURLConnection.HTTP_CONFLICT);
-
-                repository.insertMessage(newMessage);
-            }
-            });
 
         //initialuse View
         latitude = (TextView) findViewById(R.id.tvLatitude);
         longitude = (TextView) findViewById(R.id.tvLongitude);
-
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -99,7 +73,34 @@ public class locations extends AppCompatActivity {
                 requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSION_REQUEST_FINE_LOCATION);
             }
         }
+        System.out.println(latitude.getText().toString()+ "hejsa");
+        button.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
 
+                long id;
+                int responseCode;
+                final EditText target = findViewById(R.id.sharewith);
+
+                Random randInt = new Random();
+
+                // create new message/*
+                messages newMessage = new messages();
+                newMessage.sender = currentuser.getCurrentUser();
+                newMessage.receiver = target.toString();
+                newMessage.body = "hej" + textView.getText().toString();
+                newMessage.stamp = System.currentTimeMillis();
+                System.out.println(newMessage.body);
+
+                do {
+                    id = randInt.nextInt();
+                    newMessage.id = (int) id;
+                    responseCode = repository.remotePost(Repository.MESSAGES, JSONConverter.encodeMessages(newMessage));
+                } while (responseCode == HttpsURLConnection.HTTP_CONFLICT);
+
+                repository.insertMessage(newMessage);
+            }
+        });
     }
 
     @Override
@@ -120,5 +121,6 @@ public class locations extends AppCompatActivity {
                 break;
 
         }
-    }
-}
+
+
+}}
