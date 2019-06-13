@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/rouletteski"
+    android:background="@drawable/car3"
     tools:context="com.example.drinkson.Roulette">
 
     <Button
@@ -31,7 +31,7 @@
 
     <ImageView
         android:id="@+id/ic_wheel"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="150dp"
         app:srcCompat="@drawable/ic_wheel" />
