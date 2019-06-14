@@ -17,11 +17,13 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
     public static class ChatViewHolder extends RecyclerView.ViewHolder {
 
         public TextView textView;
+        public TextView senderName;
         public LinearLayout layout;
 
         public ChatViewHolder(View view) {
             super(view);
             textView = view.findViewById(R.id.text);
+            senderName = view.findViewById(R.id.senderName);
             layout = view.findViewById(R.id.layout);
         }
     }
@@ -55,11 +57,20 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
             chatViewHolder.layout.setGravity(LinearLayout.TEXT_ALIGNMENT_VIEW_START);
             chatViewHolder.textView.setTextColor(Color.rgb(30,30,30));
             chatViewHolder.layout.setPaddingRelative(128,8,8,8);
+            chatViewHolder.senderName.setVisibility(LinearLayout.GONE);
         } else {
             chatViewHolder.textView.setBackgroundResource(R.drawable.rounded_corner_receiver);
             chatViewHolder.layout.setGravity(LinearLayout.TEXT_ALIGNMENT_VIEW_END);
             chatViewHolder.textView.setTextColor(Color.rgb(30,30,30));
             chatViewHolder.layout.setPadding(8,8,128,8);
+            if(!m.sender.equals(messages.get(i-1).sender)) {
+                chatViewHolder.senderName.setVisibility(LinearLayout.VISIBLE);
+                chatViewHolder.senderName.setText(m.sender);
+                chatViewHolder.senderName.setPadding(16, 2, 0, 2);
+                chatViewHolder.senderName.setTextColor(Color.rgb(100, 100, 100));
+            } else {
+                chatViewHolder.senderName.setVisibility(LinearLayout.GONE);
+            }
         }
 
 
