@@ -46,6 +46,8 @@ public class locations extends AppCompatActivity {
         latitude = (TextView) findViewById(R.id.tvLatitude);
         longitude = (TextView) findViewById(R.id.tvLongitude);
 
+        // Gets the current/set latitude and longitude of the current user and sends it to display.
+        // Checks for permission to lock in GPS location
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
@@ -67,7 +69,9 @@ public class locations extends AppCompatActivity {
                 requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSION_REQUEST_FINE_LOCATION);
             }
         }
-        System.out.println(latitude.getText());
+
+        // Button made to share location with the typed in user.
+        // Sends messages to selected user with the text made in "newMessage.body".
         button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -97,6 +101,7 @@ public class locations extends AppCompatActivity {
         });
     }
 
+    // Should GPS location permission be denied pop-up text is made.
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

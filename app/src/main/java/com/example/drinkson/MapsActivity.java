@@ -54,14 +54,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-
-
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         // Creates the map fragment shown in the map.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        // Checks the Api version, if true  GPS location permission check is made.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkMyLocationPermission();
         }
@@ -117,6 +116,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
@@ -170,11 +170,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    // When the map fragment is loaded. It sets the current user location if permission granted.
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
         drinkMap = googleMap;
-        //onLocationChanged(userLastLocation);
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
@@ -182,10 +182,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             drinkMap.setMyLocationEnabled(true);
 
         }
+
+        // Sets a marker from a shared location and titles it with the senders ID.
         if (i == 1) {
-            LatLng denBroelende = new LatLng(Double.parseDouble(markerlat), Double.parseDouble(markerLong));
-            drinkMap.addMarker(new MarkerOptions().position(denBroelende).title(Sender));
-            drinkMap.moveCamera(CameraUpdateFactory.newLatLng(denBroelende));
+            LatLng sharedLocation = new LatLng(Double.parseDouble(markerlat), Double.parseDouble(markerLong));
+            drinkMap.addMarker(new MarkerOptions().position(sharedLocation).title(Sender));
+            drinkMap.moveCamera(CameraUpdateFactory.newLatLng(sharedLocation));
 
         }
     }
@@ -202,11 +204,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    // Method implemented when implements called
     @Override
     public void onConnectionSuspended(int i) {
 
     }
 
+    // Method implemented when implements called
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 

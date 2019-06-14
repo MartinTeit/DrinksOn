@@ -17,7 +17,6 @@ public class masterpage extends AppCompatActivity {
     private ImageButton shareLocation;
     private Button      logOut;
 
-    //Kommentar Lavet og ikke stavet rigtigt
 
     //@SuppressLint("WrongViewCast")
     @Override
@@ -25,6 +24,8 @@ public class masterpage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_master_page);
 
+
+        // Finds the ID made in the XML file for the this java file.
         logOut        = findViewById(R.id.logOut);
         shareLocation = findViewById(R.id.shareLocation);
         your_location = findViewById(R.id.imagelocation);
@@ -34,6 +35,8 @@ public class masterpage extends AppCompatActivity {
         roulette      = findViewById(R.id.roulette);
         logOut        = findViewById(R.id.logOut);
 
+
+        // Sets the action when button clicked.
         shareLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,6 +87,8 @@ public class masterpage extends AppCompatActivity {
         });
 
     }
+
+
     public void openYourLocation(){
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
