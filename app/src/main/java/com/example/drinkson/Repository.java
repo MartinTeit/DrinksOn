@@ -30,17 +30,20 @@ public class Repository {
     private final String DB_NAME = "Danskere";
     private DAO myDAO;
 
+    // Repository constructor builds room data base to access the local data base
     public Repository(Context context){
         myDAO = Room.databaseBuilder(context, localdatabase.class, DB_NAME).build().getDAO();
-
     }
 
     //Remote requests
+
+    // Posts "post" in the form of json string to the table "table" of the remote database
+    // Returns the response code
     public int remotePost(String table, String post){
         String url = URL + table;
 
         try {
-            return new remotePostAsyncTask(url).execute(post).get().intValue();
+            return new remotePostAsyncTask(url).execute(post).get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -50,6 +53,7 @@ public class Repository {
         return 0;
     }
 
+    // Gets the json string of the entry with the specific id from the remote database
     public String remoteGetByID(String table, String id){
         String url = URL + table + "?id=eq." + id;
 
@@ -64,31 +68,29 @@ public class Repository {
         return null;
     }
 
-    public List<messages> remoteGetMessages(String id){
+    // Gets all messages send or received by a user
+    public List<messages> remoteGetMessages(String userID){
         String url;
         List<String> myMessagesJson = new ArrayList<>();
         List<messages> myMessages = new ArrayList<>();
 
         try {
-            url = URL + MESSAGES + "?sender=eq." + id;
+            // get the messages send by the user
+            url = URL + MESSAGES + "?sender=eq." + userID;
             myMessagesJson = new remoteGetAsyncTask(url).execute().get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            url = URL + MESSAGES + "?receiver=eq." + id;
+            // get the received send by the user
+            url = URL + MESSAGES + "?receiver=eq." + userID;
             myMessagesJson.addAll(new remoteGetAsyncTask(url).execute().get());
+
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
+        // translates the messages from json strings to java object's
         for (String json : myMessagesJson) {
-
+            // ignore the message if it's empty
             if (!json.equals("[]") && !json.equals("")) {
                 myMessages.add(JSONConverter.decodeMessage(json));
             }
@@ -97,6 +99,7 @@ public class Repository {
         return myMessages;
     }
 
+    // Gets all follows where the user is the followee
     public List<follows> remoteGetFollowers(String id){
         String url;
         List<String> myFollowersJson = new ArrayList<>();
@@ -111,7 +114,9 @@ public class Repository {
             e.printStackTrace();
         }
 
+        // translates the follows from json strings to java object's
         for (String json : myFollowersJson) {
+            // ignore the follows if it's empty
             if (!json.equals("[]") && !json.equals("")) {
                 myFollowers.add(JSONConverter.decodeFollows(json));
             }
@@ -120,6 +125,7 @@ public class Repository {
         return myFollowers;
     }
 
+    // Gets all follows where the user is the follower
     public List<follows> remoteGetFollowees(String id){
         String url;
         List<String> myFollowersJson = new ArrayList<>();
@@ -134,7 +140,9 @@ public class Repository {
             e.printStackTrace();
         }
 
+        // translates the follows from json strings to java object's
         for (String json : myFollowersJson) {
+            // ignore the follows if it's empty
             if (!json.equals("[]") && !json.equals("")) {
                 myFollowers.add(JSONConverter.decodeFollows(json));
             }
@@ -143,6 +151,7 @@ public class Repository {
         return myFollowers;
     }
 
+    // Gets the entire table from the remote database
     public List<String> remoteGetTable(String table){
         String url = URL + table;
 
@@ -157,12 +166,13 @@ public class Repository {
         return null;
     }
 
-    //local request
+    // local request
     public void insertUser(user user) {
         new InsertUserAsyncTask(myDAO).execute(user);
     }
 
-    public List<user> getAllUsers() {
+    // gets all users
+    public List<user> getUsers() {
         try {
             return new getAllUsersAsyncTask(myDAO).execute().get();
         } catch (ExecutionException e) {
@@ -174,7 +184,8 @@ public class Repository {
         return null;
     }
 
-    public List<user> searchUser(String search) {
+    // Gets all users containing "search" in their id
+    public List<user> searchUsers(String search) {
         search = "%" + search + "%";
         try {
             return new searchUserAsyncTask(myDAO).execute(search).get();
@@ -187,6 +198,7 @@ public class Repository {
         return null;
     }
 
+    // Gets all groups followed by the current user and contains the string "search" in their id
     public List<user> searchFollowedGroups(String search) {
         search = "%" + search + "%";
         try {
@@ -200,6 +212,7 @@ public class Repository {
         return null;
     }
 
+    // returns the user with the id
     public user findUser(String userID) {
         try {
             return new findUserAsyncTask(myDAO).execute(userID).get();
@@ -212,6 +225,7 @@ public class Repository {
         return null;
     }
 
+    // insert a message
     public long insertMessage(messages message) {
         try {
             return new InsertMessageAsyncTask(myDAO).execute(message).get().longValue();
@@ -223,6 +237,7 @@ public class Repository {
         return 0;
     }
 
+    // gets all messages send by or received by the current user
     public List<messages> getAllMyMessages() {
         try {
             return new getAllMyMessagesAsyncTask(myDAO).execute(currentuser.getCurrentUser()).get();
@@ -235,6 +250,7 @@ public class Repository {
         return null;
     }
 
+    // gets all messages send to a group
     public List<messages> getGroupChat(String GroupID) {
         try {
             return new getAllMyMessagesAsyncTask(myDAO).execute(GroupID).get();
@@ -247,14 +263,12 @@ public class Repository {
         return null;
     }
 
-    public void deleteMessage(messages message) {
-        new DeleteMessageAsyncTask(myDAO).execute(message);
-    }
-
+    // inserts follows
     public void insertFollows(follows follows) {
         new InsertFollowsAsyncTask(myDAO).execute(follows);
     }
 
+    // gets all follows where current user is the followee
     public List<follows> getAllMyFollowers() {
         try {
             return new getAllMyFollowersAsyncTask(myDAO).execute(currentuser.getCurrentUser()).get();
@@ -267,6 +281,7 @@ public class Repository {
         return null;
     }
 
+    // gets all follows where current user is the follower
     public List<follows> getAllMyFollowees() {
         try {
             return new getAllMyFolloweesAsyncTask(myDAO).execute(currentuser.getCurrentUser()).get();
@@ -305,7 +320,7 @@ public class Repository {
 
         @Override
         protected List<user> doInBackground(Void... Void) {
-            return myDAO.getAll();
+            return myDAO.getUsers();
         }
     }
 
@@ -410,22 +425,6 @@ public class Repository {
     }
 
 
-    private static class DeleteMessageAsyncTask extends AsyncTask<messages, Void, Void> {
-        private DAO myDAO;
-
-        private DeleteMessageAsyncTask(DAO aDAO){
-            this.myDAO = aDAO;
-        }
-
-        @Override
-        protected Void doInBackground(messages... messages) {
-            myDAO.deleteMessage(messages[0]);
-
-            return null;
-        }
-    }
-
-
     private static class getAllMyMessagesAsyncTask extends AsyncTask<String, Void, List<messages>> {
         private DAO myDAO;
 
@@ -440,8 +439,10 @@ public class Repository {
     }
 
 
+    // Async Task to get anything from the remote database
     private static class remoteGetAsyncTask extends AsyncTask<Void, Void, List<String>> {
 
+        // The url from where to retrieve from
         private String url;
         private remoteGetAsyncTask(String url){
             this.url = url;
@@ -452,7 +453,7 @@ public class Repository {
             URL obj = null;
             HttpsURLConnection connection = null;
             BufferedReader input;
-            String inputLine = null;
+            String inputLine;
             List<String> returnValue = new ArrayList<>();
 
             try {
@@ -462,26 +463,33 @@ public class Repository {
             }
 
             try {
+                // Opens the connection
                 connection = (HttpsURLConnection) obj.openConnection();
             } catch (IOException e) {
                 e.printStackTrace();
             }
             try {
+                // Specify that we want to get something from the database
                 connection.setRequestMethod("GET");
             } catch (ProtocolException e) {
                 e.printStackTrace();
             }
 
+            // sets authorization to to get from the database
             connection.setRequestProperty("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYXBwMjAxOSJ9.3MGDqJYkivAsiMOXwvoPTD6_LTCWkP3RvI2zpzoB1XE");
             connection.setRequestProperty("Content-Type", "application/json");
 
             try {
+                // Gets the response code to see how the request went
                 int responseCode = connection.getResponseCode();
-                System.out.println(responseCode);
+                System.out.println("Response code: " + responseCode);
 
+                // the result from the request
                 input = new BufferedReader(
                         new InputStreamReader(connection.getInputStream()));
 
+                // Puts each line from the result into a list of strings
+                // each line is in the form of a json
                 while ( (inputLine = input.readLine()) != null ){
                     returnValue.add(inputLine);
                 }
@@ -495,7 +503,7 @@ public class Repository {
         }
     }
 
-
+    // Async Task to post anything to the remote database
     private static class remotePostAsyncTask extends AsyncTask<String, Void, Integer> {
 
         private String url;
@@ -509,7 +517,7 @@ public class Repository {
             URL obj = null;
             HttpsURLConnection connection = null;
             DataOutputStream wr;
-            Integer code = 0;
+            int code = 0;
 
             try {
                 obj = new URL(url);
@@ -518,6 +526,7 @@ public class Repository {
             }
 
             try {
+                // Opens the connection
                 connection = (HttpsURLConnection) obj.openConnection();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -525,7 +534,11 @@ public class Repository {
 
             try {
                 connection.setDoOutput(true);
+
+                // Specify that we want to post something to the database
                 connection.setRequestMethod("POST");
+
+                // sets authorization to to get from the database
                 connection.setRequestProperty("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYXBwMjAxOSJ9.3MGDqJYkivAsiMOXwvoPTD6_LTCWkP3RvI2zpzoB1XE");
                 connection.setRequestProperty("Content-Type", "application/json");
             } catch (ProtocolException e) {
@@ -533,17 +546,18 @@ public class Repository {
             }
 
             try {
+                // Writes to the database
                 wr = new DataOutputStream(connection.getOutputStream());
                 wr.writeBytes(post[0]);
                 wr.flush();
                 wr.close();
 
                 code = connection.getResponseCode();
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
+            //Posts the response code if the request didn't go ok
             if (code != HttpsURLConnection.HTTP_CREATED) {
                 System.out.println("Failed : HTTP error code : " + code);
             }

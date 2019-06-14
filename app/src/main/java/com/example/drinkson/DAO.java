@@ -6,8 +6,8 @@ import java.util.List;
 
 @Dao
 public interface DAO {
-    @Query("SELECT * FROM user LIMIT 100")
-    List<user> getAll();
+    @Query("SELECT * FROM user")
+    List<user> getUsers();
 
     @Query("SELECT * FROM user WHERE id LIKE :search AND NOT name LIKE '#%GRP%' ESCAPE '#' LIMIT 100")
     List<user> getSearchUser(String search);
@@ -22,7 +22,7 @@ public interface DAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertUser(user user);
 
-    @Query("SELECT * FROM user WHERE id = :searchUser")
+    @Query("SELECT * FROM user WHERE id = :searchUser LIMIT 100")
     user findUser(String searchUser);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -46,9 +46,6 @@ public interface DAO {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     Long insertMessage(messages messages);
-
-    @Delete
-    void deleteMessage(messages message);
 
     @Query("SELECT * FROM messages WHERE sender = :sender AND receiver = :receiver OR sender = :receiver AND receiver = :sender" )
     List<messages> findConversation(String sender, String receiver);

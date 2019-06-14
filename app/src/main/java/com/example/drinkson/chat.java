@@ -60,9 +60,9 @@ public class chat extends AppCompatActivity {
             }
         });
 
-        Intent mIntent = new Intent(this, CollectMessagesJobService.class);
-        mIntent.putExtra("maxCountValue", 1000);
-        CollectMessagesJobService.enqueueWork(this, mIntent);
+//        Intent mIntent = new Intent(this, CollectMessagesJobService.class);
+//        mIntent.putExtra("maxCountValue", 1000);
+//        CollectMessagesJobService.enqueueWork(this, mIntent);
 
     }
 

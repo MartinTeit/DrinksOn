@@ -34,7 +34,8 @@ public class ChatRoom extends AppCompatActivity {
             }
         });
 
-        userList = repository.getAllUsers();
+        userList = repository.searchFollowedGroups("");
+        userList.addAll(repository.searchUsers(""));
         update(userList);
 
         someList = repository.remoteGetTable(Repository.USERS);
@@ -53,7 +54,7 @@ public class ChatRoom extends AppCompatActivity {
         List<user> myList = new ArrayList<>();
 
         userList = repository.searchFollowedGroups(text.getText().toString());
-        userList.addAll(repository.searchUser(text.getText().toString()));
+        userList.addAll(repository.searchUsers(text.getText().toString()));
 
         for ( user u: userList) {
             myList.add(u);
