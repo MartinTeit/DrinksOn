@@ -9,11 +9,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class followers extends AppCompatActivity {
+import java.util.List;
+
+import javax.net.ssl.HttpsURLConnection;
+
+public class Followers extends AppCompatActivity {
 
     private Button   follow;
     private TextView text;
     private String   newstring;
+    private Repository repository;
 
     //hej
     @Override
@@ -21,10 +26,9 @@ public class followers extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_followers);
 
+        repository = new Repository(this);
+
         final EditText followerUsername = findViewById(R.id.followerUsername);
-        final localdatabase database    = Room.databaseBuilder(getApplicationContext(),
-                localdatabase.class, "Danskere").build();
-        final DAO dao = database.getDAO();
 
         follow = findViewById(R.id.button);
         text   = findViewById(R.id.name);
@@ -32,32 +36,47 @@ public class followers extends AppCompatActivity {
         follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final follows follows1 = new follows();
+                final follows newFollows = new follows();
 
-                follows1.follower = currentuser.getCurrentUser();
-                follows1.followee = followerUsername.getText().toString();
-                follows1.stamp    = System.currentTimeMillis();
+                newFollows.follower = currentuser.getCurrentUser();
+                newFollows.followee = followerUsername.getText().toString();
+                newFollows.stamp    = System.currentTimeMillis();
 
-                new AsyncTask<Void, Void, Void>() {
-                    protected Void doInBackground(Void... voids) {
-                        dao.insertFollows(follows1);
-                        return null;
-                    }
-                }.execute();
+                followUser(newFollows);
+                updateFollowers();
             }
         });
-        newstring="";
-        new AsyncTask<Void, Void, Void>() {
-            protected Void doInBackground(Void... voids) {
-                for (String string : dao.findFollowers(currentuser.getCurrentUser())){
-                    newstring = newstring + string + " , ";
-                }
-                text.setText(newstring);
-                return null;
-            }
 
-        }.execute();
+        List<follows> followers = repository.remoteGetFollowers(currentuser.getCurrentUser());
+
+        for(follows f : followers){
+            repository.insertFollows(f);
+        }
+
+        updateFollowers();
+    }
+
+
+    public void followUser(follows newFollows){
+        int responseCode;
+
+        responseCode = repository.remotePost(Repository.FOLLOWS,JSONConverter.encodeFollows(newFollows));
+
+        if (responseCode != HttpsURLConnection.HTTP_CONFLICT) {
+            repository.insertFollows(newFollows);
+        }
+    }
+
+    public void updateFollowers(){
+
+        newstring="";
+        for (follows f : repository.getAllMyFollowers()){
+            newstring = newstring + f.follower + " , ";
+        }
+        text.setText(newstring);
 
     }
+
+
 
 }

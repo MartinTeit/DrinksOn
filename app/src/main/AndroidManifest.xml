@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -30,7 +31,7 @@
         <uses-library android:name="org.apache.http.legacy" android:required="false"/>
 
         <activity android:name=".Roulette" />
-        <activity android:name=".followers" />
+        <activity android:name=".Followers" />
         <activity android:name=".groupmaker" />
         <activity android:name=".chat" />
         <activity android:name=".chatroom" />
@@ -42,10 +43,12 @@
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service
+            android:name=".CollectMessagesJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
     </application>
 
 </manifest>

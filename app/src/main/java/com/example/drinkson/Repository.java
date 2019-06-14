@@ -97,6 +97,29 @@ public class Repository {
         return myMessages;
     }
 
+    public List<follows> remoteGetFollowers(String id){
+        String url;
+        List<String> myFollowersJson = new ArrayList<>();
+        List<follows> myFollowers = new ArrayList<>();
+
+        try {
+            url = URL + FOLLOWS + "?followee=eq." + id;
+            myFollowersJson = new remoteGetAsyncTask(url).execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        for (String json : myFollowersJson) {
+            if (!json.equals("[]") && !json.equals("")) {
+                myFollowers.add(JSONConverter.decodeFollows(json));
+            }
+        }
+
+        return myFollowers;
+    }
+
     public List<String> remoteGetTable(String table){
         String url = URL + table;
 

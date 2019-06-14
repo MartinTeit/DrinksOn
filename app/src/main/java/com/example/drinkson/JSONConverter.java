@@ -27,25 +27,25 @@ public class JSONConverter {
         return json;
     }
 
-    public static user decodeFollows(String json){
+    public static follows decodeFollows(String json){
         int followerStart;
         int followeeStart;
         int stampStart;
         String stamp;
 
-        user u = new user();
+        follows f = new follows();
 
         followerStart = json.indexOf("\"follower\":\"") + 12;
-        u.id = json.substring(followerStart,findEnd(json,followerStart));
+        f.follower = json.substring(followerStart,findEnd(json,followerStart));
 
         followeeStart = json.indexOf("\"followee\":\"") + 12;
-        u.name = json.substring(followeeStart,findEnd(json,followeeStart));
+        f.followee = json.substring(followeeStart,findEnd(json,followeeStart));
 
         stampStart = json.indexOf("\"stamp\":\"") + 9;
         stamp = json.substring(stampStart,findEnd(json,stampStart));
-        u.stamp = ZonedDateTime.parse(stamp).toInstant().toEpochMilli();
+        f.stamp = ZonedDateTime.parse(stamp).toInstant().toEpochMilli();
 
-        return u;
+        return f;
     }
 
     public static String encodeUser(user u){

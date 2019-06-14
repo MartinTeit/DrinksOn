@@ -7,7 +7,7 @@ import java.util.List;
 
 @Dao
 public interface DAO {
-    @Query("SELECT * FROM user")
+    @Query("SELECT * FROM user LIMIT 100")
     List<user> getAll();
 
     @Query("SELECT * FROM user WHERE id LIKE :search")

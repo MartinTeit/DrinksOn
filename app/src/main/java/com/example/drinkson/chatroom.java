@@ -26,6 +26,7 @@ public class chatroom extends AppCompatActivity {
 
         searchButton = findViewById(R.id.searchButton);
         text = findViewById(R.id.searchUser);
+        recyclerView = (RecyclerView) findViewById(R.id.chats);
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,11 +40,6 @@ public class chatroom extends AppCompatActivity {
         List<user> myList = new ArrayList<>();
         List<user> userList;
         List<String> someList;
-        someList = repository.remoteGetTable(Repository.USERS);
-
-        for (String s: someList){
-            repository.insertUser(JSONConverter.decodeUser(s));
-        }
 
         userList = repository.getAllUsers();
 
@@ -55,7 +51,11 @@ public class chatroom extends AppCompatActivity {
 
         update(myList);
 
+        someList = repository.remoteGetTable(Repository.USERS);
 
+        for (String s: someList){
+            repository.insertUser(JSONConverter.decodeUser(s));
+        }
     }
 
     private void search(){
@@ -73,8 +73,6 @@ public class chatroom extends AppCompatActivity {
     }
 
     private void update(List<user> users){
-        recyclerView = (RecyclerView) findViewById(R.id.chats);
-
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 

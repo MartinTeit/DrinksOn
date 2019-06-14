@@ -105,7 +105,7 @@ public class masterpage extends AppCompatActivity {
     }
 
     public void openFriendList(){
-        Intent intent = new Intent(this, followers.class);
+        Intent intent = new Intent(this, Followers.class);
         startActivity(intent);
     }
 
