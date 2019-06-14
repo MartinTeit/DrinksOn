@@ -9,8 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.util.List;
-
 import javax.net.ssl.HttpsURLConnection;
 
 public class groupmaker extends AppCompatActivity {
@@ -70,7 +68,7 @@ public class groupmaker extends AppCompatActivity {
             protected Void doInBackground(Void... voids) {
                 for (String string : dao.findFollowees(currentuser.getCurrentUser())){
                     if (dao.findUser(string).name.contains("%GRP")){
-                        newstring = newstring + "%GRP " + string + " , ";
+                        newstring = newstring + "%GRP " + string + "\n";
                         System.out.println();
                     }
                 }

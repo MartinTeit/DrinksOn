@@ -1,5 +1,6 @@
 package com.example.drinkson;
 
+import android.arch.persistence.room.Room;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -17,7 +18,7 @@ public class Followers extends AppCompatActivity {
     private TextView text;
     private Repository repository;
 
-    //hej
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +27,9 @@ public class Followers extends AppCompatActivity {
         repository = new Repository(this);
 
         final EditText followerUsername = findViewById(R.id.followerUsername);
+        final localdatabase database    = Room.databaseBuilder(getApplicationContext(),
+                localdatabase.class, "Danskere").build();
+        final DAO dao = database.getDAO();
 
         follow = findViewById(R.id.button);
         text   = findViewById(R.id.name);
@@ -67,7 +71,7 @@ public class Followers extends AppCompatActivity {
     public void updateFollowers(){
         String newString="";
         for (follows f : repository.getAllMyFollowers()){
-            newString = newString + f.follower + " , ";
+            newString = newString + f.follower + "\n";
         }
         text.setText(newString);
     }
