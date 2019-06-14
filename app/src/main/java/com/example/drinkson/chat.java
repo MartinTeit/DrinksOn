@@ -24,9 +24,7 @@ public class chat extends AppCompatActivity {
 
     private Repository repository;
 
-
     public static String receiver;
-    private List<String> messages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +71,6 @@ public class chat extends AppCompatActivity {
         List<messages> myMessages;
 
         List<messages> messagesInThisConversation = new ArrayList<>();
-        messages = new ArrayList<>();
 
         // If this is a group chat get all the group messages
         // else get all the messages between current user an the other user

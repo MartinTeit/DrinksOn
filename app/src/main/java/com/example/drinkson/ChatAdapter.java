@@ -47,28 +47,30 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
     @Override
     public void onBindViewHolder(ChatViewHolder chatViewHolder, int i) {
         messages m = messages.get(i);
-
-        System.out.println("Sender: " + m.sender + "CurrentUser: " + currentuser.getCurrentUser());
-
         chatViewHolder.textView.setText(m.body);
 
         if(m.sender.equals(currentuser.getCurrentUser())){
+            // Sets the messages visual as sender
             chatViewHolder.textView.setBackgroundResource(R.drawable.rounded_corner_sender);
             chatViewHolder.layout.setGravity(LinearLayout.TEXT_ALIGNMENT_VIEW_START);
             chatViewHolder.textView.setTextColor(Color.rgb(30,30,30));
             chatViewHolder.layout.setPaddingRelative(128,8,8,8);
             chatViewHolder.senderName.setVisibility(LinearLayout.GONE);
         } else {
+            // Sets the messages visual as receiver
             chatViewHolder.textView.setBackgroundResource(R.drawable.rounded_corner_receiver);
             chatViewHolder.layout.setGravity(LinearLayout.TEXT_ALIGNMENT_VIEW_END);
             chatViewHolder.textView.setTextColor(Color.rgb(30,30,30));
             chatViewHolder.layout.setPadding(8,8,128,8);
+
+            // display the name of the sender
             if(i == 0 || !m.sender.equals(messages.get(i-1).sender)) {
                 chatViewHolder.senderName.setVisibility(LinearLayout.VISIBLE);
                 chatViewHolder.senderName.setText(m.sender);
                 chatViewHolder.senderName.setPadding(16, 2, 0, 2);
                 chatViewHolder.senderName.setTextColor(Color.rgb(100, 100, 100));
             } else {
+                // if the previous sender was the same dont display the name
                 chatViewHolder.senderName.setVisibility(LinearLayout.GONE);
             }
         }
