@@ -65,12 +65,6 @@ public class groupmaker extends AppCompatActivity {
 
         text   = findViewById(R.id.name);
 
-        List<follows> followees = repository.remoteGetFollowees(currentuser.getCurrentUser());
-
-        for(follows f : followees){
-            repository.insertFollows(f);
-        }
-
         newstring="";
         new AsyncTask<Void, Void, Void>() {
             protected Void doInBackground(Void... voids) {

@@ -41,6 +41,11 @@ public class ChatRoom extends AppCompatActivity {
         for (String s: someList){
             repository.insertUser(JSONConverter.decodeUser(s));
         }
+
+        List<follows> followees = repository.remoteGetFollowees(currentuser.getCurrentUser());
+        for(follows f : followees){
+            repository.insertFollows(f);
+        }
     }
 
     private void search(){
