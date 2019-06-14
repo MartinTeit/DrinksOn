@@ -41,7 +41,7 @@ public class Roulette extends AppCompatActivity {
                 degree_old = degree % 360;
                 degree = r.nextInt(3600) + 720;
                 if ((currentuser.getCurrentUser().toLowerCase().contains("peter"))){
-                    itspeter();
+                    itsPeter();
                 }
                 System.out.println(degree);
                 RotateAnimation rotate = new RotateAnimation(degree_old, degree,
@@ -50,6 +50,7 @@ public class Roulette extends AppCompatActivity {
                 rotate.setFillAfter(true);
                 rotate.setInterpolator(new DecelerateInterpolator());
                 rotate.setAnimationListener(new Animation.AnimationListener() {
+
                     @Override
                     public void onAnimationStart(Animation animation) {
                         textView.setText("");
@@ -65,7 +66,6 @@ public class Roulette extends AppCompatActivity {
                     }
                 });
                 iv_wheel.startAnimation(rotate);
-
             }
         });
 
@@ -77,24 +77,31 @@ public class Roulette extends AppCompatActivity {
         if(degrees >= 0 && degrees < (45)){
             text = "Classic";
         }
+
         if(degrees >= (45) && degrees < (90)){
             text = "Pilsner";
         }
+
         if(degrees >= (90) && degrees < (135)){
             text = "Classic";
         }
+
         if(degrees >= (135) && degrees < (180)){
             text = "Pilsner";
         }
+
         if(degrees >= (180) && degrees < (225)){
             text = "Classic";
         }
+
         if(degrees >= (225) && degrees < (270)){
             text = "Pilsner";
         }
+
         if(degrees >= (270) && degrees < (315)){
             text = "Classic";
         }
+
         if(degrees >= (315) && degrees < (360)){
             text = "Pilsner";
         }
@@ -103,24 +110,25 @@ public class Roulette extends AppCompatActivity {
 
     }
 
-    private void itspeter(){
-        int xd = n.nextInt(6);
-        if (xd == 1) {
+    // Your welcome Peter, we know your love for Plisner ;)
+    private void itsPeter(){
+        int xD = n.nextInt(6);
+        if (xD == 1) {
             degree = 1545;
         }
-        if (xd == 2) {
+        if (xD == 2) {
             degree = 3618;
         }
-        if (xd == 3) {
+        if (xD == 3) {
             degree = 840;
         }
-        if (xd == 4) {
+        if (xD == 4) {
             degree = 1545;
         }
-        if (xd == 5) {
+        if (xD == 5) {
             degree = 1725;
         }
-        if (xd == 6) {
+        if (xD == 6) {
             degree = 2460;
 
         }
