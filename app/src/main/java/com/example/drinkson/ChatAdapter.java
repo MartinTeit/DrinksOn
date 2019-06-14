@@ -63,7 +63,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
             chatViewHolder.layout.setGravity(LinearLayout.TEXT_ALIGNMENT_VIEW_END);
             chatViewHolder.textView.setTextColor(Color.rgb(30,30,30));
             chatViewHolder.layout.setPadding(8,8,128,8);
-            if(!m.sender.equals(messages.get(i-1).sender)) {
+            if(i == 0 || !m.sender.equals(messages.get(i-1).sender)) {
                 chatViewHolder.senderName.setVisibility(LinearLayout.VISIBLE);
                 chatViewHolder.senderName.setText(m.sender);
                 chatViewHolder.senderName.setPadding(16, 2, 0, 2);
