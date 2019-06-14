@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.List;
+
 import javax.net.ssl.HttpsURLConnection;
 
 public class groupmaker extends AppCompatActivity {
@@ -62,6 +64,12 @@ public class groupmaker extends AppCompatActivity {
         final DAO dao = database.getDAO();
 
         text   = findViewById(R.id.name);
+
+        List<follows> followees = repository.remoteGetFollowees(currentuser.getCurrentUser());
+
+        for(follows f : followees){
+            repository.insertFollows(f);
+        }
 
         newstring="";
         new AsyncTask<Void, Void, Void>() {

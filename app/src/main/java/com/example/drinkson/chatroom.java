@@ -11,12 +11,8 @@ import android.widget.EditText;
 import java.util.ArrayList;
 import java.util.List;
 
-public class chatroom extends AppCompatActivity {
-    private RecyclerView recyclerView;
-    private ChatRoomAdapter chatRoomAdapter;
-    private RecyclerView.LayoutManager layoutManager;
+public class ChatRoom extends AppCompatActivity {
     private Repository repository;
-    private Button searchButton;
     private EditText text;
 
     @Override
@@ -24,9 +20,12 @@ public class chatroom extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatroom);
 
-        searchButton = findViewById(R.id.searchButton);
+        List<user> userList;
+        List<String> someList;
+        Button searchButton = findViewById(R.id.searchButton);
+
         text = findViewById(R.id.searchUser);
-        recyclerView = (RecyclerView) findViewById(R.id.chats);
+        repository = new Repository(this);
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,24 +34,10 @@ public class chatroom extends AppCompatActivity {
             }
         });
 
-        repository = new Repository(this);
-
-        List<user> myList = new ArrayList<>();
-        List<user> userList;
-        List<String> someList;
-
         userList = repository.getAllUsers();
-
-        for (user users: userList) {
-            if( !users.id.equals(currentuser.getCurrentUser()) ){
-                myList.add(users);
-            }
-        }
-
-        update(myList);
+        update(userList);
 
         someList = repository.remoteGetTable(Repository.USERS);
-
         for (String s: someList){
             repository.insertUser(JSONConverter.decodeUser(s));
         }
@@ -62,9 +47,10 @@ public class chatroom extends AppCompatActivity {
         List<user> userList;
         List<user> myList = new ArrayList<>();
 
-        userList = repository.searchUser("%" + text.getText().toString() + "%");
+        userList = repository.searchFollowedGroups(text.getText().toString());
+        userList.addAll(repository.searchUser(text.getText().toString()));
 
-        for ( user u:userList) {
+        for ( user u: userList) {
             myList.add(u);
         }
 
@@ -73,10 +59,19 @@ public class chatroom extends AppCompatActivity {
     }
 
     private void update(List<user> users){
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
+        List<user> usersToShow = new ArrayList<>();
+        RecyclerView recyclerView = findViewById(R.id.chats);
+        ChatRoomAdapter chatRoomAdapter;
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
 
-        chatRoomAdapter = new ChatRoomAdapter(users, this);
+        for(user u: users){
+            if(!u.id.equals(currentuser.getCurrentUser())){
+                usersToShow.add(u);
+            }
+        }
+
+        recyclerView.setLayoutManager(layoutManager);
+        chatRoomAdapter = new ChatRoomAdapter(usersToShow, this);
         recyclerView.setAdapter(chatRoomAdapter);
     }
 

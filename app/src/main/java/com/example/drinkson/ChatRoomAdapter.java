@@ -19,15 +19,16 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
 
     public static class ChatRoomViewHolder extends RecyclerView.ViewHolder {
 
-        public Button ChatButton;
+        public Button chatButton;
         public ChatRoomViewHolder(View view) {
             super(view);
-            ChatButton = view.findViewById(R.id.chatButton);
 
-            ChatButton.setOnClickListener(new View.OnClickListener() {
+            chatButton = view.findViewById(R.id.chatButton);
+
+            chatButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    chat.receiver = ChatButton.getContentDescription().toString();
+                    chat.receiver = chatButton.getContentDescription().toString();
                     openChat();
                 }
             });
@@ -56,11 +57,11 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
     @Override
     public void onBindViewHolder(ChatRoomViewHolder chatViewHolder, int i) {
         user u = this.chats.get(i);
-        chatViewHolder.ChatButton.setContentDescription(u.id);
+        chatViewHolder.chatButton.setContentDescription(u.id);
         if(u.name.startsWith("%GRP")){
-            chatViewHolder.ChatButton.setText("Group: " + u.id);
+            chatViewHolder.chatButton.setText("Group: " + u.id);
         } else {
-            chatViewHolder.ChatButton.setText(u.id);
+            chatViewHolder.chatButton.setText(u.id);
         }
 
     }

@@ -120,6 +120,29 @@ public class Repository {
         return myFollowers;
     }
 
+    public List<follows> remoteGetFollowees(String id){
+        String url;
+        List<String> myFollowersJson = new ArrayList<>();
+        List<follows> myFollowers = new ArrayList<>();
+
+        try {
+            url = URL + FOLLOWS + "?follower=eq." + id;
+            myFollowersJson = new remoteGetAsyncTask(url).execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        for (String json : myFollowersJson) {
+            if (!json.equals("[]") && !json.equals("")) {
+                myFollowers.add(JSONConverter.decodeFollows(json));
+            }
+        }
+
+        return myFollowers;
+    }
+
     public List<String> remoteGetTable(String table){
         String url = URL + table;
 
@@ -152,8 +175,22 @@ public class Repository {
     }
 
     public List<user> searchUser(String search) {
+        search = "%" + search + "%";
         try {
             return new searchUserAsyncTask(myDAO).execute(search).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public List<user> searchFollowedGroups(String search) {
+        search = "%" + search + "%";
+        try {
+            return new searchGroupAsyncTask(myDAO).execute(search).get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -283,6 +320,20 @@ public class Repository {
         @Override
         protected List<user> doInBackground(String... search) {
             return myDAO.getSearchUser(search[0]);
+        }
+    }
+
+
+    private static class searchGroupAsyncTask extends AsyncTask<String, Void, List<user>> {
+        private DAO myDAO;
+
+        private searchGroupAsyncTask(DAO aDAO){
+            this.myDAO = aDAO;
+        }
+
+        @Override
+        protected List<user> doInBackground(String... search) {
+            return myDAO.searchFollowedGroups(search[0], currentuser.getCurrentUser());
         }
     }
 

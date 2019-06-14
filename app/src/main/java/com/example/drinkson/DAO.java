@@ -1,6 +1,5 @@
 package com.example.drinkson;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.*;
 
 import java.util.List;
@@ -10,8 +9,15 @@ public interface DAO {
     @Query("SELECT * FROM user LIMIT 100")
     List<user> getAll();
 
-    @Query("SELECT * FROM user WHERE id LIKE :search")
+    @Query("SELECT * FROM user WHERE id LIKE :search AND NOT name LIKE '#%GRP%' ESCAPE '#' LIMIT 100")
     List<user> getSearchUser(String search);
+
+    @Query("SELECT * FROM user, follows WHERE " +
+            "follower = :follower AND " +
+            "id = followee AND " +
+            "id LIKE :search AND " +
+            "name LIKE '#%GRP%' ESCAPE '#'")
+    List<user> searchFollowedGroups(String search, String follower);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertUser(user user);

@@ -1,7 +1,5 @@
 package com.example.drinkson;
 
-import android.arch.persistence.room.Room;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -17,7 +15,6 @@ public class Followers extends AppCompatActivity {
 
     private Button   follow;
     private TextView text;
-    private String   newstring;
     private Repository repository;
 
     //hej
@@ -68,15 +65,11 @@ public class Followers extends AppCompatActivity {
     }
 
     public void updateFollowers(){
-
-        newstring="";
+        String newString="";
         for (follows f : repository.getAllMyFollowers()){
-            newstring = newstring + f.follower + " , ";
+            newString = newString + f.follower + " , ";
         }
-        text.setText(newstring);
-
+        text.setText(newString);
     }
-
-
 
 }
