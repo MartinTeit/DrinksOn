@@ -1,6 +1,7 @@
 package com.example.drinkson;
 
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +17,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
 
     public static class ChatViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView textView;
-        public TextView senderName;
+        private TextView textView;
+        private TextView senderName;
         public LinearLayout layout;
 
         public ChatViewHolder(View view) {
@@ -33,6 +34,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
     }
 
 
+    @NonNull
     @Override
     public ChatAdapter.ChatViewHolder onCreateViewHolder(ViewGroup parnet, int viewType) {
 
@@ -70,7 +72,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
                 chatViewHolder.senderName.setPadding(16, 2, 0, 2);
                 chatViewHolder.senderName.setTextColor(Color.rgb(100, 100, 100));
             } else {
-                // if the previous sender was the same dont display the name
+                // if the previous sender was the same don't display the name
                 chatViewHolder.senderName.setVisibility(LinearLayout.GONE);
             }
         }

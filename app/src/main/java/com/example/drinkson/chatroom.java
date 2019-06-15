@@ -34,36 +34,36 @@ public class ChatRoom extends AppCompatActivity {
             }
         });
 
-        userList = repository.searchFollowedGroups("");
-        userList.addAll(repository.searchUsers(""));
-        update(userList);
-
+        // Gets users and follows from the remote
+        // follows is only used to determine which groups to show
         someList = repository.remoteGetTable(Repository.USERS);
         for (String s: someList){
             repository.insertUser(JSONConverter.decodeUser(s));
         }
-
         List<follows> followees = repository.remoteGetFollowees(currentuser.getCurrentUser());
         for(follows f : followees){
             repository.insertFollows(f);
         }
+
+        // Starting the activity with an empty string search meaning
+        // it finds every thing, with a limit of returned entries sat by the query in DAO
+        userList = repository.searchFollowedGroups("");
+        userList.addAll(repository.searchUsers(""));
+        update(userList);
+
     }
 
+    // Finds users and followed groups containing the string "search"
     private void search(){
         List<user> userList;
-        List<user> myList = new ArrayList<>();
 
         userList = repository.searchFollowedGroups(text.getText().toString());
         userList.addAll(repository.searchUsers(text.getText().toString()));
 
-        for ( user u: userList) {
-            myList.add(u);
-        }
-
-
-        update(myList);
+        update(userList);
     }
 
+    // Updates rhe recyclerView in chatRoom
     private void update(List<user> users){
         List<user> usersToShow = new ArrayList<>();
         RecyclerView recyclerView = findViewById(R.id.chats);
