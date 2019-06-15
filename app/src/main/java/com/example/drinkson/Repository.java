@@ -23,7 +23,7 @@ public class Repository {
     public static final String USERS = "users";
     public static final String MESSAGES = "messages";
     public static final String FOLLOWS = "follows";
-    private static final String AUTORIZATION =
+    private static final String AUTHORIZATION =
             "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
                     "eyJyb2xlIjoiYXBwMjAxOSJ9.3MGDqJYkivAsiMOXwvoPTD6_LTCWkP3RvI2zpzoB1XE";
 
@@ -476,7 +476,7 @@ public class Repository {
             }
 
             // sets authorization to to get from the database
-            connection.setRequestProperty("Authorization", AUTORIZATION);
+            connection.setRequestProperty("Authorization", AUTHORIZATION);
             connection.setRequestProperty("Content-Type", "application/json");
 
             try {
@@ -542,7 +542,7 @@ public class Repository {
                 connection.setRequestMethod("POST");
 
                 // sets authorization to to get from the database
-                connection.setRequestProperty("Authorization", AUTORIZATION);
+                connection.setRequestProperty("Authorization", AUTHORIZATION);
                 connection.setRequestProperty("Content-Type", "application/json");
             } catch (ProtocolException e) {
                 e.printStackTrace();
