@@ -100,7 +100,7 @@ public class masterpage extends AppCompatActivity {
     }
 
     public void openChatroom(){
-        Intent intent = new Intent(this, ChatRoom.class);
+        Intent intent = new Intent(this, Room.class);
         startActivity(intent);
     }
 

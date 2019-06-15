@@ -11,7 +11,7 @@ import android.widget.EditText;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChatRoom extends AppCompatActivity {
+public class Room extends AppCompatActivity {
     private Repository repository;
     private EditText text;
 
