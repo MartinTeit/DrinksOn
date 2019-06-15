@@ -13,7 +13,7 @@ public interface DAO {
     List<User> getSearchUser(String search);
 
 
-    @Query("SELECT * FROM User, Follows WHERE " +
+    @Query("SELECT User.id, User.name, User.stamp FROM User, Follows WHERE " +
             "follower = :follower AND " +
             "id = followee AND " +
             "id LIKE :search AND " +
