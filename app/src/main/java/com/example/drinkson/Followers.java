@@ -44,7 +44,6 @@ public class Followers extends AppCompatActivity {
         });
 
         List<Follows> followers = repository.remoteGetFollowers(CurrentUser.getCurrentUser());
-
         for(Follows f : followers){
             repository.insertFollows(f);
         }
@@ -52,16 +51,17 @@ public class Followers extends AppCompatActivity {
         updateFollowers();
     }
 
+
     public void followUser(Follows newFollows){
         int responseCode;
 
         responseCode = repository.remotePost(Repository.FOLLOWS,JSONConverter.encodeFollows(newFollows));
-
-        if (responseCode != HttpsURLConnection.HTTP_CONFLICT) {
+        if (responseCode == HttpsURLConnection.HTTP_CREATED) {
             repository.insertFollows(newFollows);
         }
     }
 
+    // Update the list of every user following you
     public void updateFollowers(){
         String newString="";
         for (Follows f : repository.getAllMyFollowers()){

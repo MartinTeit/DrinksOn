@@ -25,6 +25,7 @@ public class GroupMaker extends AppCompatActivity {
         Button createGroupButton = findViewById(R.id.userCreated);
         Button followGroupButton = findViewById(R.id.followgroup);
 
+        // When create group button is pushed create a group and follow it
         createGroupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -39,6 +40,7 @@ public class GroupMaker extends AppCompatActivity {
             }
         });
 
+        // When follow group button is pushed follow the group
         followGroupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,14 +61,15 @@ public class GroupMaker extends AppCompatActivity {
         updateGroups();
 
     }
-    
+
+    // Take a group an post it to the remote database, if the request returns "HTTP_CREATED",
+    // insert the new group in the local database and follow thw group automatically
     private void createGroup(User newGroup){
         int responseCode;
         Follows newFollows = new Follows();
 
         responseCode = repository.remotePost(Repository.USERS,JSONConverter.encodeUser(newGroup));
-
-        if (responseCode != HttpsURLConnection.HTTP_CONFLICT) {
+        if (responseCode == HttpsURLConnection.HTTP_CREATED) {
             repository.insertUser(newGroup);
 
             newFollows.follower = CurrentUser.getCurrentUser();
@@ -77,24 +80,29 @@ public class GroupMaker extends AppCompatActivity {
         }
     }
 
+    // Takes a follows and post it to the remote database.
+    // if the request returned "HTTP_CREATED" insert the follows locally
     private void followGroup(Follows newFollows){
         int responseCode;
 
         responseCode = repository.remotePost(Repository.FOLLOWS,JSONConverter.encodeFollows(newFollows));
-
-        if (responseCode != HttpsURLConnection.HTTP_CONFLICT) {
+        if (responseCode == HttpsURLConnection.HTTP_CREATED) {
             repository.insertFollows(newFollows);
         }
 
         updateGroups();
     }
 
+    // Update the list containing followed groups
     private void updateGroups(){
         String newString="";
+        // Get all the follows from the room database
         List<Follows> followedGroups = repository.getAllMyFollowees();
 
         for (Follows fg : followedGroups){
-            if (repository.findUser(fg.followee).name.contains("%GRP")){
+            // If the name of the followee starts with "%GRP" it is a group
+            // and is showed on the list
+            if (repository.findUser(fg.followee).name.startsWith("%GRP")){
                 newString = newString + "%GRP " + fg.followee + "\n";
             }
         }
