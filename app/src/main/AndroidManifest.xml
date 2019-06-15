@@ -34,7 +34,7 @@
         <activity android:name=".Followers" />
         <activity android:name=".groupmaker" />
         <activity android:name=".chat" />
-        <activity android:name=".Room" />
+        <activity android:name=".ChatRoom" />
         <activity android:name=".masterpage" />
         <activity android:name=".registerUser" />
         <activity android:name=".locations"/>
