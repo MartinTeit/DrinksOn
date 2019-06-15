@@ -21,8 +21,8 @@ public class Repository {
 
     public static final String URL = "https://caracal.imada.sdu.dk/app2019/";
     public static final String USERS = "users";
-    public static final String MESSAGES = "Messages";
-    public static final String FOLLOWS = "Follows";
+    public static final String MESSAGES = "messages";
+    public static final String FOLLOWS = "follows";
     private static final String AUTORIZATION =
             "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
                     "eyJyb2xlIjoiYXBwMjAxOSJ9.3MGDqJYkivAsiMOXwvoPTD6_LTCWkP3RvI2zpzoB1XE";
@@ -476,13 +476,16 @@ public class Repository {
             }
 
             // sets authorization to to get from the database
-            connection.setRequestProperty("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYXBwMjAxOSJ9.3MGDqJYkivAsiMOXwvoPTD6_LTCWkP3RvI2zpzoB1XE");
+            connection.setRequestProperty("Authorization", AUTORIZATION);
             connection.setRequestProperty("Content-Type", "application/json");
 
             try {
                 // Gets the response code to see how the request went
                 int responseCode = connection.getResponseCode();
-                System.out.println("Response code: " + responseCode);
+
+                if(responseCode != HttpsURLConnection.HTTP_OK){
+                    System.out.println("Response code: " + responseCode);
+                }
 
                 // the result from the request
                 input = new BufferedReader(
@@ -539,7 +542,7 @@ public class Repository {
                 connection.setRequestMethod("POST");
 
                 // sets authorization to to get from the database
-                connection.setRequestProperty("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYXBwMjAxOSJ9.3MGDqJYkivAsiMOXwvoPTD6_LTCWkP3RvI2zpzoB1XE");
+                connection.setRequestProperty("Authorization", AUTORIZATION);
                 connection.setRequestProperty("Content-Type", "application/json");
             } catch (ProtocolException e) {
                 e.printStackTrace();
