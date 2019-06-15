@@ -1,5 +1,6 @@
 package com.example.drinkson;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -26,6 +27,8 @@ public class GroupMaker extends AppCompatActivity {
         Button followGroupButton = findViewById(R.id.followgroup);
 
         // When create group button is pushed create a group and follow it
+
+
         createGroupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

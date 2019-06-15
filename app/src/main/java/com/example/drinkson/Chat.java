@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,14 +16,9 @@ import java.util.Random;
 import javax.net.ssl.HttpsURLConnection;
 
 public class Chat extends AppCompatActivity {
-    private RecyclerView recyclerView;
-    private ChatAdapter chatAdapter;
-    private RecyclerView.LayoutManager layoutManager;
-    private Button sendButton;
+
     private EditText text;
-
     private Repository repository;
-
     public static String receiver;
 
     @Override
@@ -32,6 +28,7 @@ public class Chat extends AppCompatActivity {
 
         repository = new Repository(this);
         List<Messages> someMessages;
+        Button sendButton;
 
         // gets message from the remote database
         if(repository.findUser(receiver).name.startsWith("%GRP")){
@@ -62,6 +59,10 @@ public class Chat extends AppCompatActivity {
 
     // Updates the RecyclerView containing the Messages
     private  void updateMessages(){
+        RecyclerView recyclerView;
+        ChatAdapter chatAdapter;
+        LinearLayoutManager layoutManager;
+
         List<Messages> myMessages;
 
         List<Messages> messagesInThisConversation = new ArrayList<>();
@@ -87,7 +88,7 @@ public class Chat extends AppCompatActivity {
         recyclerView = findViewById(R.id.messages);
 
         layoutManager = new LinearLayoutManager(this);
-        ((LinearLayoutManager) layoutManager).setStackFromEnd(true);
+        layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
 
         chatAdapter = new ChatAdapter(messagesInThisConversation);
