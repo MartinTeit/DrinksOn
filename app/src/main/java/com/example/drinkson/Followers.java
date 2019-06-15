@@ -27,8 +27,8 @@ public class Followers extends AppCompatActivity {
         repository = new Repository(this);
 
         final EditText followerUsername = findViewById(R.id.followerUsername);
-        final localdatabase database    = Room.databaseBuilder(getApplicationContext(),
-                localdatabase.class, "Danskere").build();
+        final LocalDatabase database    = Room.databaseBuilder(getApplicationContext(),
+                LocalDatabase.class, "Danskere").build();
         final DAO dao = database.getDAO();
 
         follow = findViewById(R.id.button);
@@ -37,9 +37,9 @@ public class Followers extends AppCompatActivity {
         follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final follows newFollows = new follows();
+                final Follows newFollows = new Follows();
 
-                newFollows.follower = currentuser.getCurrentUser();
+                newFollows.follower = CurrentUser.getCurrentUser();
                 newFollows.followee = followerUsername.getText().toString();
                 newFollows.stamp    = System.currentTimeMillis();
 
@@ -48,9 +48,9 @@ public class Followers extends AppCompatActivity {
             }
         });
 
-        List<follows> followers = repository.remoteGetFollowers(currentuser.getCurrentUser());
+        List<Follows> followers = repository.remoteGetFollowers(CurrentUser.getCurrentUser());
 
-        for(follows f : followers){
+        for(Follows f : followers){
             repository.insertFollows(f);
         }
 
@@ -58,7 +58,7 @@ public class Followers extends AppCompatActivity {
     }
 
 
-    public void followUser(follows newFollows){
+    public void followUser(Follows newFollows){
         int responseCode;
 
         responseCode = repository.remotePost(Repository.FOLLOWS,JSONConverter.encodeFollows(newFollows));
@@ -70,7 +70,7 @@ public class Followers extends AppCompatActivity {
 
     public void updateFollowers(){
         String newString="";
-        for (follows f : repository.getAllMyFollowers()){
+        for (Follows f : repository.getAllMyFollowers()){
             newString = newString + f.follower + "\n";
         }
         text.setText(newString);

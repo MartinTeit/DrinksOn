@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class loginpage extends AppCompatActivity {
+public class LoginPage extends AppCompatActivity {
 
     private Button logIn;
     private Button register;
@@ -44,24 +44,24 @@ public class loginpage extends AppCompatActivity {
     }
 
     public void openRegister() {
-        Intent intent = new Intent(this, registerUser.class);
+        Intent intent = new Intent(this, RegisterUser.class);
         startActivity(intent);
     }
 
     public void openMaster() {
-        Intent intent2 = new Intent(this, masterpage.class);
+        Intent intent2 = new Intent(this, MasterPage.class);
         startActivity(intent2);
     }
 
     private void login(String userID){
 
-        user u;
+        User u;
         String userString = repository.remoteGetByID(Repository.USERS, userID);
         if (!userString.equals("[]")){
             u = JSONConverter.decodeUser(userString);
             repository.insertUser(u);
 
-            currentuser.setCurrentUser(u.id);
+            CurrentUser.setCurrentUser(u.id);
             openMaster();
         }
 

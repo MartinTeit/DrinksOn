@@ -20,7 +20,7 @@ public class ChatRoom extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatroom);
 
-        List<user> userList;
+        List<User> userList;
         List<String> someList;
         Button searchButton = findViewById(R.id.searchButton);
 
@@ -34,14 +34,14 @@ public class ChatRoom extends AppCompatActivity {
             }
         });
 
-        // Gets users and follows from the remote
-        // follows is only used to determine which groups to show
+        // Gets users and Follows from the remote
+        // Follows is only used to determine which groups to show
         someList = repository.remoteGetTable(Repository.USERS);
         for (String s: someList){
             repository.insertUser(JSONConverter.decodeUser(s));
         }
-        List<follows> followees = repository.remoteGetFollowees(currentuser.getCurrentUser());
-        for(follows f : followees){
+        List<Follows> followees = repository.remoteGetFollowees(CurrentUser.getCurrentUser());
+        for(Follows f : followees){
             repository.insertFollows(f);
         }
 
@@ -55,7 +55,7 @@ public class ChatRoom extends AppCompatActivity {
 
     // Finds users and followed groups containing the string "search"
     private void search(){
-        List<user> userList;
+        List<User> userList;
 
         userList = repository.searchFollowedGroups(text.getText().toString());
         userList.addAll(repository.searchUsers(text.getText().toString()));
@@ -64,14 +64,14 @@ public class ChatRoom extends AppCompatActivity {
     }
 
     // Updates rhe recyclerView in chatRoom
-    private void update(List<user> users){
-        List<user> usersToShow = new ArrayList<>();
+    private void update(List<User> users){
+        List<User> usersToShow = new ArrayList<>();
         RecyclerView recyclerView = findViewById(R.id.chats);
         ChatRoomAdapter chatRoomAdapter;
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
 
-        for(user u: users){
-            if(!u.id.equals(currentuser.getCurrentUser())){
+        for(User u: users){
+            if(!u.id.equals(CurrentUser.getCurrentUser())){
                 usersToShow.add(u);
             }
         }

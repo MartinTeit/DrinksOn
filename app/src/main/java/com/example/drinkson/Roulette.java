@@ -40,7 +40,7 @@ public class Roulette extends AppCompatActivity {
             public void onClick(View view){
                 degree_old = degree % 360;
                 degree = r.nextInt(3600) + 720;
-                if ((currentuser.getCurrentUser().toLowerCase().contains("peter"))){
+                if ((CurrentUser.getCurrentUser().toLowerCase().contains("peter"))){
                     itsPeter();
                 }
                 System.out.println(degree);

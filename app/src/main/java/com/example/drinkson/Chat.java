@@ -1,6 +1,5 @@
 package com.example.drinkson;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,7 +14,7 @@ import java.util.Random;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class chat extends AppCompatActivity {
+public class Chat extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ChatAdapter chatAdapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -32,17 +31,17 @@ public class chat extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
 
         repository = new Repository(this);
-        List<messages> someMessages;
+        List<Messages> someMessages;
 
         // gets message from the remote database
         if(repository.findUser(receiver).name.startsWith("%GRP")){
             someMessages = repository.remoteGetMessages(receiver);
         } else {
-            someMessages = repository.remoteGetMessages(currentuser.getCurrentUser());
+            someMessages = repository.remoteGetMessages(CurrentUser.getCurrentUser());
         }
 
-        // Input the messages into the local database to update for new messages
-        for(messages m : someMessages){
+        // Input the Messages into the local database to update for new Messages
+        for(Messages m : someMessages){
             repository.insertMessage(m);
         }
 
@@ -61,24 +60,24 @@ public class chat extends AppCompatActivity {
         });
     }
 
-    // Updates the RecyclerView containing the messages
+    // Updates the RecyclerView containing the Messages
     private  void updateMessages(){
-        List<messages> myMessages;
+        List<Messages> myMessages;
 
-        List<messages> messagesInThisConversation = new ArrayList<>();
+        List<Messages> messagesInThisConversation = new ArrayList<>();
 
-        // If this is a group chat get all the group messages
-        // else get all the messages between current user an the other user
+        // If this is a group Chat get all the group Messages
+        // else get all the Messages between current User an the other User
         if(repository.findUser(receiver).name.startsWith("%GRP")){
             myMessages = repository.getGroupChat(receiver);
-            for(messages m: myMessages){
+            for(Messages m: myMessages){
                 if(m.sender != null && m.receiver.equals(receiver)){
                     messagesInThisConversation.add(m);
                 }
             }
         } else {
             myMessages = repository.getAllMyMessages();
-            for(messages m: myMessages){
+            for(Messages m: myMessages){
                 if(m.sender != null && (m.receiver.equals(receiver) || m.sender.equals(receiver) )){
                     messagesInThisConversation.add(m);
                 }
@@ -104,14 +103,14 @@ public class chat extends AppCompatActivity {
             int responseCode;
             int maxIteration = 10;
             int iteration = 0;
-            messages newMessage;
+            Messages newMessage;
 
             // random number generator to gat a random id for the message
             Random randInt = new Random();
 
             // creates a new message
-            newMessage = new messages();
-            newMessage.sender = currentuser.getCurrentUser();
+            newMessage = new Messages();
+            newMessage.sender = CurrentUser.getCurrentUser();
             newMessage.receiver = receiver;
             newMessage.body = text;
             newMessage.stamp = System.currentTimeMillis();

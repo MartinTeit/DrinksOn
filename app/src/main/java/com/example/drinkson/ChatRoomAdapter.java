@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRoomViewHolder> {
 
-    public List<user> chats;
+    public List<User> chats;
 
     private static Context context;
 
@@ -28,7 +28,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
             chatButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    chat.receiver = chatButton.getContentDescription().toString();
+                    Chat.receiver = chatButton.getContentDescription().toString();
                     openChat();
                 }
             });
@@ -37,7 +37,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
 
     }
 
-    public ChatRoomAdapter(List<user> chats, Context context){
+    public ChatRoomAdapter(List<User> chats, Context context){
         this.chats = chats;
         this.context = context;
     }
@@ -56,7 +56,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
 
     @Override
     public void onBindViewHolder(ChatRoomViewHolder chatViewHolder, int i) {
-        user u = this.chats.get(i);
+        User u = this.chats.get(i);
         chatViewHolder.chatButton.setContentDescription(u.id);
         if(u.name.startsWith("%GRP")){
             chatViewHolder.chatButton.setText("Group: " + u.id);
@@ -72,7 +72,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRo
     }
 
     public static void openChat() {
-        Intent intent = new Intent(context, chat.class);
+        Intent intent = new Intent(context, Chat.class);
         context.startActivity(intent);
     }
 

@@ -32,9 +32,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
-    private List<messages> someMessages;
+    private List<Messages> someMessages;
     private int i = 0;
-    private List<messages> myMessages;
+    private List<Messages> myMessages;
     private GoogleMap drinkMap;
     private GoogleApiClient googleApiClient;
     private Repository repository;
@@ -68,20 +68,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         int newestmessageID = 0;
         long higheststamp = 0;
         repository = new Repository(this);
-        someMessages = repository.remoteGetMessages(currentuser.getCurrentUser());
-        for(messages m : someMessages){
+        someMessages = repository.remoteGetMessages(CurrentUser.getCurrentUser());
+        for(Messages m : someMessages){
             repository.insertMessage(m);
         }
         myMessages = repository.getAllMyMessages();
-        for (messages messages: myMessages) {
+        for (Messages messages: myMessages) {
             if (messages.sender != null) {
-                if (!messages.sender.equals(currentuser.getCurrentUser()) && messages.body.contains("%GPS") && messages.stamp > higheststamp) {
+                if (!messages.sender.equals(CurrentUser.getCurrentUser()) && messages.body.contains("%GPS") && messages.stamp > higheststamp) {
                     newestmessageID = messages.id;
                 }
             }
         }
 
-        for (messages messages1: myMessages)
+        for (Messages messages1: myMessages)
             if (messages1.body.contains("%GPS") && (messages1.id == newestmessageID)) {
                 String[] f = messages1.body.split( " ");
                 markerlat = f[1];
@@ -95,7 +95,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     // Checks the permission and asks for users persmission to use the location.
     public boolean checkMyLocationPermission(){
 
-        //Checks if user has allowed acces to users location.
+        //Checks if User has allowed acces to users location.
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             //If acces not given it will ask for it.
@@ -108,7 +108,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Request_My_Location_Code);
             }
 
-            //Should user decide on not having hes location shared map not show current location.
+            //Should User decide on not having hes location shared map not show current location.
             return false;
         } else {
 
@@ -170,7 +170,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    // When the map fragment is loaded. It sets the current user location if permission granted.
+    // When the map fragment is loaded. It sets the current User location if permission granted.
     @Override
     public void onMapReady(GoogleMap googleMap) {
 

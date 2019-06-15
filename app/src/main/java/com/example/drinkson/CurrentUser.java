@@ -1,6 +1,6 @@
 package com.example.drinkson;
 
-public class currentuser {
+public class CurrentUser {
 
     private static String currentUser;
 

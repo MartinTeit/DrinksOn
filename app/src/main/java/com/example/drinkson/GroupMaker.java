@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class groupmaker extends AppCompatActivity {
+public class GroupMaker extends AppCompatActivity {
 
     private Button createGroupButton;
     private Button followGroupButton;
@@ -31,7 +31,7 @@ public class groupmaker extends AppCompatActivity {
         createGroupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                user newGroup = new user();
+                User newGroup = new User();
                 EditText groupBox = (EditText) findViewById(R.id.groupName);
 
                 newGroup.id = groupBox.getText().toString();
@@ -47,9 +47,9 @@ public class groupmaker extends AppCompatActivity {
             public void onClick(View view) {
                 final EditText groupfollowBox = (EditText) findViewById(R.id.groupfollow);
 
-                follows follows1 = new follows();
+                Follows follows1 = new Follows();
 
-                follows1.follower = currentuser.getCurrentUser();
+                follows1.follower = CurrentUser.getCurrentUser();
                 follows1.followee = groupfollowBox.getText().toString();
                 follows1.stamp = System.currentTimeMillis();
 
@@ -57,8 +57,8 @@ public class groupmaker extends AppCompatActivity {
             }
         });
 
-        final localdatabase database = Room.databaseBuilder(getApplicationContext(),
-                localdatabase.class, "Danskere").build();
+        final LocalDatabase database = Room.databaseBuilder(getApplicationContext(),
+                LocalDatabase.class, "Danskere").build();
         final DAO dao = database.getDAO();
 
         text   = findViewById(R.id.name);
@@ -66,7 +66,7 @@ public class groupmaker extends AppCompatActivity {
         newstring="";
         new AsyncTask<Void, Void, Void>() {
             protected Void doInBackground(Void... voids) {
-                for (String string : dao.findFollowees(currentuser.getCurrentUser())){
+                for (String string : dao.findFollowees(CurrentUser.getCurrentUser())){
                     if (dao.findUser(string).name.contains("%GRP")){
                         newstring = newstring + "%GRP " + string + "\n";
                         System.out.println();
@@ -80,16 +80,16 @@ public class groupmaker extends AppCompatActivity {
 
     }
     
-    private void createGroup(user newGroup){
+    private void createGroup(User newGroup){
         int responseCode;
-        follows follows1 = new follows();
+        Follows follows1 = new Follows();
 
         responseCode = repository.remotePost(Repository.USERS,JSONConverter.encodeUser(newGroup));
 
         if (responseCode != HttpsURLConnection.HTTP_CONFLICT) {
             repository.insertUser(newGroup);
 
-            follows1.follower = currentuser.getCurrentUser();
+            follows1.follower = CurrentUser.getCurrentUser();
             follows1.followee = newGroup.id;
             follows1.stamp = System.currentTimeMillis();
 
@@ -97,7 +97,7 @@ public class groupmaker extends AppCompatActivity {
         }
     }
 
-    private void followGroup(follows newFollows){
+    private void followGroup(Follows newFollows){
         int responseCode;
 
         responseCode = repository.remotePost(Repository.FOLLOWS,JSONConverter.encodeFollows(newFollows));

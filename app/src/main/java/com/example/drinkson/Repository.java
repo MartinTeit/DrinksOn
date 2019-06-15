@@ -21,8 +21,8 @@ public class Repository {
 
     public static final String URL = "https://caracal.imada.sdu.dk/app2019/";
     public static final String USERS = "users";
-    public static final String MESSAGES = "messages";
-    public static final String FOLLOWS = "follows";
+    public static final String MESSAGES = "Messages";
+    public static final String FOLLOWS = "Follows";
     private static final String AUTORIZATION =
             "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
                     "eyJyb2xlIjoiYXBwMjAxOSJ9.3MGDqJYkivAsiMOXwvoPTD6_LTCWkP3RvI2zpzoB1XE";
@@ -32,7 +32,7 @@ public class Repository {
 
     // Repository constructor builds room data base to access the local data base
     public Repository(Context context){
-        myDAO = Room.databaseBuilder(context, localdatabase.class, DB_NAME).build().getDAO();
+        myDAO = Room.databaseBuilder(context, LocalDatabase.class, DB_NAME).build().getDAO();
     }
 
     //Remote requests
@@ -68,17 +68,17 @@ public class Repository {
         return null;
     }
 
-    // Gets all messages send or received by a user
-    public List<messages> remoteGetMessages(String userID){
+    // Gets all Messages send or received by a User
+    public List<Messages> remoteGetMessages(String userID){
         String url;
         List<String> myMessagesJson = new ArrayList<>();
-        List<messages> myMessages = new ArrayList<>();
+        List<Messages> myMessages = new ArrayList<>();
 
         try {
-            // get the messages send by the user
+            // get the Messages send by the User
             url = URL + MESSAGES + "?sender=eq." + userID;
             myMessagesJson = new remoteGetAsyncTask(url).execute().get();
-            // get the received send by the user
+            // get the received send by the User
             url = URL + MESSAGES + "?receiver=eq." + userID;
             myMessagesJson.addAll(new remoteGetAsyncTask(url).execute().get());
 
@@ -88,7 +88,7 @@ public class Repository {
             e.printStackTrace();
         }
 
-        // translates the messages from json strings to java object's
+        // translates the Messages from json strings to java object's
         for (String json : myMessagesJson) {
             // ignore the message if it's empty
             if (!json.equals("[]") && !json.equals("")) {
@@ -99,11 +99,11 @@ public class Repository {
         return myMessages;
     }
 
-    // Gets all follows where the user is the followee
-    public List<follows> remoteGetFollowers(String id){
+    // Gets all Follows where the User is the followee
+    public List<Follows> remoteGetFollowers(String id){
         String url;
         List<String> myFollowersJson = new ArrayList<>();
-        List<follows> myFollowers = new ArrayList<>();
+        List<Follows> myFollowers = new ArrayList<>();
 
         try {
             url = URL + FOLLOWS + "?followee=eq." + id;
@@ -114,9 +114,9 @@ public class Repository {
             e.printStackTrace();
         }
 
-        // translates the follows from json strings to java object's
+        // translates the Follows from json strings to java object's
         for (String json : myFollowersJson) {
-            // ignore the follows if it's empty
+            // ignore the Follows if it's empty
             if (!json.equals("[]") && !json.equals("")) {
                 myFollowers.add(JSONConverter.decodeFollows(json));
             }
@@ -125,11 +125,11 @@ public class Repository {
         return myFollowers;
     }
 
-    // Gets all follows where the user is the follower
-    public List<follows> remoteGetFollowees(String id){
+    // Gets all Follows where the User is the follower
+    public List<Follows> remoteGetFollowees(String id){
         String url;
         List<String> myFollowersJson = new ArrayList<>();
-        List<follows> myFollowers = new ArrayList<>();
+        List<Follows> myFollowers = new ArrayList<>();
 
         try {
             url = URL + FOLLOWS + "?follower=eq." + id;
@@ -140,9 +140,9 @@ public class Repository {
             e.printStackTrace();
         }
 
-        // translates the follows from json strings to java object's
+        // translates the Follows from json strings to java object's
         for (String json : myFollowersJson) {
-            // ignore the follows if it's empty
+            // ignore the Follows if it's empty
             if (!json.equals("[]") && !json.equals("")) {
                 myFollowers.add(JSONConverter.decodeFollows(json));
             }
@@ -167,12 +167,12 @@ public class Repository {
     }
 
     // local request
-    public void insertUser(user user) {
+    public void insertUser(User user) {
         new InsertUserAsyncTask(myDAO).execute(user);
     }
 
     // gets all users
-    public List<user> getUsers() {
+    public List<User> getUsers() {
         try {
             return new getAllUsersAsyncTask(myDAO).execute().get();
         } catch (ExecutionException e) {
@@ -185,7 +185,7 @@ public class Repository {
     }
 
     // Gets all users containing "search" in their id
-    public List<user> searchUsers(String search) {
+    public List<User> searchUsers(String search) {
         search = "%" + search + "%";
         try {
             return new searchUserAsyncTask(myDAO).execute(search).get();
@@ -198,8 +198,8 @@ public class Repository {
         return null;
     }
 
-    // Gets all groups followed by the current user and contains the string "search" in their id
-    public List<user> searchFollowedGroups(String search) {
+    // Gets all groups followed by the current User and contains the string "search" in their id
+    public List<User> searchFollowedGroups(String search) {
         search = "%" + search + "%";
         try {
             return new searchGroupAsyncTask(myDAO).execute(search).get();
@@ -212,8 +212,8 @@ public class Repository {
         return null;
     }
 
-    // returns the user with the id
-    public user findUser(String userID) {
+    // returns the User with the id
+    public User findUser(String userID) {
         try {
             return new findUserAsyncTask(myDAO).execute(userID).get();
         } catch (ExecutionException e) {
@@ -226,7 +226,7 @@ public class Repository {
     }
 
     // insert a message
-    public long insertMessage(messages message) {
+    public long insertMessage(Messages message) {
         try {
             return new InsertMessageAsyncTask(myDAO).execute(message).get().longValue();
         } catch (ExecutionException e) {
@@ -237,10 +237,10 @@ public class Repository {
         return 0;
     }
 
-    // gets all messages send by or received by the current user
-    public List<messages> getAllMyMessages() {
+    // gets all Messages send by or received by the current User
+    public List<Messages> getAllMyMessages() {
         try {
-            return new getAllMyMessagesAsyncTask(myDAO).execute(currentuser.getCurrentUser()).get();
+            return new getAllMyMessagesAsyncTask(myDAO).execute(CurrentUser.getCurrentUser()).get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -250,8 +250,8 @@ public class Repository {
         return null;
     }
 
-    // gets all messages send to a group
-    public List<messages> getGroupChat(String GroupID) {
+    // gets all Messages send to a group
+    public List<Messages> getGroupChat(String GroupID) {
         try {
             return new getAllMyMessagesAsyncTask(myDAO).execute(GroupID).get();
         } catch (ExecutionException e) {
@@ -263,15 +263,15 @@ public class Repository {
         return null;
     }
 
-    // inserts follows
-    public void insertFollows(follows follows) {
+    // inserts Follows
+    public void insertFollows(Follows follows) {
         new InsertFollowsAsyncTask(myDAO).execute(follows);
     }
 
-    // gets all follows where current user is the followee
-    public List<follows> getAllMyFollowers() {
+    // gets all Follows where current User is the followee
+    public List<Follows> getAllMyFollowers() {
         try {
-            return new getAllMyFollowersAsyncTask(myDAO).execute(currentuser.getCurrentUser()).get();
+            return new getAllMyFollowersAsyncTask(myDAO).execute(CurrentUser.getCurrentUser()).get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -281,10 +281,10 @@ public class Repository {
         return null;
     }
 
-    // gets all follows where current user is the follower
-    public List<follows> getAllMyFollowees() {
+    // gets all Follows where current User is the follower
+    public List<Follows> getAllMyFollowees() {
         try {
-            return new getAllMyFolloweesAsyncTask(myDAO).execute(currentuser.getCurrentUser()).get();
+            return new getAllMyFolloweesAsyncTask(myDAO).execute(CurrentUser.getCurrentUser()).get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -296,7 +296,7 @@ public class Repository {
 
 
     //Async task classes
-    private static class InsertUserAsyncTask extends AsyncTask<user, Void, Void> {
+    private static class InsertUserAsyncTask extends AsyncTask<User, Void, Void> {
         private DAO myDAO;
 
         private InsertUserAsyncTask(DAO aDAO){
@@ -304,14 +304,14 @@ public class Repository {
         }
 
         @Override
-        protected Void doInBackground(user... user) {
+        protected Void doInBackground(User... user) {
             myDAO.insertUser(user[0]);
             return null;
         }
     }
 
 
-    private static class getAllUsersAsyncTask extends AsyncTask<Void, Void, List<user>> {
+    private static class getAllUsersAsyncTask extends AsyncTask<Void, Void, List<User>> {
         private DAO myDAO;
 
         private getAllUsersAsyncTask(DAO aDAO){
@@ -319,13 +319,13 @@ public class Repository {
         }
 
         @Override
-        protected List<user> doInBackground(Void... Void) {
+        protected List<User> doInBackground(Void... Void) {
             return myDAO.getUsers();
         }
     }
 
 
-    private static class searchUserAsyncTask extends AsyncTask<String, Void, List<user>> {
+    private static class searchUserAsyncTask extends AsyncTask<String, Void, List<User>> {
         private DAO myDAO;
 
         private searchUserAsyncTask(DAO aDAO){
@@ -333,13 +333,13 @@ public class Repository {
         }
 
         @Override
-        protected List<user> doInBackground(String... search) {
+        protected List<User> doInBackground(String... search) {
             return myDAO.getSearchUser(search[0]);
         }
     }
 
 
-    private static class searchGroupAsyncTask extends AsyncTask<String, Void, List<user>> {
+    private static class searchGroupAsyncTask extends AsyncTask<String, Void, List<User>> {
         private DAO myDAO;
 
         private searchGroupAsyncTask(DAO aDAO){
@@ -347,13 +347,13 @@ public class Repository {
         }
 
         @Override
-        protected List<user> doInBackground(String... search) {
-            return myDAO.searchFollowedGroups(search[0], currentuser.getCurrentUser());
+        protected List<User> doInBackground(String... search) {
+            return myDAO.searchFollowedGroups(search[0], CurrentUser.getCurrentUser());
         }
     }
 
 
-    private static class findUserAsyncTask extends AsyncTask<String, Void, user> {
+    private static class findUserAsyncTask extends AsyncTask<String, Void, User> {
         private DAO myDAO;
 
         private findUserAsyncTask(DAO aDAO){
@@ -361,13 +361,13 @@ public class Repository {
         }
 
         @Override
-        protected user doInBackground(String... userID) {
+        protected User doInBackground(String... userID) {
             return myDAO.findUser(userID[0]);
         }
     }
 
 
-    private static class InsertMessageAsyncTask extends AsyncTask<messages, Void, Long> {
+    private static class InsertMessageAsyncTask extends AsyncTask<Messages, Void, Long> {
         private DAO myDAO;
 
         private InsertMessageAsyncTask(DAO aDAO){
@@ -375,13 +375,13 @@ public class Repository {
         }
 
         @Override
-        protected Long doInBackground(messages... messages) {
+        protected Long doInBackground(Messages... messages) {
             return myDAO.insertMessage(messages[0]);
         }
     }
 
 
-    private static class getAllMyFollowersAsyncTask extends AsyncTask<String, Void, List<follows>> {
+    private static class getAllMyFollowersAsyncTask extends AsyncTask<String, Void, List<Follows>> {
         private DAO myDAO;
 
         private getAllMyFollowersAsyncTask(DAO aDAO){
@@ -389,13 +389,13 @@ public class Repository {
         }
 
         @Override
-        protected List<follows> doInBackground(String... user) {
+        protected List<Follows> doInBackground(String... user) {
             return myDAO.getFollowers(user[0]);
         }
     }
 
 
-    private static class getAllMyFolloweesAsyncTask extends AsyncTask<String, Void, List<follows>> {
+    private static class getAllMyFolloweesAsyncTask extends AsyncTask<String, Void, List<Follows>> {
         private DAO myDAO;
 
         private getAllMyFolloweesAsyncTask(DAO aDAO){
@@ -403,13 +403,13 @@ public class Repository {
         }
 
         @Override
-        protected List<follows> doInBackground(String... user) {
+        protected List<Follows> doInBackground(String... user) {
             return myDAO.getFollowees(user[0]);
         }
     }
 
 
-    private static class InsertFollowsAsyncTask extends AsyncTask<follows, Void, Void> {
+    private static class InsertFollowsAsyncTask extends AsyncTask<Follows, Void, Void> {
         private DAO myDAO;
 
         private InsertFollowsAsyncTask(DAO aDAO){
@@ -417,7 +417,7 @@ public class Repository {
         }
 
         @Override
-        protected Void doInBackground(follows... follows) {
+        protected Void doInBackground(Follows... follows) {
             myDAO.insertFollows(follows[0]);
 
             return null;
@@ -425,7 +425,7 @@ public class Repository {
     }
 
 
-    private static class getAllMyMessagesAsyncTask extends AsyncTask<String, Void, List<messages>> {
+    private static class getAllMyMessagesAsyncTask extends AsyncTask<String, Void, List<Messages>> {
         private DAO myDAO;
 
         private getAllMyMessagesAsyncTask(DAO aDAO){
@@ -433,7 +433,7 @@ public class Repository {
         }
 
         @Override
-        protected List<messages> doInBackground(String... user) {
+        protected List<Messages> doInBackground(String... user) {
             return myDAO.getAllMyMessages(user[0]);
         }
     }

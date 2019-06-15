@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
 
 public class JSONConverter {
 
-    public static String encodeFollows(follows f){
+    public static String encodeFollows(Follows f){
         String json;
         String zdt = ZonedDateTime.ofInstant(
                 Instant.ofEpochMilli(f.stamp),
@@ -27,13 +27,13 @@ public class JSONConverter {
         return json;
     }
 
-    public static follows decodeFollows(String json){
+    public static Follows decodeFollows(String json){
         int followerStart;
         int followeeStart;
         int stampStart;
         String stamp;
 
-        follows f = new follows();
+        Follows f = new Follows();
 
         followerStart = json.indexOf("\"follower\":\"") + 12;
         f.follower = json.substring(followerStart,findEnd(json,followerStart));
@@ -48,7 +48,7 @@ public class JSONConverter {
         return f;
     }
 
-    public static String encodeUser(user u){
+    public static String encodeUser(User u){
         String json;
         String zdt = ZonedDateTime.ofInstant(
                 Instant.ofEpochMilli(u.stamp),
@@ -70,13 +70,13 @@ public class JSONConverter {
         return json;
     }
 
-    public static user decodeUser(String json){
+    public static User decodeUser(String json){
         int idStart;
         int nameStart;
         int stampStart;
         String stamp;
 
-        user u = new user();
+        User u = new User();
 
         idStart = json.indexOf("\"id\":\"") + 6;
         u.id = json.substring(idStart,findEnd(json,idStart));
@@ -91,7 +91,7 @@ public class JSONConverter {
         return u;
     }
 
-    public static String encodeMessages(messages m){
+    public static String encodeMessages(Messages m){
         String json;
         String zdt = ZonedDateTime.ofInstant(
                 Instant.ofEpochMilli(m.stamp),
@@ -120,7 +120,7 @@ public class JSONConverter {
         return json;
     }
 
-    public static messages decodeMessage(String json){
+    public static Messages decodeMessage(String json){
         int indexID;
         int indexSender;
         int indexReceiver;
@@ -128,7 +128,7 @@ public class JSONConverter {
         int indexStamp;
         String stamp;
 
-        messages m = new messages();
+        Messages m = new Messages();
 
         indexID = json.indexOf("\"id\":") + 5;
         m.id = Integer.parseInt(json.substring(indexID,findEndOfNumber(json,indexID)));

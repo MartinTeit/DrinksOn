@@ -2,25 +2,23 @@ package com.example.drinkson;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-@Entity(primaryKeys = {"follower","followee"})
-public class follows {
+
+@Entity
+public class User {
+    @PrimaryKey
     @NonNull
-    @ColumnInfo(name = "follower")
+    @ColumnInfo(name = "id")
     //Username
-    public String follower;
+    public String id;
 
-
-    @NonNull
-    @ColumnInfo(name = "followee")
-    public String followee;
+    @ColumnInfo(name = "name")
+    //Users name
+    public String name;
 
     @ColumnInfo(name = "stamp")
     //Timestamp
     public long stamp;
-
-
 }

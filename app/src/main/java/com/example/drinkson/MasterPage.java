@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-public class masterpage extends AppCompatActivity {
+public class MasterPage extends AppCompatActivity {
 
     private ImageButton your_location;
     private ImageButton rack_number;
@@ -95,7 +95,7 @@ public class masterpage extends AppCompatActivity {
     }
 
     public void openRackNumber(){
-        Intent intent = new Intent(this, groupmaker.class);
+        Intent intent = new Intent(this, GroupMaker.class);
         startActivity(intent);
     }
 
@@ -115,12 +115,12 @@ public class masterpage extends AppCompatActivity {
     }
 
     public void openLogIn(){
-        Intent intent = new Intent(this, loginpage.class);
+        Intent intent = new Intent(this, LoginPage.class);
         startActivity(intent);
     }
 
     public void openShareLocation(){
-        Intent intent = new Intent(this, locations.class);
+        Intent intent = new Intent(this, Locations.class);
         startActivity(intent);
     }
 

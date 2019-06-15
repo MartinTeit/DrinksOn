@@ -1,9 +1,7 @@
 package com.example.drinkson;
 
 import android.annotation.SuppressLint;
-import android.arch.persistence.room.Room;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -12,7 +10,7 @@ import android.widget.EditText;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class registerUser extends AppCompatActivity {
+public class RegisterUser extends AppCompatActivity {
 
     private Button userCreated;
     private Repository repository;
@@ -33,7 +31,7 @@ public class registerUser extends AppCompatActivity {
             @SuppressLint("StaticFieldLeak")
             @Override
             public void onClick(View v) {
-                final user newUser = new user();
+                final User newUser = new User();
 
                 newUser.id       = userNameBox.getText().toString();
                 newUser.name     = fullNameBox.getText().toString();
@@ -45,18 +43,18 @@ public class registerUser extends AppCompatActivity {
 
     }
     public void openMaster(){
-        Intent intent = new Intent(this, masterpage.class);
+        Intent intent = new Intent(this, MasterPage.class);
         startActivity(intent);
     }
 
-    public void createUser(user u){
+    public void createUser(User u){
         int responseCode;
 
         responseCode = repository.remotePost(Repository.USERS,JSONConverter.encodeUser(u));
 
         if (responseCode != HttpsURLConnection.HTTP_CONFLICT) {
             repository.insertUser(u);
-            currentuser.setCurrentUser(u.id);
+            CurrentUser.setCurrentUser(u.id);
             openMaster();
         }
     }
