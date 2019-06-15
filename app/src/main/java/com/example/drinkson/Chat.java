@@ -127,7 +127,7 @@ public class Chat extends AppCompatActivity {
             } while (responseCode == HttpsURLConnection.HTTP_CONFLICT && iteration<maxIteration);
 
             if(iteration >= maxIteration && responseCode == HttpsURLConnection.HTTP_CONFLICT) {
-                // If max iteration exceeded write it in console. and don't post the message
+                // If max iteration exceeded write it in console, and don't post the message
                 System.out.println("max iteration exceeded");
             } else {
                 // If nothing went wrong insert the message in the local database

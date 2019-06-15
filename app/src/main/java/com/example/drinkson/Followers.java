@@ -1,6 +1,5 @@
 package com.example.drinkson;
 
-import android.arch.persistence.room.Room;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -14,10 +13,8 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class Followers extends AppCompatActivity {
 
-    private Button   follow;
     private TextView text;
     private Repository repository;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,14 +24,12 @@ public class Followers extends AppCompatActivity {
         repository = new Repository(this);
 
         final EditText followerUsername = findViewById(R.id.followerUsername);
-        final LocalDatabase database    = Room.databaseBuilder(getApplicationContext(),
-                LocalDatabase.class, "Danskere").build();
-        final DAO dao = database.getDAO();
+        Button  followButton;
 
-        follow = findViewById(R.id.button);
+        followButton = findViewById(R.id.button);
         text   = findViewById(R.id.name);
 
-        follow.setOnClickListener(new View.OnClickListener() {
+        followButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final Follows newFollows = new Follows();
@@ -56,7 +51,6 @@ public class Followers extends AppCompatActivity {
 
         updateFollowers();
     }
-
 
     public void followUser(Follows newFollows){
         int responseCode;
