@@ -59,11 +59,6 @@ public class chat extends AppCompatActivity {
                 text.setText("");
             }
         });
-
-//        Intent mIntent = new Intent(this, CollectMessagesJobService.class);
-//        mIntent.putExtra("maxCountValue", 1000);
-//        CollectMessagesJobService.enqueueWork(this, mIntent);
-
     }
 
     // Updates the RecyclerView containing the messages

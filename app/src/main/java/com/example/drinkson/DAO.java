@@ -12,6 +12,7 @@ public interface DAO {
     @Query("SELECT * FROM user WHERE id LIKE :search AND NOT name LIKE '#%GRP%' ESCAPE '#' LIMIT 100")
     List<user> getSearchUser(String search);
 
+
     @Query("SELECT * FROM user, follows WHERE " +
             "follower = :follower AND " +
             "id = followee AND " +
