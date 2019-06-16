@@ -16,8 +16,8 @@ public class Roulette extends AppCompatActivity {
     private TextView beerText;
     private ImageView iv_wheel;
 
-    private Random r;
-    private Random n;
+    private Random randomInt;
+    private Random randomPeter;
 
     int degree = 0, degree_old = 0;
 
@@ -30,14 +30,14 @@ public class Roulette extends AppCompatActivity {
         beerText = findViewById(R.id.textView);
         iv_wheel = findViewById(R.id.ic_wheel);
 
-        r = new Random();
-        n = new Random();
+        randomInt = new Random();
+        randomPeter = new Random();
 
         spinButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
                 degree_old = degree % 360;
-                degree = r.nextInt(3600) + 720;
+                degree = randomInt.nextInt(3600) + 720;
                 if ((CurrentUser.getCurrentUser().toLowerCase().contains("peter"))){
                     itsPeter();
                 }
@@ -110,7 +110,7 @@ public class Roulette extends AppCompatActivity {
 
     // Your welcome Peter, we know your love for Plisner ;)
     private void itsPeter(){
-        int xD = n.nextInt(6);
+        int xD = randomPeter.nextInt(6);
         if (xD == 1) {
             degree = 1545;
         }
