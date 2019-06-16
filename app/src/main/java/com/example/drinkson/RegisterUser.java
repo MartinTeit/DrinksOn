@@ -13,7 +13,6 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class RegisterUser extends AppCompatActivity {
 
-    private Button userCreated;
     private Repository repository;
 
     @Override
@@ -22,7 +21,7 @@ public class RegisterUser extends AppCompatActivity {
         setContentView(R.layout.activity_create_user);
 
         repository = new Repository(this);
-        userCreated = findViewById(R.id.userCreated);
+        Button userCreated = findViewById(R.id.userCreated);
 
         final EditText userNameBox = findViewById(R.id.createUsername);
         final EditText fullNameBox = findViewById(R.id.fullName);

@@ -536,6 +536,7 @@ public class Repository {
             }
 
             try {
+                assert connection != null;
                 connection.setDoOutput(true);
 
                 // Specify that we want to post something to the database
