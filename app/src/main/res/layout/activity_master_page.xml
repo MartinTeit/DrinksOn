@@ -139,16 +139,15 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="47dp"
+        android:layout_above="@id/imagelocation"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="40dp"
-        android:layout_above="@id/imagelocation"
 
-        android:textSize="60sp"
         android:fontFamily="@font/rack"
+        android:text="Share your location"
         android:textColor="#fff"
 
-        android:text="Share you location"
-        />
+        android:textSize="60sp" />
 
     <Button
         android:id="@+id/logOut"

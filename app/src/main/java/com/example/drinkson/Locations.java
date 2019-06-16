@@ -79,6 +79,9 @@ public class Locations extends AppCompatActivity {
                 long id;
                 int responseCode;
                 final EditText target = findViewById(R.id.sharewith);
+                int maxIteration = 10;
+                int iteration = 0;
+
 
                 Random randInt = new Random();
 
@@ -86,17 +89,32 @@ public class Locations extends AppCompatActivity {
                 Messages newMessage = new Messages();
                 newMessage.sender = CurrentUser.getCurrentUser();
                 newMessage.receiver = target.getText().toString();
-                newMessage.body = "%GPS " + latitude.getText().toString() + " " + longitude.getText().toString();;
+                newMessage.body = "%GPS " + latitude.getText().toString() + " " + longitude.getText().toString();
                 newMessage.stamp = System.currentTimeMillis();
-                System.out.println(newMessage.body);
 
                 do {
                     id = randInt.nextInt();
+                    System.out.println();
                     newMessage.id = (int) id;
                     responseCode = repository.remotePost(Repository.MESSAGES, JSONConverter.encodeMessages(newMessage));
-                } while (responseCode == HttpsURLConnection.HTTP_CONFLICT);
 
-                repository.insertMessage(newMessage);
+                    iteration++;
+
+                    // If there was a conflict on the remote database try again with another id
+                    // while max iteration isn't exceeded
+                } while (responseCode == HttpsURLConnection.HTTP_CONFLICT && iteration<maxIteration);
+
+                if(iteration >= maxIteration && responseCode == HttpsURLConnection.HTTP_CONFLICT) {
+                    // If max iteration exceeded write it in console, and don't post the message
+                    System.out.println("max iteration exceeded");
+                } else if (responseCode == HttpsURLConnection.HTTP_CREATED ) {
+                    // If nothing went wrong insert the shared location in the local database
+                    repository.insertMessage(newMessage);
+
+                } else {
+                    System.out.println(responseCode);
+                }
+
             }
         });
     }
