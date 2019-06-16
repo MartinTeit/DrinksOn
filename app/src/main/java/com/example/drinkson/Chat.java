@@ -130,12 +130,14 @@ public class Chat extends AppCompatActivity {
             if(iteration >= maxIteration && responseCode == HttpsURLConnection.HTTP_CONFLICT) {
                 // If max iteration exceeded write it in console, and don't post the message
                 System.out.println("max iteration exceeded");
-            } else {
+            } else if (responseCode == HttpsURLConnection.HTTP_CREATED ) {
                 // If nothing went wrong insert the message in the local database
                 repository.insertMessage(newMessage);
 
                 // Update the view
                 updateMessages();
+            } else {
+                System.out.println(responseCode);
             }
 
 

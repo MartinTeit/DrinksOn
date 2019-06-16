@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class LoginPage extends AppCompatActivity {
 
@@ -63,6 +64,8 @@ public class LoginPage extends AppCompatActivity {
 
             CurrentUser.setCurrentUser(u.id);
             openMaster();
+        } else {
+            Toast.makeText(this, "User doesn't exist", Toast.LENGTH_LONG).show();
         }
 
     }

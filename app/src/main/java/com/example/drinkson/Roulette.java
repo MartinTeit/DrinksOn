@@ -13,13 +13,11 @@ import java.util.Random;
 
 public class Roulette extends AppCompatActivity {
 
-    Button button;
-    TextView textView;
-    ImageView iv_wheel;
+    private TextView beerText;
+    private ImageView iv_wheel;
 
-
-    Random r;
-    Random n;
+    private Random r;
+    private Random n;
 
     int degree = 0, degree_old = 0;
 
@@ -28,14 +26,14 @@ public class Roulette extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_roulette);
 
-        button = (Button) findViewById(R.id.button2);
-        textView = (TextView) findViewById(R.id.textView);
-        iv_wheel = (ImageView) findViewById(R.id.ic_wheel);
+        Button spinButton = findViewById(R.id.button2);
+        beerText = findViewById(R.id.textView);
+        iv_wheel = findViewById(R.id.ic_wheel);
 
         r = new Random();
         n = new Random();
 
-        button.setOnClickListener(new View.OnClickListener(){
+        spinButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
                 degree_old = degree % 360;
@@ -53,12 +51,12 @@ public class Roulette extends AppCompatActivity {
 
                     @Override
                     public void onAnimationStart(Animation animation) {
-                        textView.setText("");
+                        beerText.setText("");
                     }
 
                     @Override
                     public void onAnimationEnd(Animation animation) {
-                        textView.setText(currentNumber(360 - (degree % 360)));
+                        beerText.setText(currentNumber(360 - (degree % 360)));
                     }
 
                     @Override
@@ -72,41 +70,41 @@ public class Roulette extends AppCompatActivity {
     }
 
     private String currentNumber(int degrees){
-        String text = "";
+        String beer = "";
 
         if(degrees >= 0 && degrees < (45)){
-            text = "Classic";
+            beer = "Classic";
         }
 
         if(degrees >= (45) && degrees < (90)){
-            text = "Pilsner";
+            beer = "Pilsner";
         }
 
         if(degrees >= (90) && degrees < (135)){
-            text = "Classic";
+            beer = "Classic";
         }
 
         if(degrees >= (135) && degrees < (180)){
-            text = "Pilsner";
+            beer = "Pilsner";
         }
 
         if(degrees >= (180) && degrees < (225)){
-            text = "Classic";
+            beer = "Classic";
         }
 
         if(degrees >= (225) && degrees < (270)){
-            text = "Pilsner";
+            beer = "Pilsner";
         }
 
         if(degrees >= (270) && degrees < (315)){
-            text = "Classic";
+            beer = "Classic";
         }
 
         if(degrees >= (315) && degrees < (360)){
-            text = "Pilsner";
+            beer = "Pilsner";
         }
 
-        return text;
+        return beer;
 
     }
 

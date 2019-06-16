@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -23,8 +24,8 @@ public class RegisterUser extends AppCompatActivity {
         repository = new Repository(this);
         userCreated = findViewById(R.id.userCreated);
 
-        final EditText userNameBox = (EditText) findViewById(R.id.createUsername);
-        final EditText fullNameBox = (EditText) findViewById(R.id.fullName);
+        final EditText userNameBox = findViewById(R.id.createUsername);
+        final EditText fullNameBox = findViewById(R.id.fullName);
 
         userCreated.setOnClickListener(new View.OnClickListener() {
 
@@ -51,11 +52,16 @@ public class RegisterUser extends AppCompatActivity {
         int responseCode;
 
         responseCode = repository.remotePost(Repository.USERS,JSONConverter.encodeUser(u));
+        if(responseCode == HttpsURLConnection.HTTP_CONFLICT){
+            Toast.makeText(this, "Username taken", Toast.LENGTH_LONG).show();
 
-        if (responseCode != HttpsURLConnection.HTTP_CONFLICT) {
+        } else if (responseCode == HttpsURLConnection.HTTP_CREATED) {
             repository.insertUser(u);
             CurrentUser.setCurrentUser(u.id);
             openMaster();
+
+        } else {
+            System.out.println(responseCode);
         }
     }
 }
