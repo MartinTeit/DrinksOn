@@ -89,8 +89,9 @@ public class Locations extends AppCompatActivity {
                 Messages newMessage = new Messages();
                 newMessage.sender = CurrentUser.getCurrentUser();
                 newMessage.receiver = target.getText().toString();
-                newMessage.body = "%GPS " + latitude.getText().toString() + " " + longitude.getText().toString();
+                newMessage.body = "%GPS " + latitude.getText().toString() + " " + longitude.getText().toString() + "\nOpen your map to see where : " +  newMessage.sender + " is.";
                 newMessage.stamp = System.currentTimeMillis();
+                System.out.println(newMessage.body);
 
                 do {
                     id = randInt.nextInt();
