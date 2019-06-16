@@ -29,7 +29,7 @@ public interface DAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertFollows(Follows follows);
 
-    //Person who is beeing followed
+    //Person who is being followed
     @Query("SELECT follower FROM Follows WHERE followee = :followee")
     List<String> findFollowers(String followee);
 

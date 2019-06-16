@@ -10,11 +10,9 @@ import android.widget.Button;
 
 import java.util.List;
 
-
 public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ChatRoomViewHolder> {
 
-    public List<User> chats;
-
+    private List<User> chats;
     private static Context context;
 
     public static class ChatRoomViewHolder extends RecyclerView.ViewHolder {
