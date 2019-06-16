@@ -14,12 +14,13 @@ import java.util.Random;
 public class Roulette extends AppCompatActivity {
 
     private TextView beerText;
-    private ImageView iv_wheel;
+    private ImageView wheel;
 
     private Random randomInt;
     private Random randomPeter;
 
-    int degree = 0, degree_old = 0;
+    int degree = 0;
+    int previousDegree = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +29,7 @@ public class Roulette extends AppCompatActivity {
 
         Button spinButton = findViewById(R.id.button2);
         beerText = findViewById(R.id.textView);
-        iv_wheel = findViewById(R.id.ic_wheel);
+        wheel = findViewById(R.id.wheel);
 
         randomInt = new Random();
         randomPeter = new Random();
@@ -36,13 +37,13 @@ public class Roulette extends AppCompatActivity {
         spinButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                degree_old = degree % 360;
+                previousDegree = degree % 360;
                 degree = randomInt.nextInt(3600) + 720;
                 if ((CurrentUser.getCurrentUser().toLowerCase().contains("peter"))){
                     itsPeter();
                 }
                 System.out.println(degree);
-                RotateAnimation rotate = new RotateAnimation(degree_old, degree,
+                RotateAnimation rotate = new RotateAnimation(previousDegree, degree,
                         RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
                 rotate.setDuration(3600);
                 rotate.setFillAfter(true);
@@ -63,7 +64,7 @@ public class Roulette extends AppCompatActivity {
                     public void onAnimationRepeat(Animation animation) {
                     }
                 });
-                iv_wheel.startAnimation(rotate);
+                wheel.startAnimation(rotate);
             }
         });
 

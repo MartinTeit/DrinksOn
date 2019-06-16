@@ -30,20 +30,20 @@
 
 
     <ImageView
-        android:id="@+id/ic_wheel"
+        android:id="@+id/wheel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="150dp"
-        app:srcCompat="@drawable/ic_wheel" />
+        app:srcCompat="@drawable/wheel" />
 
     <ImageView
-        android:id="@+id/ic_pointer"
+        android:id="@+id/pointer"
         android:layout_marginTop="110dp"
 
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_pointer" />
+        app:srcCompat="@drawable/pointer" />
 
 
 </RelativeLayout>
